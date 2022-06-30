@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# name: discourse-plugin-name
-# about: TODO
+# name: karma-score
+# about: Show karma stats onto the user's profile
 # version: 0.0.1
-# authors: Discourse
+# authors: Show Karma
 # url: TODO
 # required_version: 2.7.0
 
