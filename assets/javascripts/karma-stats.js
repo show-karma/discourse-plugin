@@ -4,13 +4,13 @@
 const KarmaStats = {
   url: "https://api.showkarma.xyz/api",
 
-  async fetchUser(userAddress, daoName) {
+  async fetchUser(userAddress, forumUrl) {
     if (
       !(
         userAddress &&
         typeof userAddress === "string" &&
-        daoName &&
-        typeof daoName === "string"
+        forumUrl &&
+        typeof forumUrl === "string"
       )
     ) {
       throw new Error(
@@ -26,21 +26,25 @@ const KarmaStats = {
     };
 
     const url = `${KarmaStats.url}/user/${userAddress}`;
+    try {
+      const { data } = await fetch(url).then((res) => res.json());
+      const { delegates } = data;
 
-    const { data } = await fetch(url).then((res) => res.json());
-    const { delegates } = data;
+      if (delegates && Array.isArray(delegates)) {
+        const { stats } = delegates.find((delegate) =>
+          forumUrl.includes(delegate.daoName.toLowerCase())
+        );
 
-    if (delegates && Array.isArray(delegates)) {
-      const { stats } = delegates.find(
-        (delegate) => delegate.daoName.toLowerCase() === daoName.toLowerCase()
-      );
-
-      userStats.delegatedVotes = stats?.[0]?.delegatedVotes || 0;
-      userStats.snapshotVotingStats = (stats?.[0]?.offChainVotesPct || 0) + "%";
-      userStats.onChainVotingStats = (stats?.[0]?.onChainVotesPct || 0) + "%";
-      userStats.daoExp = stats?.[0]?.karmaScore || 0;
+        userStats.delegatedVotes = stats?.[0]?.delegatedVotes || 0;
+        userStats.snapshotVotingStats =
+          (stats?.[0]?.offChainVotesPct || 0) + "%";
+        userStats.onChainVotingStats = (stats?.[0]?.onChainVotesPct || 0) + "%";
+        userStats.daoExp = stats?.[0]?.karmaScore || 0;
+      }
+      return userStats;
+    } catch (error) {
+      return undefined;
     }
-    return userStats;
   },
 };
 

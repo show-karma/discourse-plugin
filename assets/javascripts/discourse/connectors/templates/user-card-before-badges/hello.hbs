@@ -1,0 +1,50 @@
+<div id="__karma-stats" style="display: none;">
+    <b>Delegated Votes:</b> <span id="delegated-votes"></span><br/>
+    <b>Dao Exp:</b> <span id="dao-exp"></span><br/>
+    <b>Snapshot Voting Stats:</b> <span id="snapshot-voting-stats"></span><br/>
+    <b>On Chain Voting Stats:</b> <span id="on-chain-voting-stats"></span><br/>
+</div>
+
+<script>
+    if(window.KarmaStats) {
+        function getSlots () {
+            return {
+                delegatedVotes: document.getElementById('delegated-votes'),
+                daoExp: document.getElementById('dao-exp'),
+                snapshotVotingStats: document.getElementById('snapshot-voting-stats'),
+                onChainVotingStats: document.getElementById('on-chain-voting-stats')
+            }
+        }
+
+        function getUsername () {
+            const el = document.getElementsByClassName('name-username-wrapper')[0];
+            return el?.innerHTML.trim();
+        }
+
+        async function init() {
+            const user = getUsername();
+            if(user){
+                const forumUrl = window.location.hostname;
+                const { KarmaStats } = window
+                const stats = await KarmaStats.fetchUser(user, forumUrl);
+                if(stats) {
+                    const el = document.getElementById('__karma-stats');
+                    if(el) el.style.display = 'initial';
+                    const {
+                        delegatedVotes,
+                        daoExp,
+                        snapshotVotingStats,
+                        onChainVotingStats
+                    } = getSlots();
+                        delegatedVotes.innerHTML = stats.delegatedVotes;
+                        daoExp.innerHTML = stats.daoExp;
+                        snapshotVotingStats.innerHTML = stats.snapshotVotingStats;
+                        onChainVotingStats.innerHTML = stats.onChainVotingStats;
+                }
+            }
+        }
+
+        init();
+    }
+
+</script>
