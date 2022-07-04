@@ -49,11 +49,11 @@ const KarmStats = {
     }
   },
 
-  getDaoName () {
+  getDaoName() {
     let daoName = this.daoName;
-    if(!daoName) {
-      const input = document.getElementById('__dao-name');
-      if(!input) return undefined;
+    if (!daoName) {
+      const input = document.getElementById("__dao-name");
+      if (!input) return undefined;
       daoName = input.value;
       KarmStats.daoName = daoName;
     }
@@ -70,14 +70,13 @@ const KarmStats = {
   },
 
   getUsername() {
-    const el = document.getElementById('__dao-username')
+    const el = document.getElementById("__dao-username");
     return el?.value.trim();
   },
 
   async start() {
     const user = KarmStats.getUsername();
     const daoName = KarmStats.getDaoName();
-    console.debug('user', user, 'daoname', daoName)
     if (user && daoName) {
       const stats = await KarmStats.fetchUser(user, daoName);
       if (stats) {
