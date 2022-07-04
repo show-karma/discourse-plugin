@@ -2,3 +2,6 @@ plugins:
   plugin_name_enabled:
     default: true
     client: true
+  karma_score_dao_name:
+    default: ens
+    client: true
