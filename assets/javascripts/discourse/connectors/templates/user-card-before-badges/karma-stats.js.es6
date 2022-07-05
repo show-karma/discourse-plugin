@@ -28,14 +28,12 @@ const KarmStats = {
       onChainVotingStats: "0%",
     };
 
-    const url = `${KarmStats.url}/user/${userAddress}`;
+    const url = `${KarmStats.url}/user/${userAddress}/${daoName}`;
     try {
       const { data } = await fetch(url).then((res) => res.json());
       const { delegates } = data;
-      if (delegates && Array.isArray(delegates)) {
-        const { stats } = delegates.find(
-          (delegate) => delegate.daoName.toLowerCase() === daoName.toLowerCase()
-        );
+      if (delegates) {
+        const { stats } = delegates;
 
         userStats.delegatedVotes = stats?.[0]?.delegatedVotes || 0;
         userStats.snapshotVotingStats =
