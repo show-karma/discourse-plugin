@@ -3,8 +3,8 @@
 /**
  * Show karma api client
  */
-const KarmStats = {
-  url: "https://api.showkarma.xyz/api",
+const KarmaStats = {
+  url: "http://amury.ddns.net:3665/api",
   daoName: undefined,
 
   async fetchUser(userAddress, daoName) {
@@ -28,7 +28,7 @@ const KarmStats = {
       onChainVotingStats: "0%",
     };
 
-    const url = `${KarmStats.url}/user/${userAddress}/${daoName}`;
+    const url = `${KarmaStats.url}/user/${userAddress}/${daoName}`;
     try {
       const { data } = await fetch(url).then((res) => res.json());
       const { delegates } = data;
@@ -48,12 +48,12 @@ const KarmStats = {
   },
 
   getDaoName() {
-    let daoName = this.daoName;
+    let daoName = KarmaStats.daoName;
     if (!daoName) {
       const input = document.getElementById("__dao-name");
       if (!input) return undefined;
       daoName = input.value;
-      KarmStats.daoName = daoName;
+      KarmaStats.daoName = daoName;
     }
     return daoName;
   },
@@ -72,32 +72,44 @@ const KarmStats = {
     return el?.value.trim();
   },
 
-  async start() {
-    const user = KarmStats.getUsername();
-    const daoName = KarmStats.getDaoName();
+  async start(totalTries = 0) {
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    const user = KarmaStats.getUsername();
+    const daoName = KarmaStats.getDaoName();
+
     if (user && daoName) {
-      const stats = await KarmStats.fetchUser(user, daoName);
+      const stats = await KarmaStats.fetchUser(user, daoName);
       if (stats) {
-        const el = document.getElementById("__karma-stats");
+        const el = document.getElementsByClassName("__wrapper")[0];
         if (el) el.style.display = "initial";
         const {
           delegatedVotes,
           daoExp,
           snapshotVotingStats,
           onChainVotingStats,
-        } = KarmStats.getSlots();
+        } = KarmaStats.getSlots();
         delegatedVotes.innerHTML = stats.delegatedVotes;
         daoExp.innerHTML = stats.daoExp;
         snapshotVotingStats.innerHTML = stats.snapshotVotingStats;
         onChainVotingStats.innerHTML = stats.onChainVotingStats;
       }
-    } else setTimeout(KarmStats.start, 250);
+    } else if (totalTries < 30)
+      setTimeout(() => KarmaStats.start(++totalTries), 250);
   },
 };
 
 $(() => {
-  const elTrg = $(".trigger-user-card");
-  elTrg.on("click", KarmStats.start);
+  let showing = false;
+  const karmaStats = () => {
+    const elTrg = $(".__karma-stats");
+    if (!showing && elTrg.length) {
+      KarmaStats.start(0);
+    }
+    showing = !!elTrg.length;
+  };
+
+  setInterval(karmaStats, 100);
 });
 
 export default {};
