@@ -1,18 +1,53 @@
-
-
 <div class="__karma-stats">
-    <input hidden id="__dao-name" readonly  value={{siteSettings.karma_score_dao_name}} />
-    <input hidden id="__dao-username" readonly  value={{this.user.username}} />
-    <div class="__wrapper" >
-        <div style="display:flex;align-items:center;margin:10px 0;">
-            <a alt="Show Karma App" href="https://showkarma.xyz" target="_blank">
-                <img src="https://www.showkarma.xyz/icons/karma-logo.svg" height="28" width="28" />
-            </a> 
-            <b>Governance Stats</b>
-        </div>
-        <b>Delegated Votes:</b> <span id="delegated-votes">0</span><br/>
-        <b>Dao Exp:</b> <span id="dao-exp">0</span><br/>
-        <b>Snapshot Voting Stats:</b> <span id="snapshot-voting-stats">0%</span><br/>
-        <b>On Chain Voting Stats:</b> <span id="on-chain-voting-stats">0%</span><br/>
+  <input
+    hidden
+    id="__dao-name"
+    readonly
+    value={{siteSettings.karma_score_dao_name}}
+  />
+  <input hidden id="__dao-username" readonly value={{this.user.username}} />
+  <div class="__wrapper">
+    <div style="display:flex;align-items:center;margin:10px 0;">
+      <a alt="Show Karma App" href="https://showkarma.xyz" target="_blank">
+        <img
+          src="https://www.showkarma.xyz/icons/karma-logo.svg"
+          height="28"
+          width="28"
+        />
+      </a>
+      <b>Governance Stats</b>
     </div>
+    <ul>
+      <li>
+        <span class="value">
+          <span id="delegated-votes" class="number">0</span>
+        </span>
+
+        <span class="label">Delegated Votes</span>
+      </li>
+      <li>
+        <span class="value">
+          <span id="dao-exp" class="number">0</span>
+        </span>
+
+        <span class="label">DaoExp</span>
+      </li>
+      <li>
+        <span class="value">
+          <span id="snapshot-voting-stats" class="number">0%</span>
+        </span>
+
+        <span class="label">Snapshot Voting Stats</span>
+      </li>
+      <li>
+        <span class="value">
+          <span id="on-chain-voting-stats" class="number">0%</span>
+        </span>
+        
+        <span class="label">On Chain Voting Stats</span>
+      </li>
+
+    </ul>
+
+  </div>
 </div>
