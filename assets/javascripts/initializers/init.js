@@ -96,15 +96,15 @@ const KarmaStats = {
         } = KarmaStats.getSlots();
 
         if (delegatedVotes) {
-          delegatedVotes.innerHTML = stats.delegatedVotes?.toLocaleString();
+          delegatedVotes.innerHTML = stats.delegatedVotes?.toLocaleString('en-US');
         }
 
         if (daoExp) {
-          daoExp.innerHTML = stats.daoExp?.toLocaleString();
+          daoExp.innerHTML = stats.daoExp?.toLocaleString('en-US');
         }
 
         if (healthScore) {
-          healthScore.innerHTML = stats.gitcoinHealthScore?.toLocaleString() || 0;
+          healthScore.innerHTML = stats.gitcoinHealthScore?.toLocaleString('en-US') || 0;
         }
 
         if (snapshotVotingStats) {
