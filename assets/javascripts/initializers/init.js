@@ -104,7 +104,7 @@ const KarmaStats = {
         }
 
         if (healthScore) {
-          healthScore.innerHTML = stats.gitcoinHealthScore?.toLocaleString();
+          healthScore.innerHTML = stats.gitcoinHealthScore?.toLocaleString() || 0;
         }
 
         if (snapshotVotingStats) {
