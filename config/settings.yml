@@ -2,6 +2,21 @@ plugins:
   plugin_name_enabled:
     default: true
     client: true
-  karma_score_dao_name:
+  dao_name:
     default: ens
+    client: true
+  karma_score:
+    default: true
+    client: true
+  delegated_votes:
+    default: true
+    client: true
+  snapshot_votes:
+    default: true
+    client: true
+  on_chain_votes:
+    default: true
+    client: true
+  health_score:
+    default: false
     client: true

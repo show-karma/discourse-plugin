@@ -3,7 +3,7 @@
  * Karma stats fetcher
  */
 const KarmaStats = {
-  url: "http://amury.ddns.net:3665/api",
+  url: "https://stageapi.showkarma.xyz/api",
   daoName: undefined,
 
   async fetchUser(userAddress, daoName) {
@@ -61,10 +61,11 @@ const KarmaStats = {
 
   getSlots() {
     return {
-      delegatedVotes: document.getElementById("delegated-votes"),
-      daoExp: document.getElementById("dao-exp"),
-      snapshotVotingStats: document.getElementById("snapshot-voting-stats"),
-      onChainVotingStats: document.getElementById("on-chain-voting-stats"),
+      delegatedVotes: document.getElementById("__delegated-votes"),
+      daoExp: document.getElementById("__dao-exp"),
+      snapshotVotingStats: document.getElementById("__snapshot-voting-stats"),
+      onChainVotingStats: document.getElementById("__on-chain-voting-stats"),
+      healthScore: document.getElementById("__health-score"),
     };
   },
 
@@ -91,11 +92,28 @@ const KarmaStats = {
           daoExp,
           snapshotVotingStats,
           onChainVotingStats,
+          healthScore,
         } = KarmaStats.getSlots();
-        delegatedVotes.innerHTML = stats.delegatedVotes;
-        daoExp.innerHTML = stats.daoExp;
-        snapshotVotingStats.innerHTML = stats.snapshotVotingStats;
-        onChainVotingStats.innerHTML = stats.onChainVotingStats;
+
+        if (delegatedVotes) {
+          delegatedVotes.innerHTML = stats.delegatedVotes?.toLocaleString();
+        }
+
+        if (daoExp) {
+          daoExp.innerHTML = stats.daoExp?.toLocaleString();
+        }
+
+        if (healthScore) {
+          healthScore.innerHTML = stats.gitcoinHealthScore?.toLocaleString();
+        }
+
+        if (snapshotVotingStats) {
+          snapshotVotingStats.innerHTML = stats.snapshotVotingStats;
+        }
+
+        if (onChainVotingStats) {
+          onChainVotingStats.innerHTML = stats.onChainVotingStats;
+        }
       }
     } else if (totalTries < 30) {
       setTimeout(() => KarmaStats.start(++totalTries), 250);
@@ -110,7 +128,6 @@ export default {
       let showing = false;
       const karmaStats = () => {
         const elTrg = $(".__karma-stats");
-        console.log(elTrg);
         if (!showing && elTrg.length) {
           KarmaStats.start(0);
         }

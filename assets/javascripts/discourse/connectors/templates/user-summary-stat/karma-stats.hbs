@@ -1,9 +1,10 @@
+{{#if siteSettings.plugin_name_enabled}}
 <div class="__karma-stats">
   <input
     hidden
     id="__dao-name"
     readonly
-    value={{siteSettings.karma_score_dao_name}}
+    value={{siteSettings.dao_name}}
   />
   <input hidden id="__dao-username" readonly value={{this.user.username}} />
   <div class="__wrapper">
@@ -17,37 +18,54 @@
       </a>
       <b>Governance Stats</b>
     </div>
+
     <ul>
-      <li>
-        <span class="value">
-          <span id="delegated-votes" class="number">0</span>
-        </span>
+      {{#if siteSettings.karma_score}}
+        <li>
+          <span class="value">
+            <span id="__dao-exp" class="number">0</span>
+          </span>
 
-        <span class="label">Delegated Votes</span>
-      </li>
-      <li>
-        <span class="value">
-          <span id="dao-exp" class="number">0</span>
-        </span>
+          <span class="label">Karma score</span>
+        </li>
+      {{/if}}
+      {{#if siteSettings.health_score}}
+        <li>
+          <span class="value">
+            <span id="__health-score" class="number">0</span>
+          </span>
 
-        <span class="label">DaoExp</span>
-      </li>
-      <li>
-        <span class="value">
-          <span id="snapshot-voting-stats" class="number">0%</span>
-        </span>
+          <span class="label">Health score</span>
+        </li>
+      {{/if}}
+      {{#if siteSettings.delegated_votes}}
+        <li>
+          <span class="value">
+            <span id="__delegated-votes" class="number">0</span>
+          </span>
 
-        <span class="label">Snapshot Voting Stats</span>
-      </li>
-      <li>
-        <span class="value">
-          <span id="on-chain-voting-stats" class="number">0%</span>
-        </span>
-        
-        <span class="label">On Chain Voting Stats</span>
-      </li>
+          <span class="label">Delegated votes</span>
+        </li>
+      {{/if}}
+      {{#if siteSettings.snapshot_votes}}
+        <li>
+          <span class="value">
+            <span id="__snapshot-voting-stats" class="number">0%</span>
+          </span>
 
+          <span class="label">Snapshot voting</span>
+        </li>
+      {{/if}}
+      {{#if siteSettings.on_chain_votes}}
+        <li>
+          <span class="value">
+            <span id="__on-chain-voting-stats" class="number">0%</span>
+          </span>
+
+          <span class="label">On-chain voting</span>
+        </li>
+      {{/if}}
     </ul>
-
   </div>
 </div>
+{{/if}}

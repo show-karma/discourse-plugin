@@ -1,1 +1,9 @@
 en:
+  site_settings:
+    plugin_name_enabled: "Enable Show Karma Stats"
+    dao_name: "Registered Dao Name"
+    karma_score: "Show Karma score"
+    delegated_votes: "Show delegated votes"
+    snapshot_votes: "Show snapshot stats"
+    on_chain_votes: "Show on-chain stats"
+    health_score: "Show health score (gitcoin only)"
