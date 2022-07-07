@@ -2,7 +2,7 @@
 
 # name: karma-score
 # about: Show karma stats onto the user's profile
-# version: 0.0.1
+# version: 0.1
 # authors: Show Karma
 # url: TODO
 # required_version: 2.7.0

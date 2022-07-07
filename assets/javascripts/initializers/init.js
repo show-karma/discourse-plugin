@@ -40,7 +40,7 @@ const KarmaStats = {
           (stats?.[0]?.offChainVotesPct || 0) + "%";
         userStats.onChainVotingStats = (stats?.[0]?.onChainVotesPct || 0) + "%";
         userStats.daoExp = stats?.[0]?.karmaScore || 0;
-        userStats.gitcoinHealthScore = stats?.[0].gitcoinHealthScore || 0
+        userStats.gitcoinHealthScore = stats?.[0].gitcoinHealthScore || 0;
       }
       return userStats;
     } catch (error) {
