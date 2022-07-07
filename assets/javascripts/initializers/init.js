@@ -25,6 +25,7 @@ const KarmaStats = {
       daoExp: 0,
       snapshotVotingStats: "0%",
       onChainVotingStats: "0%",
+      gitcoinHealthScore: 0
     };
 
     const url = `${KarmaStats.url}/user/${userAddress}/${daoName}`;
@@ -39,6 +40,7 @@ const KarmaStats = {
           (stats?.[0]?.offChainVotesPct || 0) + "%";
         userStats.onChainVotingStats = (stats?.[0]?.onChainVotesPct || 0) + "%";
         userStats.daoExp = stats?.[0]?.karmaScore || 0;
+        userStats.gitcoinHealthScore = stats?.[0].gitcoinHealthScore || 0
       }
       return userStats;
     } catch (error) {
@@ -96,15 +98,18 @@ const KarmaStats = {
         } = KarmaStats.getSlots();
 
         if (delegatedVotes) {
-          delegatedVotes.innerHTML = stats.delegatedVotes?.toLocaleString('en-US');
+          delegatedVotes.innerHTML = stats.delegatedVotes?.toLocaleString(
+            "en-US"
+          );
         }
 
         if (daoExp) {
-          daoExp.innerHTML = stats.daoExp?.toLocaleString('en-US');
+          daoExp.innerHTML = stats.daoExp?.toLocaleString("en-US");
         }
 
         if (healthScore) {
-          healthScore.innerHTML = stats.gitcoinHealthScore?.toLocaleString('en-US') || 0;
+          healthScore.innerHTML =
+            stats.gitcoinHealthScore?.toLocaleString("en-US") || 0;
         }
 
         if (snapshotVotingStats) {
