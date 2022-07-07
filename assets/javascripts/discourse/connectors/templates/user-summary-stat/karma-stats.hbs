@@ -1,4 +1,4 @@
-{{#if siteSettings.plugin_name_enabled}}
+{{#if siteSettings.Enable_Karma_plugin}}
 <div class="__karma-stats">
   <input
     hidden
@@ -20,7 +20,7 @@
     </div>
 
     <ul>
-      {{#if siteSettings.karma_score}}
+      {{#if siteSettings.Show_Karma_score}}
         <li>
           <span class="value">
             <span id="__dao-exp" class="number">0</span>
@@ -29,7 +29,7 @@
           <span class="label">Karma score</span>
         </li>
       {{/if}}
-      {{#if siteSettings.health_score}}
+      {{#if siteSettings.Show_health_score}}
         <li>
           <span class="value">
             <span id="__health-score" class="number">0</span>
@@ -38,7 +38,7 @@
           <span class="label">Health score</span>
         </li>
       {{/if}}
-      {{#if siteSettings.delegated_votes}}
+      {{#if siteSettings.Show_delegated_votes}}
         <li>
           <span class="value">
             <span id="__delegated-votes" class="number">0</span>
@@ -47,7 +47,7 @@
           <span class="label">Delegated votes</span>
         </li>
       {{/if}}
-      {{#if siteSettings.snapshot_votes}}
+      {{#if siteSettings.Show_snapshot_votes}}
         <li>
           <span class="value">
             <span id="__snapshot-voting-stats" class="number">0%</span>
@@ -56,7 +56,7 @@
           <span class="label">Snapshot voting</span>
         </li>
       {{/if}}
-      {{#if siteSettings.on_chain_votes}}
+      {{#if siteSettings.Show_on_chain_votes}}
         <li>
           <span class="value">
             <span id="__on-chain-voting-stats" class="number">0%</span>
