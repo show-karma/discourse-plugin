@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-globals */
 /**
  * Karma stats fetcher
  */
@@ -25,7 +24,7 @@ const KarmaStats = {
       daoExp: 0,
       snapshotVotingStats: "0%",
       onChainVotingStats: "0%",
-      gitcoinHealthScore: 0
+      gitcoinHealthScore: 0,
     };
 
     const url = `${KarmaStats.url}/user/${userAddress}/${daoName}`;
@@ -77,6 +76,7 @@ const KarmaStats = {
   },
 
   async start(totalTries = 0) {
+    // eslint-disable-next-line no-restricted-globals
     await new Promise((resolve) => setTimeout(resolve, 100));
 
     const user = KarmaStats.getUsername();
@@ -98,9 +98,8 @@ const KarmaStats = {
         } = KarmaStats.getSlots();
 
         if (delegatedVotes) {
-          delegatedVotes.innerHTML = stats.delegatedVotes?.toLocaleString(
-            "en-US"
-          );
+          delegatedVotes.innerHTML =
+            stats.delegatedVotes?.toLocaleString("en-US");
         }
 
         if (daoExp) {
