@@ -1,7 +1,7 @@
 {{#if siteSettings.Enable_Karma_plugin}}
   <div class="__karma-stats">
-    <input hidden id="__dao-name" readonly value={{siteSettings.DAO_name}} >
-    <input hidden id="__dao-username" readonly value={{this.user.username}} >
+    <input hidden id="__dao-name" readonly value={{siteSettings.DAO_name}} />
+    <input hidden id="__dao-username" readonly value={{this.user.username}} />
     <div class="__wrapper">
       <div style="display:flex;align-items:center;margin:10px 0;">
         <a
@@ -14,58 +14,68 @@
             src="https://www.showkarma.xyz/icons/karma-logo.svg"
             height="28"
             width="28"
-          >
+          />
         </a>
         <b>Governance Stats</b>
       </div>
+      {{#if siteSettings.User_not_found_message}}
+        <div class="__loading" style="display:none;">
+          Loading Karma
+        </div>
+        <div class="__has-error" style="display:none;">
+          {{{siteSettings.User_not_found_message}}}
+        </div>
+      {{/if}}
+      <div class="__has-score">
+        <ul>
+          {{#if siteSettings.Show_Karma_score}}
+            <li>
+              <span class="value">
+                <span id="__dao-exp" class="number">0</span>
+              </span>
 
-      <ul>
-        {{#if siteSettings.Show_Karma_score}}
-          <li>
-            <span class="value">
-              <span id="__dao-exp" class="number">0</span>
-            </span>
+              <span class="label">Karma score</span>
+            </li>
+          {{/if}}
+          {{#if siteSettings.Show_health_score}}
+            <li>
+              <span class="value">
+                <span id="__health-score" class="number">0</span>
+              </span>
 
-            <span class="label">Karma score</span>
-          </li>
-        {{/if}}
-        {{#if siteSettings.Show_health_score}}
-          <li>
-            <span class="value">
-              <span id="__health-score" class="number">0</span>
-            </span>
+              <span class="label">Health score</span>
+            </li>
+          {{/if}}
+          {{#if siteSettings.Show_delegated_votes}}
+            <li>
+              <span class="value">
+                <span id="__delegated-votes" class="number">0</span>
+              </span>
 
-            <span class="label">Health score</span>
-          </li>
-        {{/if}}
-        {{#if siteSettings.Show_delegated_votes}}
-          <li>
-            <span class="value">
-              <span id="__delegated-votes" class="number">0</span>
-            </span>
+              <span class="label">Delegated votes</span>
+            </li>
+          {{/if}}
+          {{#if siteSettings.Show_snapshot_votes}}
+            <li>
+              <span class="value">
+                <span id="__snapshot-voting-stats" class="number">0%</span>
+              </span>
 
-            <span class="label">Delegated votes</span>
-          </li>
-        {{/if}}
-        {{#if siteSettings.Show_snapshot_votes}}
-          <li>
-            <span class="value">
-              <span id="__snapshot-voting-stats" class="number">0%</span>
-            </span>
+              <span class="label">Snapshot voting</span>
+            </li>
+          {{/if}}
+          {{#if siteSettings.Show_on_chain_votes}}
+            <li>
+              <span class="value">
+                <span id="__on-chain-voting-stats" class="number">0%</span>
+              </span>
 
-            <span class="label">Snapshot voting</span>
-          </li>
-        {{/if}}
-        {{#if siteSettings.Show_on_chain_votes}}
-          <li>
-            <span class="value">
-              <span id="__on-chain-voting-stats" class="number">0%</span>
-            </span>
+              <span class="label">On-chain voting</span>
+            </li>
+          {{/if}}
+        </ul>
+      </div>
 
-            <span class="label">On-chain voting</span>
-          </li>
-        {{/if}}
-      </ul>
     </div>
   </div>
 {{/if}}

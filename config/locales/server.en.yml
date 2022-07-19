@@ -7,3 +7,4 @@ en:
     Show_snapshot_votes: ""
     Show_on_chain_votes: ""
     Show_health_score: ""
+    User_not_found_message: "Show a message when user is not found on Karma. Let blank to display 0's."
