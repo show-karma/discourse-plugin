@@ -5,7 +5,7 @@ import { shortenNumber } from "../shorten-number";
  * Karma stats fetcher
  */
 const KarmaStats = {
-  url: "https://stageapi.showkarma.xyz/api",
+  url: "https://api.showkarma.xyz/api",
   daoName: undefined,
 
   async fetchUser(userAddress, daoName) {
@@ -97,7 +97,8 @@ const KarmaStats = {
           ctx.SiteSettings,
           "User_not_found_message",
           errMessage.replace(
-            "[[KarmaDaoUrl]]",`
+            "[[KarmaDaoUrl]]",
+            `
             <a
               target="_blank"
               rel="noopener noreferrer"
@@ -131,6 +132,7 @@ const KarmaStats = {
         }
 
         if (daoExp) {
+          set(ctx.Karma, "score", stats.daoExp);
           daoExp.innerHTML = stats.daoExp?.toLocaleString("en-US");
         }
 
@@ -160,6 +162,7 @@ const KarmaStats = {
 export default {
   name: "alert",
   initialize(_, ctx) {
+    set(ctx, 'Karma', {});
     $(() => {
       let showing = false;
       const karmaStats = () => {
