@@ -1,3 +1,4 @@
+import { shortenNumber } from "../shorten-number";
 /**
  * Karma stats fetcher
  */
@@ -34,7 +35,9 @@ const KarmaStats = {
       if (delegates) {
         const { stats } = delegates;
 
-        userStats.delegatedVotes = stats?.[0]?.delegatedVotes || 0;
+        userStats.delegatedVotes = shortenNumber(
+          stats?.[0]?.delegatedVotes || 0
+        );
         userStats.snapshotVotingStats =
           (stats?.[0]?.offChainVotesPct || 0) + "%";
         userStats.onChainVotingStats = (stats?.[0]?.onChainVotesPct || 0) + "%";
