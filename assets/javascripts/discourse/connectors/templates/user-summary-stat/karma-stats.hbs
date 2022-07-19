@@ -18,15 +18,15 @@
         </a>
         <b>Governance Stats</b>
       </div>
+      <div class="__loading" style="display:none;">
+        Loading governance stats from Karma
+      </div>
       {{#if siteSettings.User_not_found_message}}
-        <div class="__loading" style="display:none;">
-          Loading Karma
-        </div>
         <div class="__has-error" style="display:none;">
           {{{siteSettings.User_not_found_message}}}
         </div>
       {{/if}}
-      <div class="__has-score">
+      <div class="__has-score" style="display:none;">
         <ul>
           {{#if siteSettings.Show_Karma_score}}
             <li>

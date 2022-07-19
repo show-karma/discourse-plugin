@@ -108,10 +108,8 @@ const KarmaStats = {
             </a>`
           )
         );
-        this.toggleLoading(false);
-      } else {
-        this.toggleScore(false);
       }
+      this.toggleLoading(false);
       const stats = await KarmaStats.fetchUser(user, daoName);
       if (stats) {
         const el = document.getElementsByClassName("__wrapper")[0];
@@ -162,7 +160,7 @@ const KarmaStats = {
 export default {
   name: "alert",
   initialize(_, ctx) {
-    set(ctx, 'Karma', {});
+    set(ctx, "Karma", {});
     $(() => {
       let showing = false;
       const karmaStats = () => {

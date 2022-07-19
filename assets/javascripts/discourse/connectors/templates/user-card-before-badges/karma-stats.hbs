@@ -18,10 +18,10 @@
         </a>
         <b>Governance Stats</b>
       </div>
+      <div class="__loading" style="display:none">
+        Loading governance stats from Karma
+      </div>
       {{#if siteSettings.User_not_found_message}}
-        <div class="__loading">
-          Loading Karma
-        </div>
         <div class="__has-error" style="display:none;">
           {{{siteSettings.User_not_found_message}}}
         </div>
