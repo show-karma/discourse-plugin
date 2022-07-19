@@ -1,5 +1,6 @@
 import { set } from "@ember/object";
 import { shortenNumber } from "../shorten-number";
+import { htmlSafe } from "@ember/template";
 
 /**
  * Karma stats fetcher
@@ -96,9 +97,10 @@ const KarmaStats = {
         set(
           ctx.SiteSettings,
           "User_not_found_message",
-          errMessage.replace(
-            "[[KarmaDaoUrl]]",
-            `
+          htmlSafe(
+            errMessage.replace(
+              "[[KarmaDaoUrl]]",
+              `
             <a
               target="_blank"
               rel="noopener noreferrer"
@@ -106,6 +108,7 @@ const KarmaStats = {
             >
                 ${daoName.toUpperCase()} leaderboard
             </a>`
+            )
           )
         );
       }
