@@ -1,3 +1,6 @@
 {
-  "extends": "eslint-config-discourse"
+  "extends": "eslint-config-discourse",
+  "rules":{
+    "no-triple-curlies": 0
+  }
 }
