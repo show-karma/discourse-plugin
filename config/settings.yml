@@ -20,3 +20,6 @@ plugins:
   Show_health_score:
     default: false
     client: true
+  User_not_found_message:
+    default: Couldn't find stats. Link your wallet to get stats. [[KarmaDaoUrl]]
+    client: true

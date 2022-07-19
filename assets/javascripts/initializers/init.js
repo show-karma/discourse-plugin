@@ -1,8 +1,12 @@
+import { set } from "@ember/object";
+import { shortenNumber } from "../shorten-number";
+import { htmlSafe } from "@ember/template";
+
 /**
  * Karma stats fetcher
  */
 const KarmaStats = {
-  url: "https://stageapi.showkarma.xyz/api",
+  url: "https://api.showkarma.xyz/api",
   daoName: undefined,
 
   async fetchUser(userAddress, daoName) {
@@ -34,7 +38,9 @@ const KarmaStats = {
       if (delegates) {
         const { stats } = delegates;
 
-        userStats.delegatedVotes = stats?.[0]?.delegatedVotes || 0;
+        userStats.delegatedVotes = shortenNumber(
+          stats?.[0]?.delegatedVotes || 0
+        );
         userStats.snapshotVotingStats =
           (stats?.[0]?.offChainVotesPct || 0) + "%";
         userStats.onChainVotingStats = (stats?.[0]?.onChainVotesPct || 0) + "%";
@@ -47,17 +53,27 @@ const KarmaStats = {
     }
   },
 
-  getDaoName() {
-    let daoName = KarmaStats.daoName;
-    if (!daoName) {
-      const input = document.getElementById("__dao-name");
-      if (!input) {
-        return undefined;
-      }
-      daoName = input.value;
-      KarmaStats.daoName = daoName;
+  toggleErrorMessage(hide = true) {
+    const el = $(".__has-error");
+    if (el.length) {
+      hide ? el.hide : (el.show(), this.toggleLoading(), this.toggleScore());
     }
-    return daoName;
+  },
+
+  toggleLoading(hide = true) {
+    const el = $(".__loading");
+    if (el.length) {
+      hide
+        ? el.hide()
+        : (el.show(), this.toggleErrorMessage(), this.toggleScore());
+    }
+  },
+
+  toggleScore(hide = true) {
+    const el = $(".__has-score");
+    hide
+      ? el.hide()
+      : (el.show(), this.toggleErrorMessage(), this.toggleLoading());
   },
 
   getSlots() {
@@ -70,19 +86,33 @@ const KarmaStats = {
     };
   },
 
-  getUsername() {
-    const el = document.getElementById("__dao-username");
-    return el?.value.trim();
-  },
-
-  async start(totalTries = 0) {
-    // eslint-disable-next-line no-restricted-globals
-    await new Promise((resolve) => setTimeout(resolve, 100));
-
-    const user = KarmaStats.getUsername();
-    const daoName = KarmaStats.getDaoName();
+  async start(totalTries = 0, ctx) {
+    const { User, SiteSettings } = ctx;
+    const { User_not_found_message: errMessage } = SiteSettings;
+    const user = User.current().username;
+    const daoName = SiteSettings.DAO_name;
 
     if (user && daoName) {
+      if (errMessage && errMessage.includes("[[KarmaDaoUrl]]")) {
+        set(
+          ctx.SiteSettings,
+          "User_not_found_message",
+          htmlSafe(
+            errMessage.replace(
+              "[[KarmaDaoUrl]]",
+              `
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="https://showkarma.xyz/dao/delegates/${daoName}"
+            >
+                ${daoName.toUpperCase()} leaderboard
+            </a>`
+            )
+          )
+        );
+      }
+      this.toggleLoading(false);
       const stats = await KarmaStats.fetchUser(user, daoName);
       if (stats) {
         const el = document.getElementsByClassName("__wrapper")[0];
@@ -103,6 +133,7 @@ const KarmaStats = {
         }
 
         if (daoExp) {
+          set(ctx.Karma, "score", stats.daoExp);
           daoExp.innerHTML = stats.daoExp?.toLocaleString("en-US");
         }
 
@@ -118,6 +149,10 @@ const KarmaStats = {
         if (onChainVotingStats) {
           onChainVotingStats.innerHTML = stats.onChainVotingStats;
         }
+
+        this.toggleScore(false);
+      } else {
+        this.toggleErrorMessage(false);
       }
     } else if (totalTries < 30) {
       setTimeout(() => KarmaStats.start(++totalTries), 250);
@@ -127,13 +162,14 @@ const KarmaStats = {
 
 export default {
   name: "alert",
-  initialize() {
+  initialize(_, ctx) {
+    set(ctx, "Karma", {});
     $(() => {
       let showing = false;
       const karmaStats = () => {
         const elTrg = $(".__karma-stats");
         if (!showing && elTrg.length) {
-          KarmaStats.start(0);
+          KarmaStats.start(0, ctx);
         }
         showing = !!elTrg.length;
       };
