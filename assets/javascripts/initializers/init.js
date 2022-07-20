@@ -76,6 +76,11 @@ const KarmaStats = {
       : (el.show(), this.toggleErrorMessage(), this.toggleLoading());
   },
 
+  getUsername() {
+    const el = document.getElementById("__dao-username");
+    return el?.value.trim();
+  },
+
   getSlots() {
     return {
       delegatedVotes: document.getElementById("__delegated-votes"),
@@ -86,39 +91,45 @@ const KarmaStats = {
     };
   },
 
+  getErrorMessage(msg, daoName) {
+    return htmlSafe(
+      msg.replace(
+        "[[KarmaDaoUrl]]",
+        `
+      <a
+        target="_blank"
+        rel="noopener noreferrer"
+        href="https://showkarma.xyz/dao/delegates/${daoName}"
+      >
+          ${daoName.toUpperCase()} leaderboard
+      </a>`
+      )
+    );
+  },
+
   async start(totalTries = 0, ctx) {
-    const { User, SiteSettings } = ctx;
+    const { SiteSettings } = ctx;
     const { User_not_found_message: errMessage } = SiteSettings;
-    const user = User.current().username;
+    const user = this.getUsername();
     const daoName = SiteSettings.DAO_name;
 
     if (user && daoName) {
-      if (errMessage && errMessage.includes("[[KarmaDaoUrl]]")) {
+      if (errMessage && errMessage?.includes?.("[[KarmaDaoUrl]]")) {
         set(
           ctx.SiteSettings,
           "User_not_found_message",
-          htmlSafe(
-            errMessage.replace(
-              "[[KarmaDaoUrl]]",
-              `
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://showkarma.xyz/dao/delegates/${daoName}"
-            >
-                ${daoName.toUpperCase()} leaderboard
-            </a>`
-            )
-          )
+          this.getErrorMessage(errMessage, daoName)
         );
       }
       this.toggleLoading(false);
       const stats = await KarmaStats.fetchUser(user, daoName);
       if (stats) {
-        const el = document.getElementsByClassName("__wrapper")[0];
-        if (el) {
-          el.style.display = "initial";
+        const wrapper = document.getElementsByClassName("__wrapper")[0];
+
+        if (wrapper) {
+          wrapper.style.display = "initial";
         }
+
         const {
           delegatedVotes,
           daoExp,
