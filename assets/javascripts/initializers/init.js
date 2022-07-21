@@ -1,16 +1,17 @@
-import { set } from "@ember/object";
-import KarmaStats from "../stats/karma";
+import KarmaStats from "../stats";
+import VotingHistory from "../voting-history";
 
 export default {
   name: "alert",
   initialize(_, ctx) {
-    set(ctx, "Karma", {});
     $(() => {
       let showing = false;
       const karmaStats = () => {
         const elTrg = $(".__karma-stats");
         if (!showing && elTrg.length) {
-          KarmaStats.start(0, ctx);
+          KarmaStats.start(0, ctx).then((profile) => {
+            VotingHistory.start(profile, ctx);
+          });
         }
         showing = !!elTrg.length;
       };

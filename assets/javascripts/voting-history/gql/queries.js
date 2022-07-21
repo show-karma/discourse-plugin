@@ -1,10 +1,14 @@
-import { gql } from "@apollo/client";
-
 export const history = {
   onChain: {
-    votes: gql`
-      query Votes($address: String!, $daoname: [String]!) {
-        votes(first: 20, where: { space_in: $daoname, voter: $address }) {
+    votes: (address, daoNames) => `
+      query Votes {
+        votes(
+          first: 20,
+          where: {
+            space_in: ["${daoNames.join('","')}"], 
+            voter: "${address}" 
+          }
+        ) {
           choice
           voter
           proposal {
@@ -15,11 +19,11 @@ export const history = {
         }
       }
     `,
-    proposals: gql`
-      query Proposals($daoname: [String]!) {
+    proposals: (daoNames) => `
+      query Proposals {
         proposals(
           skip: 0
-          where: { space_in: $daoname, state: "closed" }
+          where: { space_in: ["${daoNames.join('","')}"], state: "closed" }
           orderBy: "created"
           orderDirection: desc
         ) {

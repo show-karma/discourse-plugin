@@ -8,6 +8,7 @@ import { htmlSafe } from "@ember/template";
 const KarmaStats = {
   url: "https://api.showkarma.xyz/api",
   daoName: undefined,
+  profile: {},
 
   async fetchUser(userAddress, daoName) {
     if (
@@ -34,6 +35,7 @@ const KarmaStats = {
     const url = `${KarmaStats.url}/user/${userAddress}/${daoName}`;
     try {
       const { data } = await fetch(url).then((res) => res.json());
+      this.profile = data;
       const { delegates } = data;
       if (delegates) {
         const { stats } = delegates;
@@ -144,7 +146,6 @@ const KarmaStats = {
         }
 
         if (daoExp) {
-          set(ctx.Karma, "score", stats.daoExp);
           daoExp.innerHTML = stats.daoExp?.toLocaleString("en-US");
         }
 
@@ -168,6 +169,7 @@ const KarmaStats = {
     } else if (totalTries < 30) {
       setTimeout(() => KarmaStats.start(++totalTries), 250);
     }
+    return this.profile;
   },
 };
 

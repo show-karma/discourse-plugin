@@ -1,4 +1,3 @@
-import { subgraphCli } from "./client";
 import { history } from "./queries";
 
 /**
