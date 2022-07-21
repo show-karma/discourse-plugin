@@ -1,11 +1,14 @@
+function inStatement(array) {
+  return `["${array.join('","')}"]`;
+}
 export const history = {
-  onChain: {
-    votes: (address, daoNames) => `
+  offChain: {
+    votes: (address = "", daoNames = []) => `
       query Votes {
         votes(
           first: 20,
           where: {
-            space_in: ["${daoNames.join('","')}"], 
+            space_in: ${inStatement(daoNames)}, 
             voter: "${address}" 
           }
         ) {
@@ -19,11 +22,11 @@ export const history = {
         }
       }
     `,
-    proposals: (daoNames) => `
+    proposals: (daoNames = []) => `
       query Proposals {
         proposals(
           skip: 0
-          where: { space_in: ["${daoNames.join('","')}"], state: "closed" }
+          where: { space_in: ${inStatement(daoNames)}, state: "closed" }
           orderBy: "created"
           orderDirection: desc
         ) {
@@ -33,5 +36,42 @@ export const history = {
         }
       }
     `,
+  },
+  onChain: {
+    votes: (address = "", daoNames = []) => `
+    query Votes {
+      votes(
+				orderBy: timestamp
+				orderDirection: desc
+				where: { user: ${address}, organization_in: ${inStatement(daoNames)} }
+			) {
+				id
+				proposal {
+					id
+					description
+					timestamp
+				}
+				organization {
+					id
+				}
+				solution
+				timestamp
+				support
+			}
+    }`,
+    proposals: (daoNames = [], skipIds = []) => `
+      query Proposals {
+        proposals(
+          where: { organization_in: ${inStatement(
+            daoNames
+          )}, id_not_in: ${inStatement(skipIds)} }
+          orderBy: "timestamp"
+          orderDirection: desc
+        ) {
+          id
+          description
+          timestamp
+        }
+    }`,
   },
 };

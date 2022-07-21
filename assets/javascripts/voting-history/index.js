@@ -1,4 +1,4 @@
-import { fetchOnChainProposalVotes } from "./gql/on-chain-fetcher";
+// import { fetchOnChainProposalVotes } from "./gql/on-chain-fetcher";
 import { history } from "./gql/queries";
 
 const VotingHistory = {
