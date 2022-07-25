@@ -1,5 +1,4 @@
-// import { fetchOnChainProposalVotes } from "./gql/on-chain-fetcher";
-import { history } from "./gql/queries";
+import { fetchOnChainProposalVotes } from "./gql/on-chain-fetcher";
 
 const VotingHistory = {
   shouldShowVotingHistory(ctx) {
@@ -18,14 +17,19 @@ const VotingHistory = {
 
     const { DAO_name: daoName } = ctx.SiteSettings;
     const amount = this.shouldShowVotingHistory(ctx);
-    const query = history.onChain.votes(profile.address, [daoName]);
-    // const votes = await fetchOnChainProposalVotes(
-    //   [daoName],
-    //   profile.address,
-    //   amount
-    // );
+    const daoNames = [daoName];
+
+    if (!/\.eth$/g.test(daoName)) {
+      daoNames.push(`${daoName}.eth`);
+    }
+
+    const votes = await fetchOnChainProposalVotes(
+      daoNames,
+      profile.address,
+      amount
+    );
     // eslint-disable-next-line no-console
-    console.debug(amount, daoName, profile.ensName, query);
+    console.debug(amount, daoName, profile.ensName, votes);
   },
 };
 

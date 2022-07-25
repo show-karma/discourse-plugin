@@ -1,6 +1,7 @@
 function inStatement(array) {
   return `["${array.join('","')}"]`;
 }
+
 export const history = {
   offChain: {
     votes: (address = "", daoNames = []) => `
@@ -43,7 +44,7 @@ export const history = {
       votes(
 				orderBy: timestamp
 				orderDirection: desc
-				where: { user: ${address}, organization_in: ${inStatement(daoNames)} }
+				where: { user: "${address}", organization_in: ${inStatement(daoNames)} }
 			) {
 				id
 				proposal {

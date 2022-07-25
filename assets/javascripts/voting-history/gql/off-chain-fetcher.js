@@ -42,15 +42,15 @@ function concatProposals(proposals = [], votes = []) {
  * @param daoName
  * @returns array of voted and not voted proposals (not sorted)
  */
-export async function fetchOnChainProposalVotes(daoNames = [], address = "") {
+export async function fetchOffChainProposalVotes(daoNames = [], address = "") {
   try {
-    const votesQuery = history.onChain.votes(address, daoNames);
+    const votesQuery = history.offChain.votes(address, daoNames);
     const { votes } = await gql.query(subgraphUrl, votesQuery);
 
     if (votes && Array.isArray(votes)) {
       const skipIds = votes.map((vote) => vote.proposal.id);
 
-      const proposalQuery = history.onChain.proposals(daoNames, skipIds);
+      const proposalQuery = history.offChain.proposals(daoNames, skipIds);
       const { proposals } = await gql.query(subgraphUrl, proposalQuery);
       return concatProposals(proposals, votes);
     }
