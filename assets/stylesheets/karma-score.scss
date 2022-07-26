@@ -1,0 +1,77 @@
+.karma-stats {
+  width: 100%;
+  .loading {
+    text-align: center;
+    width: 100%;
+    padding: 20px 0;
+  }
+}
+#__karma-voting-history {
+  box-shadow: rgba(0, 0, 0, 0.125) 0 0 0.5em;
+  border-radius: 8px;
+  &:not(.profile) {
+    max-height: 220px;
+  }
+  &.profile {
+    max-height: 280px;
+  }
+  overflow-y: auto;
+  overflow-x: hidden;
+  &.w-full,
+  .w-full {
+    .voting-item {
+      max-width: 100% !important;
+      width: 100% !important;
+      .details {
+        max-width: 100% !important;
+      }
+    }
+  }
+  .voting-item {
+    .name {
+      padding-top: 5px;
+      margin: 5px 0 5px;
+    }
+    border-bottom: solid 1px rgba(0, 0, 0, 0.125);
+    padding: 0.3em 15px;
+    position: relative;
+    width: 560px;
+    display: flex;
+    align-items: center;
+    transition: ease-in 200ms;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+    .details {
+      width: 70%;
+      max-width: 395px;
+      .name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .status-container {
+        color: rgba(0, 0, 0, 0.3);
+        font-size: 12px;
+        font-weight: bold;
+        display: flex;
+        p:first-of-type {
+          border-right: 1px solid rgba(0, 0, 0, 0.125);
+          padding-right: 15px;
+          margin-right: 15px;
+        }
+      }
+    }
+    .decision {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 27%;
+      margin-left: 10px;
+      p.vote-choice {
+        width: 50%;
+        text-align: center;
+      }
+    }
+  }
+}

@@ -6,5 +6,6 @@
   "license": "MIT",
   "devDependencies": {
     "eslint-config-discourse": "^3.1.0"
-  }
+  },
+  "dependencies": {}
 }

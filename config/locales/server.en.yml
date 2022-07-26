@@ -7,4 +7,5 @@ en:
     Show_snapshot_votes: ""
     Show_on_chain_votes: ""
     Show_health_score: ""
+    Show_voting_history: "Amount of rows to show in user's profile voting history. Letting blank, 0 or not containing only numbers will hide it."
     User_not_found_message: "Show a message when user is not found on Karma. Let blank to display 0's."
