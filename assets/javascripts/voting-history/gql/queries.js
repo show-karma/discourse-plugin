@@ -4,12 +4,11 @@ function inStatement(array) {
 
 export const history = {
   offChain: {
-    votes: (address = "", daoNames = []) => `
-      query Votes {
+    votes: (address = "", daoNames = [], amount = 3) => `query Votes {
         votes(
-          first: 20,
+          first: ${amount},
           where: {
-            space_in: ${inStatement(daoNames)}, 
+            space_in: ${inStatement(daoNames)},
             voter: "${address}" 
           }
         ) {
@@ -17,31 +16,19 @@ export const history = {
           voter
           proposal {
             id
+            title
             choices
             state
+            end
           }
-        }
-      }
-    `,
-    proposals: (daoNames = []) => `
-      query Proposals {
-        proposals(
-          skip: 0
-          where: { space_in: ${inStatement(daoNames)}, state: "closed" }
-          orderBy: "created"
-          orderDirection: desc
-        ) {
-          id
-          title
-          end
         }
       }
     `,
   },
   onChain: {
-    votes: (address = "", daoNames = []) => `
-    query Votes {
+    votes: (address = "", daoNames = [], amount = 3) => `query Votes {
       votes(
+        first: ${amount}
 				orderBy: timestamp
 				orderDirection: desc
 				where: { user: "${address}", organization_in: ${inStatement(daoNames)} }
@@ -59,20 +46,6 @@ export const history = {
 				timestamp
 				support
 			}
-    }`,
-    proposals: (daoNames = [], skipIds = []) => `
-      query Proposals {
-        proposals(
-          where: { organization_in: ${inStatement(
-            daoNames
-          )}, id_not_in: ${inStatement(skipIds)} }
-          orderBy: "timestamp"
-          orderDirection: desc
-        ) {
-          id
-          description
-          timestamp
-        }
     }`,
   },
 };

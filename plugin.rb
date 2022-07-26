@@ -9,5 +9,7 @@
 
 enabled_site_setting :Enable_Karma_plugin
 
+register_asset "stylesheets/karma-score.scss"
+
 after_initialize do
 end

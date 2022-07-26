@@ -1,4 +1,7 @@
+import { fetchOffChainProposalVotes } from "./gql/off-chain-fetcher";
 import { fetchOnChainProposalVotes } from "./gql/on-chain-fetcher";
+
+import template from "./template";
 
 const VotingHistory = {
   shouldShowVotingHistory(ctx) {
@@ -23,13 +26,33 @@ const VotingHistory = {
       daoNames.push(`${daoName}.eth`);
     }
 
-    const votes = await fetchOnChainProposalVotes(
+    const onChain = await fetchOnChainProposalVotes(
       daoNames,
       profile.address,
       amount
     );
-    // eslint-disable-next-line no-console
-    console.debug(amount, daoName, profile.ensName, votes);
+
+    const offChain = await fetchOffChainProposalVotes(
+      daoNames,
+      profile.address,
+      amount
+    );
+
+    const votes = onChain.concat(offChain);
+
+    votes.sort((a, b) =>
+      moment(a.executed).isBefore(moment(b.executed)) ? 1 : -1
+    );
+
+    this.render(votes.slice(0, amount), "__karma-voting-history");
+  },
+
+  async render(data = [], elId = "") {
+    const wrapper = $(`#${elId}`);
+    const display = data.map((d) =>
+      template(d.proposal, d.voteMethod, d.executed, d.choice)
+    );
+    wrapper.html(display);
   },
 };
 

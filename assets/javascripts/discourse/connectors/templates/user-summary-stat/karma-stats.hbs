@@ -1,6 +1,6 @@
 {{#if siteSettings.Enable_Karma_plugin}}
   <div class="__karma-stats">
-    <input hidden id="__dao-username" readonly value={{this.user.username}}>
+    <input hidden id="__dao-username" readonly value={{this.user.username}} />
     <div class="__wrapper">
       <div style="display:flex;align-items:center;margin:10px 0;">
         <a
@@ -13,7 +13,7 @@
             src="https://www.showkarma.xyz/icons/karma-logo.svg"
             height="28"
             width="28"
-          >
+          />
         </a>
         <b>Governance Stats</b>
       </div>
@@ -74,7 +74,31 @@
           {{/if}}
         </ul>
       </div>
-
+      {{#if (gt siteSettings.Show_voting_history 0)}}
+        <div style="display:flex;align-items:center;margin:10px 0;">
+          <a
+            alt="Show Karma App"
+            href={{concat "https://showkarma.xyz/profile/" this.user.username}}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="https://www.showkarma.xyz/icons/karma-logo.svg"
+              height="28"
+              width="28"
+            />
+          </a>
+          <b>Voting History</b><br />
+        </div>
+        <small class="text-disabled">
+          Showing latest
+          {{siteSettings.Show_voting_history}}
+          {{this.user.username}}'s votes
+        </small>
+        <div id="__karma-voting-history" class="w-full profile">
+          <div class="loading">Loading voting history</div>
+        </div>
+      {{/if}}
     </div>
   </div>
 {{/if}}

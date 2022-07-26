@@ -10,7 +10,7 @@ const subgraphUrl = new URL(
  * @param proposals
  * @param votes
  */
-function concatProposals(proposals = [], votes = []) {
+function parseVotes(votes = []) {
   const array = [];
 
   votes.forEach((vote) => {
@@ -24,16 +24,6 @@ function concatProposals(proposals = [], votes = []) {
     });
   });
 
-  proposals.forEach((proposal) => {
-    array.push({
-      voteMethod: "On-chain",
-      proposal: proposal?.description,
-      choice: -1,
-      solution: null,
-      executed: moment.unix(proposal.timestamp).format("MMMM D, YYYY"),
-    });
-  });
-
   return array;
 }
 
@@ -42,21 +32,22 @@ function concatProposals(proposals = [], votes = []) {
  * @param daoName
  * @returns array of voted and not voted proposals (not sorted)
  */
-export async function fetchOnChainProposalVotes(daoNames = [], address = "") {
+export async function fetchOnChainProposalVotes(
+  daoNames = [],
+  address = "",
+  amount = 3
+) {
   try {
-    const votesQuery = history.onChain.votes(address, daoNames);
+    const votesQuery = history.onChain.votes(address, daoNames, amount);
     const { votes } = await gql.query(subgraphUrl, votesQuery);
 
     if (votes && Array.isArray(votes)) {
-      const skipIds = votes.map((vote) => vote.proposal.id);
-
-      const proposalQuery = history.onChain.proposals(daoNames, skipIds);
-      const { proposals } = await gql.query(subgraphUrl, proposalQuery);
-      return concatProposals(proposals, votes);
+      return parseVotes(votes);
     }
+
+    return [];
   } catch (error) {
     throw error;
     //
   }
-  return [];
 }
