@@ -21,10 +21,7 @@ const VotingHistory = {
 
     if (profile && profile.address) {
       $("#__karma-voting-wrapper").css("display", "initial");
-      $("#__karma-user-profile").prop(
-        "href",
-        `${karma}/${profile.address}`
-      );
+      $("#__karma-user-profile").prop("href", `${karma}/${profile.address}`);
     }
 
     const { DAO_name: daoName } = ctx.SiteSettings;
