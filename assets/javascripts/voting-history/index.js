@@ -3,6 +3,8 @@ import { fetchOnChainProposalVotes } from "./gql/on-chain-fetcher";
 
 import template from "./template";
 
+const karma = "https://showkarma.xyz/profile";
+
 const VotingHistory = {
   shouldShowVotingHistory(ctx) {
     const amount = ctx.SiteSettings.Show_voting_history?.trim?.() || 0;
@@ -14,8 +16,16 @@ const VotingHistory = {
   },
 
   async start(profile, ctx) {
-    if (!ctx || !ctx.SiteSettings) {
+    if (!ctx || !ctx.SiteSettings || !profile) {
       return;
+    }
+
+    if (profile && profile.address) {
+      $("#__karma-voting-wrapper").css("display", "initial");
+      $("#__karma-user-profile").prop(
+        "href",
+        `${karma}/${profile.address}`
+      );
     }
 
     const { DAO_name: daoName } = ctx.SiteSettings;
@@ -49,9 +59,14 @@ const VotingHistory = {
 
   async render(data = [], elId = "") {
     const wrapper = $(`#${elId}`);
-    const display = data.map((d) =>
-      template(d.proposal, d.voteMethod, d.executed, d.choice)
-    );
+    let display;
+    if (data.length) {
+      display = data.map((d) =>
+        template(d.proposal, d.voteMethod, d.executed, d.choice)
+      );
+    } else {
+      display = "<p>No voting history found.</p>";
+    }
     wrapper.html(display);
   },
 };
