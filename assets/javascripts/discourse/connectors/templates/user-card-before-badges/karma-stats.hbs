@@ -3,18 +3,20 @@
     <input hidden id="__dao-username" readonly value={{this.user.username}} >
     <div class="__wrapper">
       <div style="display:flex;align-items:center;margin:10px 0;">
-        <a
-          alt="Show Karma App"
-          href="https://showkarma.xyz"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            src="https://www.showkarma.xyz/icons/karma-logo.svg"
-            height="28"
-            width="28"
+        {{#if siteSettings.Show_Karma_logo}}
+          <a
+            alt="Show Karma App"
+            href="https://showkarma.xyz"
+            target="_blank"
+            rel="noopener noreferrer"
           >
-        </a>
+            <img
+              src="https://www.showkarma.xyz/icons/karma-logo.svg"
+              height="28"
+              width="28"
+            >
+          </a>
+        {{/if}}
         <b>Governance Stats</b>
       </div>
       <div class="__loading" style="display:none">
@@ -51,19 +53,21 @@
     {{#if (gt siteSettings.Show_voting_history 0)}}
       <div id="__karma-voting-wrapper" style="display:none">
         <div style="display:flex;align-items:center;margin:10px 0;">
-          <a
-            alt="Show Karma App"
-            id="__karma-user-profile"
-            href={{"https://showkarma.xyz/"}}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <img
-              src="https://www.showkarma.xyz/icons/karma-logo.svg"
-              height="28"
-              width="28"
+          {{#if siteSettings.Show_Karma_logo}}
+            <a
+              alt="Show Karma App"
+              id="__karma-user-profile"
+              href={{"https://showkarma.xyz/"}}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-          </a>
+              <img
+                src="https://www.showkarma.xyz/icons/karma-logo.svg"
+                height="28"
+                width="28"
+              >
+            </a>
+          {{/if}}
           <b>Voting History</b><br>
         </div>
         <small class="text-disabled">

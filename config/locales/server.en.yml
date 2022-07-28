@@ -1,6 +1,7 @@
 en:
   site_settings:
     Enable_Karma_plugin: ""
+    Show_Karma_logo: ""
     DAO_name: ""
     Show_Karma_score: ""
     Show_delegated_votes: ""

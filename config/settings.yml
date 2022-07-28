@@ -2,6 +2,9 @@ plugins:
   Enable_Karma_plugin:
     default: true
     client: true
+  Show_Karma_logo:
+    default: false
+    client: true
   DAO_name:
     default: ens
     client: true
