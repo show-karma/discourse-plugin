@@ -15,7 +15,7 @@ function getIcon(choice = "not vote") {
     return voteIcon.no;
   }
   if (/abstain/gi.test(choice)) {
-    return voteIcon.no;
+    return voteIcon.empty;
   }
 
   return voteIcon.yes;
