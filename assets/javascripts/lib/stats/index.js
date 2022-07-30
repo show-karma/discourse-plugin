@@ -80,7 +80,13 @@ const KarmaStats = {
 
   getUsername() {
     const el = document.getElementById("__dao-username");
-    return el?.value.trim();
+    let username = el?.value.trim();
+    // Workaround to deal with 2.8.7 at user-summary
+    if (!username) {
+      const _el = document.getElementsByClassName("username")[0];
+      username = _el?.innerHTML.trim().match(/([^\s]+)/g)[0];
+    }
+    return username;
   },
 
   getSlots() {
@@ -111,9 +117,9 @@ const KarmaStats = {
 
   async start(totalTries = 0, ctx) {
     const { SiteSettings } = ctx;
-    const { User_not_found_message: errMessage } = SiteSettings;
+    const { User_not_found_message: errMessage, DAO_name: daoName } =
+      SiteSettings;
     const user = this.getUsername();
-    const daoName = SiteSettings.DAO_name;
 
     if (user && daoName) {
       if (errMessage && errMessage?.includes?.("[[KarmaDaoUrl]]")) {
@@ -167,7 +173,7 @@ const KarmaStats = {
         this.toggleErrorMessage(false);
       }
     } else if (totalTries < 30) {
-      setTimeout(() => KarmaStats.start(++totalTries), 250);
+      setTimeout(() => KarmaStats.start(++totalTries, ctx), 250);
     }
     return this.profile;
   },

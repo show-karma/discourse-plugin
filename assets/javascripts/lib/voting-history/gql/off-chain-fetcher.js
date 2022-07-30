@@ -18,7 +18,7 @@ function parseVotes(votes = []) {
       proposal: proposal?.title,
       choice: Array.isArray(vote.choice)
         ? "Multiple"
-        : proposal.choices[vote.choice],
+        : proposal.choices[vote.choice - 1],
       executed: moment.unix(proposal.end).format("MMMM D, YYYY"),
     });
   });
