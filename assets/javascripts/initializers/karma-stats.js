@@ -3,7 +3,7 @@ import KarmaStats from "../lib/stats/index";
 import VotingHistory from "../lib/voting-history/index";
 
 function bootstrap(_, ctx) {
-  function release(ctx, wrapperId = "#__karma-stats") {
+  function release(wrapperId = "#__karma-stats") {
     let showing = false;
     const karmaStats = () => {
       const elTrg = $(wrapperId);
@@ -19,11 +19,11 @@ function bootstrap(_, ctx) {
   }
 
   function summary() {
-    release(ctx, "#__karma-stats-summary");
+    release("#__karma-stats-summary");
   }
 
   function userCard() {
-    release(ctx, ".__karma-stats");
+    release(".__karma-stats");
   }
 
   $(() => {
