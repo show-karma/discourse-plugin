@@ -88,7 +88,6 @@ const KarmaStats = {
 
   getUsername(wrapperId) {
     const el = $(`${wrapperId} #__dao-username`);
-    console.log(`${wrapperId} #__dao-username`, el);
     let username = el?.val().trim();
     // TODO: find another way to get the user in the page
     if (!username) {
