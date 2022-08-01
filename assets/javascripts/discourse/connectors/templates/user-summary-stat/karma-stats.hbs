@@ -1,6 +1,6 @@
 {{#if siteSettings.Enable_Karma_plugin}}
-  <div class="__karma-stats">
-    <input hidden id="__dao-username" readonly value={{this.user.username}} >
+  <div id="__karma-stats-summary">
+    <input hidden id="__dao-username" readonly>
     <div class="__wrapper">
       <div style="display:flex;align-items:center;margin:10px 0;">
         {{#if siteSettings.Show_Karma_logo}}
@@ -84,7 +84,7 @@
                 alt="Show Karma App"
                 href={{concat
                   "https://showkarma.xyz/profile/"
-                  this.user.username
+                  this.currentUser.username
                 }}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -101,7 +101,7 @@
           <small class="text-disabled">
             Showing latest
             {{siteSettings.Show_voting_history}}
-            {{this.user.username}}'s votes
+            votes
           </small>
           <div id="__karma-voting-history" class="w-full profile">
             <div class="loading">Loading voting history</div>

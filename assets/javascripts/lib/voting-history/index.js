@@ -14,14 +14,17 @@ const VotingHistory = {
     return 0;
   },
 
-  async start(profile, ctx) {
+  async start(profile, ctx, wrapperId = ".__karma-stats") {
     if (!ctx || !ctx.SiteSettings || !profile) {
       return;
     }
 
     if (profile && profile.address) {
-      $("#__karma-voting-wrapper").css("display", "initial");
-      $("#__karma-user-profile").prop("href", `${karma}/${profile.address}`);
+      $(`${wrapperId} #__karma-voting-wrapper`).css("display", "initial");
+      $(`${wrapperId} #__karma-user-profile`).prop(
+        "href",
+        `${karma}/${profile.address}`
+      );
     }
 
     const { DAO_name: daoName } = ctx.SiteSettings;
@@ -50,11 +53,11 @@ const VotingHistory = {
       moment(a.executed).isBefore(moment(b.executed)) ? 1 : -1
     );
 
-    this.render(votes.slice(0, amount), "__karma-voting-history");
+    this.render(votes.slice(0, amount), `${wrapperId} #__karma-voting-history`);
   },
 
   async render(data = [], elId = "") {
-    const wrapper = $(`#${elId}`);
+    const wrapper = $(`${elId}`);
     let display;
     if (data.length) {
       display = data.map((d) =>

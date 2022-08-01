@@ -55,47 +55,56 @@ const KarmaStats = {
     }
   },
 
-  toggleErrorMessage(hide = true) {
-    const el = $(".__has-error");
+  toggleErrorMessage(hide = true, wrapperId) {
+    const el = $(`${wrapperId} .__has-error`);
     if (el.length) {
-      hide ? el.hide : (el.show(), this.toggleLoading(), this.toggleScore());
+      hide
+        ? el.hide
+        : (el.show(),
+          this.toggleLoading(true, wrapperId),
+          this.toggleScore(true, wrapperId));
     }
   },
 
-  toggleLoading(hide = true) {
-    const el = $(".__loading");
+  toggleLoading(hide = true, wrapperId) {
+    const el = $(`${wrapperId} .__loading`);
     if (el.length) {
       hide
         ? el.hide()
-        : (el.show(), this.toggleErrorMessage(), this.toggleScore());
+        : (el.show(),
+          this.toggleErrorMessage(true, wrapperId),
+          this.toggleScore(true, wrapperId));
     }
   },
 
-  toggleScore(hide = true) {
-    const el = $(".__has-score");
+  toggleScore(hide = true, wrapperId) {
+    const el = $(`${wrapperId} .__has-score`);
     hide
       ? el.hide()
-      : (el.show(), this.toggleErrorMessage(), this.toggleLoading());
+      : (el.show(),
+        this.toggleErrorMessage(true, wrapperId),
+        this.toggleLoading(true, wrapperId));
   },
 
-  getUsername() {
-    const el = document.getElementById("__dao-username");
-    let username = el?.value.trim();
-    // Workaround to deal with 2.8.7 at user-summary
+  getUsername(wrapperId) {
+    const el = $(`${wrapperId} #__dao-username`);
+    console.log(`${wrapperId} #__dao-username`, el);
+    let username = el?.val().trim();
+    // TODO: find another way to get the user in the page
     if (!username) {
-      const _el = document.getElementsByClassName("username")[0];
-      username = _el?.innerHTML.trim().match(/([^\s]+)/g)[0];
+      const url = location.pathname.split("/");
+      username = url[2];
     }
     return username;
   },
 
-  getSlots() {
+  getSlots(wrapperId) {
     return {
-      delegatedVotes: document.getElementById("__delegated-votes"),
-      daoExp: document.getElementById("__dao-exp"),
-      snapshotVotingStats: document.getElementById("__snapshot-voting-stats"),
-      onChainVotingStats: document.getElementById("__on-chain-voting-stats"),
-      healthScore: document.getElementById("__health-score"),
+      delegatedVotes: $(`${wrapperId} #__delegated-votes`),
+      daoExp: $(`${wrapperId} #__dao-exp`),
+      snapshotVotingStats: $(`${wrapperId} #__snapshot-voting-stats`),
+      onChainVotingStats: $(`${wrapperId} #__on-chain-voting-stats`),
+      healthScore: $(`${wrapperId} #__health-score`),
     };
   },
 
@@ -115,11 +124,12 @@ const KarmaStats = {
     );
   },
 
-  async start(totalTries = 0, ctx) {
+  async start(totalTries = 0, ctx, wrapperId = ".__karma-stats") {
     const { SiteSettings } = ctx;
     const { User_not_found_message: errMessage, DAO_name: daoName } =
       SiteSettings;
-    const user = this.getUsername();
+
+    const user = this.getUsername(wrapperId);
 
     if (user && daoName) {
       if (errMessage && errMessage?.includes?.("[[KarmaDaoUrl]]")) {
@@ -129,10 +139,11 @@ const KarmaStats = {
           this.getErrorMessage(errMessage, daoName)
         );
       }
-      this.toggleLoading(false);
+
+      this.toggleLoading(false, wrapperId);
       const stats = await KarmaStats.fetchUser(user, daoName);
       if (stats) {
-        const wrapper = document.getElementsByClassName("__wrapper")[0];
+        const wrapper = $(`${wrapperId} .__wrapper`)[0];
 
         if (wrapper) {
           wrapper.style.display = "initial";
@@ -144,33 +155,33 @@ const KarmaStats = {
           snapshotVotingStats,
           onChainVotingStats,
           healthScore,
-        } = KarmaStats.getSlots();
+        } = KarmaStats.getSlots(wrapperId);
 
         if (delegatedVotes) {
-          delegatedVotes.innerHTML =
-            stats.delegatedVotes?.toLocaleString("en-US");
+          delegatedVotes.html(stats.delegatedVotes?.toLocaleString("en-US"));
         }
 
         if (daoExp) {
-          daoExp.innerHTML = stats.daoExp?.toLocaleString("en-US");
+          daoExp.html(stats.daoExp?.toLocaleString("en-US"));
         }
 
         if (healthScore) {
-          healthScore.innerHTML =
-            stats.gitcoinHealthScore?.toLocaleString("en-US") || 0;
+          healthScore.html(
+            stats.gitcoinHealthScore?.toLocaleString("en-US") || 0
+          );
         }
 
         if (snapshotVotingStats) {
-          snapshotVotingStats.innerHTML = stats.snapshotVotingStats;
+          snapshotVotingStats.html(stats.snapshotVotingStats);
         }
 
         if (onChainVotingStats) {
-          onChainVotingStats.innerHTML = stats.onChainVotingStats;
+          onChainVotingStats.html(stats.onChainVotingStats);
         }
 
-        this.toggleScore(false);
+        this.toggleScore(false, wrapperId);
       } else {
-        this.toggleErrorMessage(false);
+        this.toggleErrorMessage(false, wrapperId);
       }
     } else if (totalTries < 30) {
       setTimeout(() => KarmaStats.start(++totalTries, ctx), 250);
