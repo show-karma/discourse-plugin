@@ -29,3 +29,23 @@ plugins:
   User_not_found_message:
     default: Couldn't find stats. Link your wallet to get stats. [[KarmaDaoUrl]]
     client: true
+  Show_proposal_banner:
+    default: Hide
+    type: enum
+    choices:
+      - Discovery
+      - Homepage
+      - All
+      - Hide
+    description: discovery refers to topic list pages
+  Banner_links:
+    default: >-
+      [{"icon":"info-circle","text":"about this site","url":"/faq"},
+      {"icon":"users","text":"meet our staff","url":"/about"},
+      {"icon":"star","text":"your preferences","url":"/my/preferences"}]
+    #json_schema: '{ "type": "array", "format": "table", "uniqueItems": true, "items": { "type": "object", "properties": { "icon": { "type": "string", "minLength": 1 }, "text": { "type": "string", "minLength": 1 }, "url": { "type": "string" } }, "additionalProperties": false } }'
+  svg_icons:
+    default: "user-group"
+    type: "list"
+    list_type: "compact"
+

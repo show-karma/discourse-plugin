@@ -1,0 +1,24 @@
+{{#if showHere}}
+  <div class="welcome-link-banner-wrapper">
+    <div class="wrap welcome-link-banner">
+      <div class="welcome-wrapper">
+        <div class="welcome-content">
+          <h2>{{html-safe (theme-i18n "meta_banner.welcome")}}</h2>
+          <p>{{html-safe (theme-i18n "meta_banner.subtitle")}}</p>
+        </div>
+        <div class="featured-banner-link">
+          {{#each bannerLinks as |bl|}}
+            <div>
+              <a href="{{bl.url}}">
+                <h3>
+                  {{d-icon bl.icon}}
+                  {{bl.text}}
+                </h3>
+              </a>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </div>
+{{/if}}
