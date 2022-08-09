@@ -1,23 +1,38 @@
-{{#if showHere}}
-  <div class="welcome-link-banner-wrapper">
-    <div class="wrap welcome-link-banner">
-      <div class="welcome-wrapper">
-        <div class="welcome-content">
-          <h2>{{html-safe (theme-i18n "meta_banner.welcome")}}</h2>
-          <p>{{html-safe (theme-i18n "meta_banner.subtitle")}}</p>
+{{#if siteSettings.Show_proposal_banner}}
+  <div class="wrap __banner-link-banner">
+    <div class="__banner-wrapper">
+      <div class="__banner-content-wrapper">
+        <div class="__banner-content">
+          <h2>{{siteSettings.Banner_title}}</h2>
+          <p>{{siteSettings.Banner_description}}</p>
         </div>
-        <div class="featured-banner-link">
-          {{#each bannerLinks as |bl|}}
-            <div>
-              <a href="{{bl.url}}">
-                <h3>
-                  {{d-icon bl.icon}}
-                  {{bl.text}}
-                </h3>
-              </a>
+        <div class="links-wrapper">
+          <div class="featured-banner-link">
+            {{#each bannerLinks as |link|}}
+              {{#if link.url}}
+                <div>
+                  <a href="{{link.url}}">
+                    <h3>
+                      {{d-icon link.icon}}
+                      {{link.text}}
+                    </h3>
+                  </a>
+                </div>
+              {{/if}}
+            {{/each}}
+          </div>
+        </div>
+      </div>
+      <div class="active-proposals-wrapper">
+        {{#each proposals as |proposal|}}
+          <div class="proposal">
+            <div class="proposal-title">
+              <div class="proposal-name">{{proposal.name}}</div>
+              <div class="proposal-description">{{proposal.description}}</div>
             </div>
-          {{/each}}
-        </div>
+            <div class="proposal-due-date">{{proposal.dueDate}}</div>
+          </div>
+        {{/each}}
       </div>
     </div>
   </div>

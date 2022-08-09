@@ -8,22 +8,79 @@ export default Component.extend({
   router: service(),
 
   bannerLinks: computed(function () {
-    console.log(this);
-    return JSON.parse(this.siteSettings.Banner_links);
+    const links = [
+      {
+        url: this.siteSettings.Banner_forum_rules_link,
+        icon: this.siteSettings.Banner_forum_rules_icon,
+        text: this.siteSettings.Banner_forum_rules_text,
+      },
+      {
+        url: this.siteSettings.Banner_gov_docs_link,
+        icon: this.siteSettings.Banner_gov_docs_icon,
+        text: this.siteSettings.Banner_gov_docs_text,
+      },
+      {
+        url: this.siteSettings.Banner_custom_link,
+        icon: this.siteSettings.Banner_custom_link_icon,
+        text: this.siteSettings.Banner_custom_link_text,
+      },
+    ];
+    return links;
   }),
 
-  @discourseComputed("router.currentRouteName", "router.currentURL")
-  showHere(currentRouteName, currentURL) {
-    if (this.siteSettings.Show_banner_links === "all") {
-      return true;
-    }
-
-    if (this.siteSettings.Show_banner_links === "discovery") {
-      return currentRouteName.indexOf("discovery") > -1;
-    }
-
-    if (this.siteSettings.Show_banner_links === "homepage") {
-      return currentRouteName == `discovery.${defaultHomepage()}`;
-    }
-  },
+  proposals: computed(() => {
+    const proposals = [
+      {
+        name: "Proposal Name",
+        description: "Proposal description",
+        dueDate: moment(moment().add(10, "day")).format("Y MMMM D"),
+      },
+      {
+        name: "Proposal Name",
+        description: "Proposal description",
+        dueDate: moment(moment().add(10, "day")).format("Y MMMM D"),
+      },
+      {
+        name: "Proposal Name",
+        description: "Proposal description",
+        dueDate: moment(moment().add(10, "day")).format("Y MMMM D"),
+      },
+      {
+        name: "Proposal Name",
+        description: "Proposal description",
+        dueDate: moment(moment().add(10, "day")).format("Y MMMM D"),
+      },
+      {
+        name: "Proposal Name",
+        description: "Proposal description",
+        dueDate: moment(moment().add(10, "day")).format("Y MMMM D"),
+      },
+      {
+        name: "Proposal Name",
+        description: "Proposal description",
+        dueDate: moment(moment().add(10, "day")).format("Y MMMM D"),
+      },
+      {
+        name: "Proposal Name",
+        description: "Proposal description",
+        dueDate: moment(moment().add(10, "day")).format("Y MMMM D"),
+      },
+      {
+        name: "Proposal Name",
+        description: "Proposal description",
+        dueDate: moment(moment().add(10, "day")).format("Y MMMM D"),
+      },
+      {
+        name: "Proposal Name",
+        description: "Proposal description",
+        dueDate: moment(moment().add(10, "day")).format("Y MMMM D"),
+      },
+      {
+        name: "Proposal Name",
+        description: "Proposal description",
+        dueDate: moment(moment().add(10, "day")).format("Y MMMM D"),
+      },
+    ];
+    return proposals;
+  }),
 });
