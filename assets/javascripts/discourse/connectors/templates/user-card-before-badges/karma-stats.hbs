@@ -24,7 +24,7 @@
       </div>
       {{#if siteSettings.User_not_found_message}}
         <div class="__has-error" style="display:none;">
-          {{siteSettings.User_not_found_message}}
+          {{html-safe siteSettings.User_not_found_message}}
         </div>
       {{/if}}
       <div class="__has-score" style="display:none;">

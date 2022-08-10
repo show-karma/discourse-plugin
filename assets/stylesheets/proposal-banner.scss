@@ -4,40 +4,41 @@
     background-position: center center;
   }
 
-  .__banner-link-banner {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
   .__banner-wrapper {
-    padding: 1.5em 3em;
+    padding: 1.5em 3em 0em;
     margin: 2.5em auto;
     box-shadow: shadow("card");
-    width: 100%;
 
     .__banner-content-wrapper {
       margin: 0 auto 2em;
       box-sizing: border-box;
       display: flex;
       flex-wrap: wrap;
-      justify-content: cent;
-      width: 70%;
+      padding: 0 25px;
+      width: 100%;
 
       .featured-banner-link {
         display: flex;
         justify-content: center;
-
-        svg {
-          transition: color 0.25s;
-        }
+        align-items: center;
+        height: 100px;
 
         > div {
-          width: 30%;
-
+          width: 33%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0 20px;
+          &:nth-of-type(2) {
+            border-right: 1px solid rgba(0, 0, 0, 0.125);
+            border-left: 1px solid rgba(0, 0, 0, 0.125);
+          }
           svg {
             display: block;
             font-size: 1.75em;
             margin: 0 auto 0.25em auto;
+            color: rgba(0, 0, 0, 0.55);
           }
 
           a {
@@ -65,8 +66,16 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
+      transition: ease-in-out 300ms;
+      overflow-y: hidden;
+      &:not(.opened) {
+        overflow-y: hidden;
+      }
       .proposal {
-        cursor: pointer;
+        word-wrap: break-word;
+        word-break: break-word;
+        width: 100%;
+        overflow-y: hidden;
         user-select: none;
         &:hover {
           background-color: rgba(0, 0, 0, 0.05);
@@ -75,18 +84,44 @@
           border-bottom: 1px dashed rgba(0, 0, 0, 0.125);
         }
         padding: 1.5rem 1rem 0.5rem;
-        width: 100%;
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
         &-title {
-          width: max-content;
+          width: 100%;
+        }
+        &-description {
+          width: 100%;
         }
         &-due-date {
+          margin-top: 1em;
           display: flex;
           align-items: flex-end;
           justify-content: flex-end;
+          font-size: 0.8em;
+          font-weight: bold;
+          color: rgba(0, 0, 0, 0.3);
         }
+      }
+    }
+
+    .reveal-more-button {
+      text-align: center;
+      cursor: pointer;
+      transform: rotateZ(180deg);
+      &:hover {
+        svg {
+          transform: translateY(3px);
+          padding-top: 13px;
+          margin-bottom: -3px;
+        }
+      }
+      &:not(.opened) {
+        transform: rotateZ(0);
+      }
+      svg {
+        transition: ease-in-out 200ms;
+        padding: 10px;
       }
     }
 
@@ -138,7 +173,7 @@
       .featured-banner-link {
         padding: 0.5em 0.5em 1.25em;
         > div {
-            width: 100% !important;
+          width: 100% !important;
         }
       }
     }

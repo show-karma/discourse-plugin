@@ -1,5 +1,6 @@
 import gql from "./fetcher";
-import { history } from "./queries";
+import { history, proposal } from "./queries";
+import { parseMdLink } from "../../parse-md-link";
 
 const subgraphUrl = new URL(
   "https://api.thegraph.com/subgraphs/name/show-karma/dao-on-chain-voting"
@@ -17,7 +18,7 @@ function parseVotes(votes = []) {
     const { proposal } = vote;
     array.push({
       voteMethod: "On-chain",
-      proposal: proposal?.description,
+      proposal: parseMdLink(proposal?.description).substring(0, 350) + "...",
       choice: vote?.support,
       solution: vote?.solution,
       executed: moment.unix(proposal.timestamp).format("MMMM D, YYYY"),
@@ -45,6 +46,28 @@ export async function fetchOnChainProposalVotes(
       return parseVotes(votes);
     }
 
+    return [];
+  } catch (error) {
+    throw error;
+    //
+  }
+}
+
+const parseProposals = (proposals = []) =>
+  proposals.map((proposal) => ({
+    type: "On-chain",
+    title: parseMdLink(proposal.title),
+    voteCount: proposal.votes.length,
+    endsAt: moment.unix(proposal.endsAt).format("MMMM D, YYYY"),
+  }));
+
+export async function fetchActiveOnChainProposals(daoNames) {
+  try {
+    const proposalsQuery = proposal.onChain.proposal(daoNames);
+    const { proposals } = await gql.query(subgraphUrl, proposalsQuery);
+    if (proposals && Array.isArray(proposals)) {
+      return parseProposals(proposals);
+    }
     return [];
   } catch (error) {
     throw error;

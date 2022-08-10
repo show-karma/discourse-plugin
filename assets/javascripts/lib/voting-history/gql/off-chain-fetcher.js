@@ -1,5 +1,6 @@
 import gql from "./fetcher";
-import { history } from "./queries";
+import { history, proposal } from "./queries";
+import { parseMdLink } from "../../parse-md-link";
 
 const subgraphUrl = new URL("https://hub.snapshot.org/graphql");
 
@@ -15,7 +16,7 @@ function parseVotes(votes = []) {
     const { proposal } = vote;
     array.push({
       voteMethod: "Off-chain",
-      proposal: proposal?.title,
+      proposal: parseMdLink(proposal?.title).substring(0, 350) + "...",
       choice: Array.isArray(vote.choice)
         ? "Multiple"
         : proposal.choices[vote.choice - 1],
@@ -42,6 +43,28 @@ export async function fetchOffChainProposalVotes(
 
     if (votes && Array.isArray(votes)) {
       return parseVotes(votes);
+    }
+    return [];
+  } catch (error) {
+    throw error;
+    //
+  }
+}
+
+const parseProposals = (proposals = []) =>
+  proposals.map((proposal) => ({
+    type: "Off-chain",
+    title: parseMdLink(proposal.title),
+    voteCount: proposal.votes,
+    endsAt: moment.unix(proposal.endsAt).format("MMMM D, YYYY"),
+  }));
+
+export async function fetchActiveOffChainProposals(daoNames) {
+  try {
+    const proposalsQuery = proposal.offChain.proposal(daoNames);
+    const { proposals } = await gql.query(subgraphUrl, proposalsQuery);
+    if (proposals && Array.isArray(proposals)) {
+      return parseProposals(proposals);
     }
     return [];
   } catch (error) {

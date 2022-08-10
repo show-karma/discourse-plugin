@@ -23,17 +23,36 @@
           </div>
         </div>
       </div>
-      <div class="active-proposals-wrapper">
+      <div
+        class={{concat "wrap active-proposals-wrapper" " " openClass}}
+        style={{concat "height: " bannerHeight ";"}}
+      >
         {{#each proposals as |proposal|}}
           <div class="proposal">
             <div class="proposal-title">
-              <div class="proposal-name">{{proposal.name}}</div>
-              <div class="proposal-description">{{proposal.description}}</div>
+              <div class="proposal-description">{{html-safe
+                  proposal.title
+                }}</div>
             </div>
-            <div class="proposal-due-date">{{proposal.dueDate}}</div>
+            <div class="proposal-due-date">
+              {{proposal.type}}
+              -
+              {{proposal.voteCount}}
+              votes - ends at
+              {{proposal.endsAt}}</div>
           </div>
         {{/each}}
       </div>
+      {{#if (gte proposals.length 2)}}
+        <div
+          class={{concat "reveal-more-button" " " openClass}}
+          onclick={{toggleBanner}}
+        >
+          {{d-icon "chevron-down"}}
+        </div>
+      {{else}}
+        <h4 style="text-align: center"> No active proposals found </h4>
+      {{/if}}
     </div>
   </div>
 {{/if}}
