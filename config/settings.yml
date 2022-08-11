@@ -30,7 +30,7 @@ plugins:
     default: Couldn't find stats. Link your wallet to get stats. [[KarmaDaoUrl]]
     client: true
   Show_proposal_banner:
-    default: false
+    default: true
     client: true
   Banner_title:
     default: "Active Proposals"
@@ -48,7 +48,7 @@ plugins:
     default: Rules
     client: true
   Banner_forum_rules_icon:
-    default: "user-group"
+    default: "info-circle"
     client: true
   Banner_gov_docs_link:
     default: ""
@@ -57,18 +57,14 @@ plugins:
     default: Gov Docs
     client: true
   Banner_gov_docs_icon:
-    default: "user-group"
+    default: "palette"
     client: true
   Banner_custom_link:
     default: ""
     client: true
   Banner_custom_link_text:
-    default: ""
+    default: "Custom Link"
     client: true
   Banner_custom_link_icon:
-    default: "user-group"
+    default: "star"
     client: true
-  svg_icons:
-    default: "user-group"
-    type: "list"
-    list_type: "compact"
