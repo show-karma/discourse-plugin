@@ -26,7 +26,8 @@ $breakpoint-xs: 348px !default;
       40% {
         transform: translateY(-10px);
       }
-      75%,100% {
+      75%,
+      100% {
         transform: translateY(0);
       }
     }
