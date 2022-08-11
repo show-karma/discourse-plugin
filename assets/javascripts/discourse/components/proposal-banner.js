@@ -13,7 +13,9 @@ export default Component.extend({
 
   proposals: [],
 
-  bannerHeight: "120px",
+  bannerHeight: "0",
+
+  fetched: false,
 
   @action
   toggleBanner() {
@@ -34,6 +36,7 @@ export default Component.extend({
       .concat(offChain)
       .sort((a, b) => (moment(a.endsAt).isBefore(moment(b.endsAt)) ? 1 : -1));
     set(this, "proposals", proposals);
+    set(this, "fetched", true);
   },
 
   setBannerHeight() {

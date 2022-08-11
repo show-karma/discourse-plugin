@@ -23,6 +23,21 @@
           </div>
         </div>
       </div>
+      <div style="margin-bottom:2em">
+        {{#if (not fetched)}}
+          <div class="proposals-loading" style="width:100%;text-align:center">
+            {{d-icon "circle"}}
+            {{d-icon "circle"}}
+            {{d-icon "circle"}}
+          </div>
+        {{else}}
+          {{#if (not proposals.length)}}
+            <h4 style="text-align:center;">
+              No active proposals found.
+            </h4>
+          {{/if}}
+        {{/if}}
+      </div>
       <div
         class={{concat "wrap active-proposals-wrapper" " " openClass}}
         style={{concat "height: " bannerHeight ";"}}
@@ -42,6 +57,7 @@
               {{proposal.endsAt}}</div>
           </div>
         {{/each}}
+
       </div>
       {{#if (gte proposals.length 2)}}
         <div
@@ -50,8 +66,6 @@
         >
           {{d-icon "chevron-down"}}
         </div>
-      {{else}}
-        <h4 style="text-align: center"> No active proposals found </h4>
       {{/if}}
     </div>
   </div>

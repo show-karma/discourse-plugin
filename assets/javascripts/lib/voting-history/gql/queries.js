@@ -2,8 +2,11 @@ function inStatement(array) {
   return `["${array.join('","')}"]`;
 }
 function yesterdayUTC() {
-  return Math.floor(Date.now() / 1000) - 60 * 60 * 24 * 10;
+  return (
+    Math.floor(new Date().setUTCHours(0, 0, 0, 0) / 1000)
+  );
 }
+
 export const proposal = {
   onChain: {
     proposal: (daoNames = [], amount = 100) => `query Proposals {
