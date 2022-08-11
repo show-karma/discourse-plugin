@@ -1,0 +1,80 @@
+{{#if (and siteSettings.Show_proposal_banner shouldShow)}}
+  <div class="wrap __banner-link-banner">
+    <div class="__banner-wrapper">
+      <div class="__banner-content-wrapper">
+        <div class="__banner-content">
+          <h2>{{siteSettings.Banner_title}}</h2>
+          <p>{{siteSettings.Banner_description}}</p>
+        </div>
+        <div class="links-wrapper">
+          <div class="featured-banner-link">
+            {{#each bannerLinks as |link|}}
+              {{#if link.url}}
+                <div>
+                  <a href={{link.url}}>
+                    <h3>
+                      {{d-icon link.icon}}
+                      <span>{{link.text}}</span>
+                    </h3>
+                  </a>
+                </div>
+              {{/if}}
+            {{/each}}
+          </div>
+        </div>
+      </div>
+      <div style="margin-bottom:2em">
+        {{#if fetched}}
+          {{#unless proposals.length}}
+            <h4 style="text-align:center;">
+              No active proposals found.
+            </h4>
+          {{/unless}}
+        {{else}}
+          <div class="proposals-loading" style="width:100%;text-align:center">
+            {{d-icon "circle"}}
+            {{d-icon "circle"}}
+            {{d-icon "circle"}}
+          </div>
+        {{/if}}
+      </div>
+      <div
+        class={{html-safe
+          (concat "wrap active-proposals-wrapper" " " openClass)
+        }}
+        style={{html-safe (concat "height: " bannerHeight ";")}}
+      >
+        {{#each proposals as |proposal|}}
+          <div class="proposal">
+            <div class="proposal-title">
+              <div class="proposal-description">
+                {{html-safe proposal.title}}
+              </div>
+            </div>
+            <div class="proposal-due-date">
+              {{proposal.type}}
+              |
+              {{proposal.voteCount}}
+              votes | Due date:
+              {{proposal.endsAt}}
+              {{#if proposal.dateDescription}}
+                -
+                {{proposal.dateDescription}}
+              {{/if}}
+            </div>
+          </div>
+        {{/each}}
+
+      </div>
+      {{#if (gte proposals.length 2)}}
+        <button
+          class={{concat "reveal-more-button" " " openClass}}
+          onclick={{toggleBanner}}
+          type="button"
+        >
+          {{d-icon "chevron-down"}}
+        </button>
+      {{/if}}
+    </div>
+  </div>
+{{/if}}

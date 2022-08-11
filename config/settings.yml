@@ -29,3 +29,46 @@ plugins:
   User_not_found_message:
     default: Couldn't find stats. Link your wallet to get stats. [[KarmaDaoUrl]]
     client: true
+  Show_proposal_banner:
+    default: false
+    client: true
+  Banner_title:
+    default: "Active Proposals"
+    client: true
+  Banner_description:
+    default: "See the latest active proposals"
+    client: true
+  Banner_days_ago_limit:
+    default: 1
+    client: true
+  Banner_forum_rules_link:
+    default: ""
+    client: true
+  Banner_forum_rules_text:
+    default: Rules
+    client: true
+  Banner_forum_rules_icon:
+    default: "user-group"
+    client: true
+  Banner_gov_docs_link:
+    default: ""
+    client: true
+  Banner_gov_docs_text:
+    default: Gov Docs
+    client: true
+  Banner_gov_docs_icon:
+    default: "user-group"
+    client: true
+  Banner_custom_link:
+    default: ""
+    client: true
+  Banner_custom_link_text:
+    default: ""
+    client: true
+  Banner_custom_link_icon:
+    default: "user-group"
+    client: true
+  svg_icons:
+    default: "user-group"
+    type: "list"
+    list_type: "compact"

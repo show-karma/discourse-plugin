@@ -11,6 +11,7 @@
 enabled_site_setting :Enable_Karma_plugin
 
 register_asset "stylesheets/karma-score.scss"
+register_asset "stylesheets/proposal-banner.scss"
 
 after_initialize do
 end
