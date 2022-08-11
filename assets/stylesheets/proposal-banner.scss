@@ -139,6 +139,9 @@ $breakpoint-xs: 348px !default;
     .reveal-more-button {
       text-align: center;
       cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
       transform: rotateZ(180deg);
       &:hover {
         svg {
