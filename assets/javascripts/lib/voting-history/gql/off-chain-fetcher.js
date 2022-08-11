@@ -1,5 +1,5 @@
 import gql from "./fetcher";
-import { history, proposal } from "./queries";
+import { history, proposal as proposalQuery } from "./queries";
 import { parseMdLink } from "../../parse-md-link";
 
 const subgraphUrl = new URL("https://hub.snapshot.org/graphql");
@@ -65,7 +65,7 @@ const parseProposals = (proposals = []) =>
 
 export async function fetchActiveOffChainProposals(daoNames, daysAgo) {
   try {
-    const proposalsQuery = proposal.offChain.proposal(
+    const proposalsQuery = proposalQuery.offChain.proposal(
       daoNames,
       undefined,
       daysAgo

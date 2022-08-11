@@ -1,8 +1,7 @@
 import Component from "@ember/component";
 import discourseComputed from "discourse-common/utils/decorators";
 import { inject as service } from "@ember/service";
-import { computed, action, set } from "@ember/object";
-import { defaultHomepage } from "discourse/lib/utilities";
+import { action, computed, set } from "@ember/object";
 import { fetchActiveOnChainProposals } from "../../lib/voting-history/gql/on-chain-fetcher";
 import { fetchActiveOffChainProposals } from "../../lib/voting-history/gql/off-chain-fetcher";
 
@@ -61,8 +60,8 @@ export default Component.extend({
     set(this, "bannerHeight", bannerHeight + 10 + "px");
   },
 
-  @discourseComputed("router.currentRouteName", "router.currentURL")
-  shouldShow(routeName, currentUrl) {
+  @discourseComputed("router.currentURL")
+  shouldShow(currentUrl) {
     return currentUrl === "/";
   },
 

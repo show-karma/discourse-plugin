@@ -1,5 +1,5 @@
 import gql from "./fetcher";
-import { history, proposal } from "./queries";
+import { history, proposal as proposalQuery } from "./queries";
 import { parseMdLink } from "../../parse-md-link";
 
 const subgraphUrl = new URL(
@@ -67,7 +67,7 @@ const parseProposals = (proposals = []) =>
 
 export async function fetchActiveOnChainProposals(daoNames, daysAgo) {
   try {
-    const proposalsQuery = proposal.onChain.proposal(
+    const proposalsQuery = proposalQuery.onChain.proposal(
       daoNames,
       undefined,
       daysAgo
