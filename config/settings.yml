@@ -39,10 +39,10 @@ plugins:
     default: "See the latest active proposals"
     client: true
   Banner_days_ago_limit:
-    default: 1
+    default: 100
     client: true
   Banner_forum_rules_link:
-    default: ""
+    default: "/"
     client: true
   Banner_forum_rules_text:
     default: Rules
@@ -51,7 +51,7 @@ plugins:
     default: "info-circle"
     client: true
   Banner_gov_docs_link:
-    default: ""
+    default: "/"
     client: true
   Banner_gov_docs_text:
     default: Gov Docs
@@ -60,7 +60,7 @@ plugins:
     default: "palette"
     client: true
   Banner_custom_link:
-    default: ""
+    default: "/"
     client: true
   Banner_custom_link_text:
     default: "Custom Link"
