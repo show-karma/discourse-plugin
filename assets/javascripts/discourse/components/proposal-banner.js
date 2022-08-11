@@ -58,7 +58,7 @@ export default Component.extend({
       }
     }
 
-    set(this, "bannerHeight", bannerHeight + "px");
+    set(this, "bannerHeight", bannerHeight + 10 + "px");
   },
 
   @discourseComputed("router.currentRouteName", "router.currentURL")

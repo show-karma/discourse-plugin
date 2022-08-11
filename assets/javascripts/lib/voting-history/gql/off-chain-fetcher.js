@@ -57,6 +57,10 @@ const parseProposals = (proposals = []) =>
     title: parseMdLink(proposal.title),
     voteCount: proposal.votes,
     endsAt: moment.unix(proposal.endsAt).format("MMMM D, YYYY"),
+    dateDescription:
+      Date.now() / 1000 > +proposal.endsAt
+        ? `${moment().diff(moment.unix(proposal.endsAt), "days")} days ago`
+        : 0,
   }));
 
 export async function fetchActiveOffChainProposals(daoNames, daysAgo) {

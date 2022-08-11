@@ -51,10 +51,16 @@
             </div>
             <div class="proposal-due-date">
               {{proposal.type}}
-              -
+              |
               {{proposal.voteCount}}
-              votes - Due date:
-              {{proposal.endsAt}}</div>
+              votes | Due date:
+              {{proposal.endsAt}}
+              {{#if proposal.dateDescription}}
+                -
+                {{proposal.dateDescription}}
+              {{/if}}
+              {{log proposal}}
+            </div>
           </div>
         {{/each}}
 
