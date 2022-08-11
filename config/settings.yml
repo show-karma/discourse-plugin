@@ -38,6 +38,9 @@ plugins:
   Banner_description:
     default: "See the latest active proposals"
     client: true
+  Banner_days_ago_limit:
+    default: 1
+    client: true
   Banner_forum_rules_link:
     default: ""
     client: true
@@ -69,4 +72,3 @@ plugins:
     default: "user-group"
     type: "list"
     list_type: "compact"
-

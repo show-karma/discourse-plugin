@@ -23,3 +23,4 @@ en:
     Banner_custom_link: "Link to the custom button (include https://)"
     Banner_custom_link_icon: "Icon to display"
     Banner_custom_link_text: "Text to display (will be hidden if no text)"
+    Banner_days_ago_limit: "Limit of days to fetch proposals. If greater than 1, will show ended proposals."

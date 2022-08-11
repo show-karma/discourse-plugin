@@ -61,9 +61,13 @@ const parseProposals = (proposals = []) =>
     endsAt: moment.unix(proposal.endsAt).format("MMMM D, YYYY"),
   }));
 
-export async function fetchActiveOnChainProposals(daoNames) {
+export async function fetchActiveOnChainProposals(daoNames, daysAgo) {
   try {
-    const proposalsQuery = proposal.onChain.proposal(daoNames);
+    const proposalsQuery = proposal.onChain.proposal(
+      daoNames,
+      undefined,
+      daysAgo
+    );
     const { proposals } = await gql.query(subgraphUrl, proposalsQuery);
     if (proposals && Array.isArray(proposals)) {
       return parseProposals(proposals);

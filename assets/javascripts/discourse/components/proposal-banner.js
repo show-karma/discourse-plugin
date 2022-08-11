@@ -25,13 +25,14 @@ export default Component.extend({
 
   async fetchDataProposals() {
     const daoNames = [this.siteSettings.DAO_name];
+    const { Banner_days_ago_limit: daysAgo } = this.siteSettings;
 
     if (!/\.eth$/g.test(daoNames[0])) {
       daoNames.push(`${daoNames[0]}.eth`);
     }
 
-    const onChain = await fetchActiveOnChainProposals(daoNames);
-    const offChain = await fetchActiveOffChainProposals(daoNames);
+    const onChain = await fetchActiveOnChainProposals(daoNames, daysAgo);
+    const offChain = await fetchActiveOffChainProposals(daoNames, daysAgo);
     const proposals = onChain
       .concat(offChain)
       .sort((a, b) => (moment(a.endsAt).isBefore(moment(b.endsAt)) ? 1 : -1));
