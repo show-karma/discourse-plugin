@@ -1,4 +1,4 @@
-{{#if siteSettings.Show_proposal_banner}}
+{{#if (and siteSettings.Show_proposal_banner shouldShow)}}
   <div class="wrap __banner-link-banner">
     <div class="__banner-wrapper">
       <div class="__banner-content-wrapper">
@@ -14,7 +14,7 @@
                   <a href="{{link.url}}">
                     <h3>
                       {{d-icon link.icon}}
-                      {{link.text}}
+                      <span>{{link.text}}</span>
                     </h3>
                   </a>
                 </div>

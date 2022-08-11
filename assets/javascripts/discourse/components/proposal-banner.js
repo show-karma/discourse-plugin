@@ -42,7 +42,11 @@ export default Component.extend({
 
     if (el.length) {
       if (this.openClass !== "opened") {
-        bannerHeight = el[0]?.clientHeight || 0;
+        bannerHeight = el[0]?.clientHeight
+          ? el[0]?.clientHeight > 115
+            ? 115
+            : el[0]?.clientHeight
+          : 0;
       } else {
         el.each((_, item) => {
           bannerHeight += item.clientHeight;
@@ -53,8 +57,9 @@ export default Component.extend({
     set(this, "bannerHeight", bannerHeight + "px");
   },
 
-  didInsertElement() {
-    this._super(...arguments);
+  @discourseComputed("router.currentRouteName", "router.currentURL")
+  shouldShow(routeName, currentUrl) {
+    return currentUrl === "/";
   },
 
   didUpdate() {

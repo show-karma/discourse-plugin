@@ -18,7 +18,7 @@ function parseVotes(votes = []) {
     const { proposal } = vote;
     array.push({
       voteMethod: "On-chain",
-      proposal: parseMdLink(proposal?.description).substring(0, 350) + "...",
+      proposal: parseMdLink(proposal?.description),
       choice: vote?.support,
       solution: vote?.solution,
       executed: moment.unix(proposal.timestamp).format("MMMM D, YYYY"),
