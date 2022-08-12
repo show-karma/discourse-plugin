@@ -3,7 +3,9 @@ export function dateDiff(date) {
   let diff =
     now >= +date ? `${moment().diff(moment.unix(date), "hour")}` : false;
 
-  if (!diff) return undefined;
+  if (!diff) {
+    return undefined;
+  }
 
   let unit = "hours";
   if (diff && diff >= 24) {
