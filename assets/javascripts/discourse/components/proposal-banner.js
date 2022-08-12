@@ -12,6 +12,8 @@ export default Component.extend({
 
   proposals: [],
 
+  availableToShow: 0,
+
   bannerHeight: "0",
 
   fetched: false,
@@ -37,6 +39,7 @@ export default Component.extend({
       .sort((a, b) => (moment(a.endsAt).isBefore(moment(b.endsAt)) ? 1 : -1));
     set(this, "proposals", proposals);
     set(this, "fetched", true);
+    set(this, "availableToShow", proposals.length - 1);
   },
 
   setBannerHeight() {

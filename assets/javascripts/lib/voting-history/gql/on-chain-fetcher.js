@@ -1,6 +1,7 @@
 import gql from "./fetcher";
 import { history, proposal as proposalQuery } from "./queries";
 import { parseMdLink } from "../../parse-md-link";
+import { dateDiff } from "../../date-diff";
 
 const subgraphUrl = new URL(
   "https://api.thegraph.com/subgraphs/name/show-karma/dao-on-chain-voting"
@@ -59,10 +60,7 @@ const parseProposals = (proposals = []) =>
     title: parseMdLink(proposal.title),
     voteCount: proposal.votes.length,
     endsAt: moment.unix(proposal.endsAt).format("MMMM D, YYYY"),
-    dateDescription:
-      Date.now() / 1000 > +proposal.endsAt
-        ? `${moment().diff(moment.unix(proposal.endsAt), "days")} days ago`
-        : 0,
+    dateDescription: dateDiff(proposal.endsAt),
   }));
 
 export async function fetchActiveOnChainProposals(daoNames, daysAgo) {
