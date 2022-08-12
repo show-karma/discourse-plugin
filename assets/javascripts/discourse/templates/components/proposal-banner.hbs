@@ -47,7 +47,7 @@
         {{#each proposals as |proposal|}}
           <div class="proposal">
             <div class="proposal-title">
-              <div class="proposal-description">
+              <div class="proposal-description t-ellipsis">
                 {{html-safe proposal.title}}
               </div>
             </div>
@@ -73,6 +73,9 @@
           type="button"
         >
           {{d-icon "chevron-down"}}
+          {{#unless openClass}}
+            <div class="available-to-show">{{availableToShow}} hidden</div>
+          {{/unless}}
         </button>
       {{/if}}
     </div>
