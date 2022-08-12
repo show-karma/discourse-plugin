@@ -4,7 +4,7 @@ function inStatement(array) {
 function yesterdayUTC(daysAgo = 1) {
   return moment
     .unix(Math.floor(new Date().setUTCHours(0, 0, 0, 0) / 1000))
-    .subtract(daysAgo > 1 ? daysAgo - 1 : 0, "days")
+    .subtract(daysAgo >= 0 ? daysAgo : 0, "days")
     .unix();
 }
 
