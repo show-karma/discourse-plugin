@@ -1,6 +1,6 @@
 {{#if siteSettings.Enable_Karma_plugin}}
   <div id="__karma-stats-summary">
-    <input hidden id="__dao-username" readonly>
+    <input hidden id="__dao-username" readonly />
     <div class="__wrapper">
       <div style="display:flex;align-items:center;margin:10px 0;">
         {{#if siteSettings.Show_Karma_logo}}
@@ -14,7 +14,7 @@
               src="https://www.showkarma.xyz/icons/karma-logo.svg"
               height="28"
               width="28"
-            >
+            />
           </a>
         {{/if}}
         <b>Governance Stats</b>
@@ -93,10 +93,10 @@
                   src="https://www.showkarma.xyz/icons/karma-logo.svg"
                   height="28"
                   width="28"
-                >
+                />
               </a>
             {{/if}}
-            <b>Voting History</b><br>
+            <b>Voting History</b><br />
           </div>
           <small class="text-disabled">
             Showing latest
@@ -107,6 +107,9 @@
             <div class="loading">Loading voting history</div>
           </div>
         </div>
+      {{/if}}
+      {{#if siteSettings.Show_vote_reason_form}}
+        {{vote-reason-form}}
       {{/if}}
     </div>
   </div>
