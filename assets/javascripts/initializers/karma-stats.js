@@ -9,7 +9,9 @@ function bootstrap(_, ctx) {
       const elTrg = $(wrapperId);
       if (!showing && elTrg.length) {
         KarmaStats.start(0, ctx, wrapperId).then((profile) => {
-          VotingHistory.start(profile, ctx, wrapperId);
+          VotingHistory.start(profile, ctx, wrapperId).then((votes) => {
+            VotingHistory.render(votes);
+          });
         });
       }
       showing = !!elTrg.length;
@@ -18,16 +20,11 @@ function bootstrap(_, ctx) {
     setInterval(karmaStats, 100);
   }
 
-  function summary() {
-    release("#__karma-stats-summary");
-  }
-
   function userCard() {
     release(".__karma-stats");
   }
 
   $(() => {
-    summary();
     userCard();
   });
 }

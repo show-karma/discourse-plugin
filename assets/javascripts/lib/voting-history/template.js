@@ -21,7 +21,7 @@ function getIcon(choice = "not vote") {
   return voteIcon.yes;
 }
 
-function renderVote(vote) {
+export function renderVote(vote) {
   const voteText = (+vote === 0 ? "No" : +vote === 1) ? "Yes" : vote;
   return `<img src="${getIcon(voteText)}" alt="check-circle">
   <p class="vote-choice">${voteText ?? "Didn't vote"}</p>`;

@@ -1,0 +1,38 @@
+{{#if (gt siteSettings.Show_voting_history 0)}}
+  <div id="__karma-voting-wrapper">
+    <div style="display:flex;align-items:center;margin:10px 0;">
+      {{#if siteSettings.Show_Karma_logo}}
+        <a
+          alt="Show Karma App"
+          href={{concat
+            "https://showkarma.xyz/profile/"
+            this.currentUser.username
+          }}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src="https://www.showkarma.xyz/icons/karma-logo.svg"
+            height="28"
+            width="28"
+          />
+        </a>
+      {{/if}}
+      <b>Voting History</b><br />
+    </div>
+    <small class="text-disabled">
+      Showing latest {{profile.ensName}}'s
+      {{siteSettings.Show_voting_history}}
+      votes
+    </small>
+    <div id="__karma-voting-history" class="w-full profile">
+      {{#if votes.length}}
+        {{#each votes as |vote|}}
+          {{vote-item vote=vote profile=profile}}
+        {{/each}}
+      {{else}}
+        <div class="loading">Loading voting history</div>
+      {{/if}}
+    </div>
+  </div>
+{{/if}}

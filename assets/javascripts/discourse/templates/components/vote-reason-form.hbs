@@ -1,26 +1,28 @@
-<button type="button" id="__karma-send-reason-btn" onClick={{toggleModal}}>Send
-  reason</button>
-<div id="__karma-vote-form-modal">
-  <div class="backdrop" onClick={{toggleModal}}> </div>
-  <form onSubmit={{submit}}>
-    <div class="modal-content">
-      <div class="form-reason">
-        <label for="reason">Submit a reason:</label>
-        <textarea
-          name="reason"
-          placeholder="I voted FOR, because I believe this is a good proposal."
-          value={{form.reason}}
-          onkeyup={{setReason}}
-        ></textarea><br />
+{{#if siteSettings.Show_vote_reason_form}}
+  <button type="button" id="__karma-send-reason-btn" onClick={{toggleModal}}>Set
+    reason</button>
+  <div id="__karma-vote-form-modal" style="display:none">
+    <div class="backdrop" onClick={{toggleModal}}> </div>
+    <form onSubmit={{submit}}>
+      <div class="modal-content">
+        <div class="form-reason">
+          <label for="reason">Submit a reason:</label>
+          <textarea
+            name="reason"
+            placeholder="I voted FOR, because I believe this is a good proposal."
+            value={{form.reason}}
+            onkeyup={{setReason}}
+          ></textarea><br />
+        </div>
+        <div class="footer">
+          <button
+            type="button"
+            class="danger"
+            onClick={{toggleModal}}
+          >Cancel</button>
+          <button type="submit" class="success">Send</button>
+        </div>
       </div>
-      <div class="footer">
-        <button
-          type="button"
-          class="danger"
-          onClick={{toggleModal}}
-        >Cancel</button>
-        <button type="submit" class="success">Send</button>
-      </div>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
+{{/if}}

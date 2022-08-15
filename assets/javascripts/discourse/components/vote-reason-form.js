@@ -8,6 +8,10 @@ export default Component.extend({
 
   form: { reason: "", user: "" },
 
+  profile: {},
+
+  vote: {},
+
   @action
   toggleModal() {
     $("#__karma-vote-form-modal").toggle();
