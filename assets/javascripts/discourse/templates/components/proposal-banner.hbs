@@ -61,10 +61,11 @@
                 -
                 {{proposal.dateDescription}}
               {{/if}}
+              |
+              {{vote-button proposal=proposal}}
             </div>
           </div>
         {{/each}}
-
       </div>
       {{#if (gte proposals.length 2)}}
         <button

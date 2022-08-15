@@ -115,6 +115,10 @@ $color-black-alpha-2: rgba(0, 0, 0, 0.3) !default;
         &:not(:last-of-type) {
           border-bottom: 1px dashed $color-black-alpha-1;
         }
+        .btn-link {
+          margin-left: 5px;
+          border: 0px;
+        }
         padding: 1.5rem 1rem 0.5rem;
         display: flex;
         justify-content: space-between;

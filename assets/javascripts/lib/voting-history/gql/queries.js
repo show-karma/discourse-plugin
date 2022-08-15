@@ -21,6 +21,7 @@ export const proposal = {
         title: description
         endsAt: timestamp
         votes {user {id}}
+        organization {id}
       }
     }`,
   },
@@ -35,6 +36,7 @@ export const proposal = {
         title
         endsAt: end
         votes
+        space {id}
       }
     }`,
   },
