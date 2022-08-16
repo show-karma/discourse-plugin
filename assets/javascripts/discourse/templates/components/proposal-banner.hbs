@@ -61,10 +61,13 @@
                 -
                 {{proposal.dateDescription}}
               {{/if}}
+              {{#if (eq proposal.type "Off-chain")}}
+                |
+                {{vote-button proposal=proposal}}
+              {{/if}}
             </div>
           </div>
         {{/each}}
-
       </div>
       {{#if (gte proposals.length 2)}}
         <button

@@ -23,4 +23,4 @@ en:
     Banner_custom_link: "Link to the custom button (include https://)"
     Banner_custom_link_icon: "Icon to display"
     Banner_custom_link_text: "Text to display (will be hidden if no text)"
-    Banner_days_ago_limit: "Show proposals from past X days. If not set, only shows active proposals"
+    Banner_past_proposal_days: "Show proposals from past X days. If not set, only shows active proposals"
