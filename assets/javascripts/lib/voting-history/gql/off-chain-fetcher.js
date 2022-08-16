@@ -54,11 +54,13 @@ export async function fetchOffChainProposalVotes(
 
 const parseProposals = (proposals = []) =>
   proposals.map((proposal) => ({
+    id: proposal.id,
     type: "Off-chain",
     title: parseMdLink(proposal.title),
     voteCount: proposal.votes,
     endsAt: moment.unix(proposal.endsAt).format("MMMM D, YYYY"),
     dateDescription: dateDiff(proposal.endsAt),
+    snapshotId: proposal.space.id,
   }));
 
 export async function fetchActiveOffChainProposals(daoNames, daysAgo) {
