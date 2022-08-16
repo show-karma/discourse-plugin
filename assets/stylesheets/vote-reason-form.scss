@@ -4,6 +4,12 @@ $breakpoint-xs: 348px !default;
 $color-black-alpha-1: rgba(0, 0, 0, 0.125) !default;
 $color-black-alpha-2: rgba(0, 0, 0, 0.3) !default;
 
+.karma-form-submitted-message {
+  padding: 0 2em;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.7);
+  font-size: 1.3em;
+}
 button.k-btn {
   transition: 200ms ease-in-out;
   box-shadow: 0 0 0.2em $color-black-alpha-1;
@@ -30,7 +36,7 @@ button.k-btn {
   }
 }
 
-#__karma-vote-form-modal {
+.__karma-vote-form-modal {
   transition: 200ms ease-in-out;
   position: fixed;
   top: 0;

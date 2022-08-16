@@ -16,6 +16,7 @@ function parseVotes(votes = []) {
   votes.forEach((vote) => {
     const { proposal } = vote;
     array.push({
+      proposalId: proposal.id,
       voteMethod: "Off-chain",
       proposal: parseMdLink(proposal?.title),
       choice: Array.isArray(vote.choice)

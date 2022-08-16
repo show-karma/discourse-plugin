@@ -7,11 +7,19 @@
     >
       Submit a reason
     </button>
+  {{/unless}}
+
+  <div
+    id={{modalId}}
+    class="__karma-vote-form-modal"
+    style="display:none;opacity:0;transform:translateY(20px)"
+  >
+    <div class="backdrop" onClick={{toggleModal}}>
+    </div>
     {{#if loading}}
+      {{karma-loading message="Submitting data, please wait."}}
     {{else}}
-      <div id="__karma-vote-form-modal" style="display:none">
-        <div class="backdrop" onClick={{toggleModal}}>
-        </div>
+      {{#unless message.length}}
         <form onSubmit={{submit}}>
           <div class="modal-content">
             <div class="form-reason">
@@ -40,7 +48,13 @@
             </div>
           </div>
         </form>
-      </div>
+      {{else}}
+        <div class="karma-form-submitted-message">
+          <p>
+            {{message}}
+          </p>
+        </div>
+      {{/unless}}
     {{/if}}
-  {{/unless}}
+  </div>
 {{/if}}

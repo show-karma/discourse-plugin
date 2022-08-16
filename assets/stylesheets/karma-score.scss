@@ -85,3 +85,30 @@
     }
   }
 }
+
+.karma-loading {
+  .svg-icon {
+    animation: bounce infinite 1s;
+    &:nth-of-type(2) {
+      animation-delay: 100ms;
+    }
+    &:nth-of-type(3) {
+      animation-delay: 200ms;
+    }
+    font-size: 1em !important;
+    color: var(--success);
+  }
+
+  @keyframes bounce {
+    0% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-10px);
+    }
+    75%,
+    100% {
+      transform: translateY(0);
+    }
+  }
+}
