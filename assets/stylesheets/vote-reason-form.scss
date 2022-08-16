@@ -4,6 +4,32 @@ $breakpoint-xs: 348px !default;
 $color-black-alpha-1: rgba(0, 0, 0, 0.125) !default;
 $color-black-alpha-2: rgba(0, 0, 0, 0.3) !default;
 
+button.k-btn {
+  transition: 200ms ease-in-out;
+  box-shadow: 0 0 0.2em $color-black-alpha-1;
+  padding: 0.5em 1.5em;
+  border: none;
+  border-radius: 5px;
+  color: white;
+
+  &.btn-danger {
+    background-color: var(--danger);
+  }
+  &.btn-success {
+    background-color: var(--success);
+  }
+  &.btn-info {
+    background-color: var(--tertiary);
+  }
+
+  &:hover {
+    filter: brightness(0.9);
+  }
+  &:active {
+    filter: brightness(0.8);
+  }
+}
+
 #__karma-vote-form-modal {
   transition: 200ms ease-in-out;
   position: fixed;
@@ -44,26 +70,6 @@ $color-black-alpha-2: rgba(0, 0, 0, 0.3) !default;
       width: 100%;
       border-top: 1px solid $color-black-alpha-1;
       padding-top: 1em;
-      button {
-        transition: 200ms ease-in-out;
-        box-shadow: 0 0 0.2em $color-black-alpha-1;
-        padding: 0.5em 1.5em;
-        border: none;
-        border-radius: 5px;
-        color: white;
-        &.danger {
-          background-color: var(--danger);
-        }
-        &.success {
-          background-color: var(--success);
-        }
-        &:hover {
-          filter: brightness(0.9);
-        }
-        &:active {
-          filter: brightness(0.8);
-        }
-      }
     }
   }
 }

@@ -12,13 +12,29 @@ export default Component.extend({
 
   vote: {},
 
+  message: "",
+
+  hasSetReason: false,
+
+  loading: false,
+
   @action
   toggleModal() {
     $("#__karma-vote-form-modal").toggle();
   },
 
-  send() {
+  async send() {
     console.debug(`Send to karma ${JSON.stringify(this.form)}`);
+    set(this, "loading", true);
+    // eslint-disable-next-line no-restricted-globals
+    await new Promise((r) =>
+      setTimeout(() => {
+        r(true);
+      }, 2000)
+    );
+    set(this, "loading", false);
+    set(this, "message", "Confirmed!");
+    set(this, "hasSetReason", true);
   },
 
   @action
