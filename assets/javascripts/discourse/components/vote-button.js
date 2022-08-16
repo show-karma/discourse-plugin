@@ -1,5 +1,5 @@
 import Component from "@ember/component";
-import { action, computed, set } from "@ember/object";
+import { computed } from "@ember/object";
 
 export default Component.extend({
   proposal: undefined,
