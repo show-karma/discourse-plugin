@@ -39,7 +39,7 @@ plugins:
     default: "See the latest active proposals"
     client: true
   Banner_past_proposal_days:
-    default: 100
+    default: 2
     client: true
   Banner_forum_rules_link:
     default: "/"
