@@ -1,5 +1,7 @@
 export function shortenNumber(number, decimals = 0) {
-  if (+number === 0) return number;
+  if (+number === 0) {
+    return number;
+  }
   const si = [
     { value: 1, symbol: "" },
     { value: 1e3, symbol: "K" },
