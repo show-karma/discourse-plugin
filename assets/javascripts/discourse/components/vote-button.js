@@ -22,9 +22,9 @@ export default Component.extend({
   getText() {
     let text = this.proposal.dateDescription ? "See" : "Vote";
     if (this.proposal.type === "Off-chain") {
-      return text + " at Snapshot";
+      return text + " on Snapshot";
     } else {
-      return text + " at Tally";
+      return text + " on Tally";
     }
   },
 

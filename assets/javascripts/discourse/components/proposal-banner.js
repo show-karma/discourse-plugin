@@ -26,7 +26,7 @@ export default Component.extend({
 
   async fetchDataProposals() {
     const daoNames = [this.siteSettings.DAO_name];
-    const { Banner_days_ago_limit: daysAgo } = this.siteSettings;
+    const { Banner_past_proposal_days: daysAgo } = this.siteSettings;
 
     if (!/\.eth$/g.test(daoNames[0])) {
       daoNames.push(`${daoNames[0]}.eth`);
