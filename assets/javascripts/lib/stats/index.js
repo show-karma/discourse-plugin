@@ -19,7 +19,7 @@ const KarmaStats = {
         Array.isArray(data.daos) &&
         data.daos[0]?.name?.toLowerCase() === daoName.toLowerCase()
       ) {
-        return data.daos[0];
+        return data.daos[0].tokenAddress;
       }
       throw new Error("Dao not found.");
     } else {
