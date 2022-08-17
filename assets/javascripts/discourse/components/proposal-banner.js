@@ -1,5 +1,6 @@
 import Component from "@ember/component";
 import discourseComputed from "discourse-common/utils/decorators";
+import KarmaStats from "../../lib/stats";
 import { inject as service } from "@ember/service";
 import { action, computed, set } from "@ember/object";
 import { fetchActiveOnChainProposals } from "../../lib/voting-history/gql/on-chain-fetcher";
@@ -18,10 +19,19 @@ export default Component.extend({
 
   fetched: false,
 
+  tokenContract: "",
+
   @action
   toggleBanner() {
     set(this, "openClass", this.openClass === "opened" ? "" : "opened");
     this.setBannerHeight();
+  },
+
+  async getDaoInfo() {
+    const { tokenContract } = await KarmaStats.fetchDaoInfo(
+      this.siteSettings.DAO_name
+    );
+    set(this, "tokenContract", tokenContract);
   },
 
   async fetchDataProposals() {
@@ -75,6 +85,7 @@ export default Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
     this.fetchDataProposals();
+    this.getDaoInfo();
   },
 
   bannerLinks: computed(function () {
