@@ -6,7 +6,7 @@ import { htmlSafe } from "@ember/template";
  * Karma stats fetcher
  */
 const KarmaStats = {
-  url: "https://stageapi.showkarma.xyz/api",
+  url: "https://api.showkarma.xyz/api",
   daoName: undefined,
   profile: {},
 
