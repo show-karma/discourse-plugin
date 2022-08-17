@@ -2,13 +2,13 @@
 
 **Plugin Summary**
 
-__Step 1__: To install the plugin, you can follow the [Install Plugins in Discourse](https://meta.discourse.org/t/install-plugins-in-discourse/19157) official instructions.
+**Step 1**: To install the plugin, you can follow the [Install Plugins in Discourse](https://meta.discourse.org/t/install-plugins-in-discourse/19157) official instructions.
 
-__Step 2__: After the installation, the user should go to the plugins page (Admin -> Plugins) and hit Settings under `Karma` plugin. Then, set the Dao Name as registered at [Karma](https://showkarma.xyz).
+**Step 2**: After the installation, the user should go to the plugins page (Admin -> Plugins) and hit Settings under `Karma` plugin. Then, set the Dao Name as registered at [Karma](https://showkarma.xyz).
 ![plugin-page](./docs/assets/plugins.png)
 
 > After these two steps, refresh the page to ensure that the new configurations are loaded and the plugin is ready. The admin can also choose which stats to show by ticking the checkboxes in the settings page (_note that health score works only for Gitcoin Dao_).
-![plugin-settings](./docs/assets/settings.png)
+> ![plugin-settings](./docs/assets/settings.png)
 
 ---
 
@@ -23,5 +23,3 @@ These stats will be shown at:
 
 2. Profile Summary page
    ![profile-summary](./docs/assets/img2.png)
-
-

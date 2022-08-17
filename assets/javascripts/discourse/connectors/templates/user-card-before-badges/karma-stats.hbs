@@ -1,6 +1,6 @@
 {{#if siteSettings.Enable_Karma_plugin}}
   <div class="__karma-stats">
-    <input hidden id="__dao-username" readonly value={{this.user.username}} >
+    <input hidden id="__dao-username" readonly value={{this.user.username}} />
     <div class="__wrapper">
       <div style="display:flex;align-items:center;margin:10px 0;">
         {{#if siteSettings.Show_Karma_logo}}
@@ -14,10 +14,12 @@
               src="https://www.showkarma.xyz/icons/karma-logo.svg"
               height="28"
               width="28"
-            >
+            />
           </a>
         {{/if}}
-        <b>Governance Stats</b>
+        <b>
+          Governance Stats
+        </b>
       </div>
       <div class="__loading" style="display:none">
         Loading governance stats from Karma
@@ -29,24 +31,49 @@
       {{/if}}
       <div class="__has-score" style="display:none;">
         {{#if siteSettings.Show_Karma_score}}
-          <b>Karma score:</b>
-          <span id="__dao-exp">0</span><br>
+          <b>
+            Karma score:
+          </b>
+          <span id="__dao-exp">
+            0
+          </span>
+          <br />
         {{/if}}
         {{#if siteSettings.Show_health_score}}
-          <b>Health score:</b>
-          <span id="__health-score">0</span><br>
+          <b>
+            Health score:
+          </b>
+          <span id="__health-score">
+            0
+          </span>
+          <br />
         {{/if}}
         {{#if siteSettings.Show_delegated_votes}}
-          <b>Delegated votes:</b>
-          <span id="__delegated-votes">0</span><br>
+          <b>
+            Delegated votes:
+          </b>
+          <span id="__delegated-votes">
+            0
+          </span>
+          <br />
         {{/if}}
         {{#if siteSettings.Show_snapshot_votes}}
-          <b>Snapshot voting:</b>
-          <span id="__snapshot-voting-stats">0%</span><br>
+          <b>
+            Snapshot voting:
+          </b>
+          <span id="__snapshot-voting-stats">
+            0%
+          </span>
+          <br />
         {{/if}}
         {{#if siteSettings.Show_on_chain_votes}}
-          <b>On-chain voting:</b>
-          <span id="__on-chain-voting-stats">0%</span><br>
+          <b>
+            On-chain voting:
+          </b>
+          <span id="__on-chain-voting-stats">
+            0%
+          </span>
+          <br />
         {{/if}}
       </div>
     </div>
@@ -65,10 +92,13 @@
                 src="https://www.showkarma.xyz/icons/karma-logo.svg"
                 height="28"
                 width="28"
-              >
+              />
             </a>
           {{/if}}
-          <b>Voting History</b><br>
+          <b>
+            Voting History
+          </b>
+          <br />
         </div>
         <small class="text-disabled">
           Showing latest
@@ -76,7 +106,9 @@
           {{this.user.username}}'s votes
         </small>
         <div id="__karma-voting-history">
-          <div class="loading">Loading voting history</div>
+          <div class="loading">
+            Loading voting history
+          </div>
         </div>
       </div>
     {{/if}}
