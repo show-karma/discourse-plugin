@@ -10,6 +10,23 @@ const KarmaStats = {
   daoName: undefined,
   profile: {},
 
+  async fetchDaoInfo(daoName) {
+    if (daoName) {
+      const { data } = await fetch(
+        `${this.url}/dao?name=${daoName}`
+      ).then((res) => res.json());
+      if (
+        Array.isArray(data.daos) &&
+        data.daos[0]?.name?.toLowerCase() === daoName.toLowerCase()
+      ) {
+        return data.daos[0];
+      }
+      throw new Error("Dao not found.");
+    } else {
+      throw new Error("Dao name is not set.");
+    }
+  },
+
   async fetchUser(userAddress, daoName) {
     if (
       !(
@@ -125,8 +142,10 @@ const KarmaStats = {
 
   async start(totalTries = 0, ctx, wrapperId = ".__karma-stats") {
     const { SiteSettings } = ctx;
-    const { User_not_found_message: errMessage, DAO_name: daoName } =
-      SiteSettings;
+    const {
+      User_not_found_message: errMessage,
+      DAO_name: daoName,
+    } = SiteSettings;
 
     const user = this.getUsername(wrapperId);
 
