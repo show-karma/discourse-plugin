@@ -57,10 +57,7 @@
                 -
                 {{proposal.dateDescription}}
               {{/if}}
-              {{#if (eq proposal.type "Off-chain")}}
-                |
-                {{vote-button proposal=proposal}}
-              {{/if}}
+              {{vote-button proposal=proposal tokenContract=tokenContract}}
             </div>
           </div>
         {{/each}}
