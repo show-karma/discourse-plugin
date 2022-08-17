@@ -55,12 +55,6 @@ export default Component.extend({
   },
 
   async send() {
-    console.debug(
-      `Send to karma ${JSON.stringify({
-        ...this.form,
-        proposalId: this.vote.proposalId,
-      })}`
-    );
     set(this, "loading", true);
     // eslint-disable-next-line no-restricted-globals
     await new Promise((r) =>
