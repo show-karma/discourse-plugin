@@ -28,10 +28,10 @@ export default Component.extend({
   },
 
   async getDaoInfo() {
-    const { tokenContract } = await KarmaStats.fetchDaoInfo(
+    const { tokenAddress } = await KarmaStats.fetchDaoInfo(
       this.siteSettings.DAO_name
     );
-    set(this, "tokenContract", tokenContract);
+    set(this, "tokenContract", tokenAddress);
   },
 
   async fetchDataProposals() {

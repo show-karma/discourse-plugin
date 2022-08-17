@@ -6,7 +6,7 @@ import { htmlSafe } from "@ember/template";
  * Karma stats fetcher
  */
 const KarmaStats = {
-  url: "https://api.showkarma.xyz/api",
+  url: "https://stageapi.showkarma.xyz/api",
   daoName: undefined,
   profile: {},
 
@@ -19,7 +19,8 @@ const KarmaStats = {
         Array.isArray(data.daos) &&
         data.daos[0]?.name?.toLowerCase() === daoName.toLowerCase()
       ) {
-        return data.daos[0].tokenAddress || "";
+        console.debug(data.daos[0].fullName);
+        return data.daos[0];
       }
       throw new Error("Dao not found.");
     } else {
