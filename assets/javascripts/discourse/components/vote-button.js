@@ -28,11 +28,10 @@ export default Component.extend({
       nLink = `https://snapshot.org/#/${this.proposal.snapshotId}/proposal/${this.proposal.id}`;
     } else {
       const proposalId = BigInt(this.proposal.id).toString();
-      nLink = `https://tally.xyz/governance/eip:155:${this.tokenContract}/proposal/${proposalId}`;
-      // return tokenContract
-      //   ? `https://tally.xyz/governance/eip:155:${tokenContract}/proposal/${proposalId}`
-      //   : "";
-      //
+      // nLink = `https://tally.xyz/governance/eip:155:${this.tokenContract}/proposal/${proposalId}`;
+      nLink = this.tokenContract
+        ? `https://tally.xyz/governance/eip:155:${this.tokenContract}/proposal/${proposalId}`
+        : "";
     }
     set(this, "link", nLink);
   },
