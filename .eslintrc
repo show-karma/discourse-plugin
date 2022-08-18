@@ -1,3 +1,7 @@
 {
-  "extends": "eslint-config-discourse"
+  "extends": "eslint-config-discourse",
+  "rules": {
+    "jsx-a11y/click-events-have-key-events": "off",
+    "ember/simple-unless": "off"
+  }
 }
