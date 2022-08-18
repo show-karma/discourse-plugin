@@ -9,10 +9,12 @@ export function parseMdLink(string = "") {
     myMatch.forEach((match) => {
       const [full, text, url] = match.match(groupRgx);
       if (full && text && url) {
-        parsedString = parsedString.replace(
-          full,
-          `<a href="${url}" noopener target="_blank rel="noopener noreferrer"">${text}</a>`
-        );
+        parsedString = parsedString
+          .replace(
+            full,
+            `<a href="${url}" noopener target="_blank rel="noopener noreferrer"">${text}</a>`
+          )
+          .replace(/\\|\#/g, "");
       }
     });
   }
