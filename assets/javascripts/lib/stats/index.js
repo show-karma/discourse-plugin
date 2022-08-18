@@ -10,24 +10,6 @@ const KarmaStats = {
   daoName: undefined,
   profile: {},
 
-  async fetchDaoInfo(daoName) {
-    if (daoName) {
-      const { data } = await fetch(
-        `${this.url}/dao?name=${daoName}`
-      ).then((res) => res.json());
-      if (
-        Array.isArray(data.daos) &&
-        data.daos[0]?.name?.toLowerCase() === daoName.toLowerCase()
-      ) {
-        console.debug(data.daos[0].fullName);
-        return data.daos[0];
-      }
-      throw new Error("Dao not found.");
-    } else {
-      throw new Error("Dao name is not set.");
-    }
-  },
-
   async fetchUser(userAddress, daoName) {
     if (
       !(

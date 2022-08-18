@@ -1,10 +1,10 @@
 import Component from "@ember/component";
 import discourseComputed from "discourse-common/utils/decorators";
-import KarmaStats from "../../lib/stats";
 import { inject as service } from "@ember/service";
 import { action, computed, set } from "@ember/object";
 import { fetchActiveOnChainProposals } from "../../lib/voting-history/gql/on-chain-fetcher";
 import { fetchActiveOffChainProposals } from "../../lib/voting-history/gql/off-chain-fetcher";
+import { getGovAddrFromYml } from "../../lib/get-gov-addr-from-yml";
 
 export default Component.extend({
   router: service(),
@@ -27,10 +27,8 @@ export default Component.extend({
     this.setBannerHeight();
   },
 
-  async getDaoInfo() {
-    const { tokenAddress } = await KarmaStats.fetchDaoInfo(
-      this.siteSettings.DAO_name
-    );
+  async getGovContractAddr() {
+    const tokenAddress = await getGovAddrFromYml(this.siteSettings.DAO_name);
     set(this, "tokenContract", tokenAddress);
   },
 
@@ -85,7 +83,7 @@ export default Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
     this.fetchDataProposals();
-    this.getDaoInfo();
+    this.getGovContractAddr();
   },
 
   bannerLinks: computed(function () {
