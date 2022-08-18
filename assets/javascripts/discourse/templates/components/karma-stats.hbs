@@ -1,7 +1,6 @@
 {{#if siteSettings.Enable_Karma_plugin}}
   <div id={{wrapperId}}>
-    {{log wrapperId}}
-    <input hidden id="__dao-username" readonly />
+    <input hidden id="__dao-username" readonly>
     <div class="__wrapper">
       <div style="display:flex;align-items:center;margin:10px 0;">
         {{#if siteSettings.Show_Karma_logo}}
@@ -15,10 +14,12 @@
               src="https://www.showkarma.xyz/icons/karma-logo.svg"
               height="28"
               width="28"
-            />
+            >
           </a>
         {{/if}}
-        <b>Governance Stats</b>
+        <b>
+          Governance Stats
+        </b>
       </div>
       <div class="__loading" style="display:none;">
         Loading governance stats from Karma
@@ -33,46 +34,66 @@
           {{#if siteSettings.Show_Karma_score}}
             <li>
               <span class="value">
-                <span id="__dao-exp" class="number">0</span>
+                <span id="__dao-exp" class="number">
+                  0
+                </span>
               </span>
 
-              <span class="label">Karma score</span>
+              <span class="label">
+                Karma score
+              </span>
             </li>
           {{/if}}
           {{#if siteSettings.Show_health_score}}
             <li>
               <span class="value">
-                <span id="__health-score" class="number">0</span>
+                <span id="__health-score" class="number">
+                  0
+                </span>
               </span>
 
-              <span class="label">Health score</span>
+              <span class="label">
+                Health score
+              </span>
             </li>
           {{/if}}
           {{#if siteSettings.Show_delegated_votes}}
             <li>
               <span class="value">
-                <span id="__delegated-votes" class="number">0</span>
+                <span id="__delegated-votes" class="number">
+                  0
+                </span>
               </span>
 
-              <span class="label">Delegated votes</span>
+              <span class="label">
+                Delegated votes
+              </span>
             </li>
           {{/if}}
           {{#if siteSettings.Show_snapshot_votes}}
             <li>
               <span class="value">
-                <span id="__snapshot-voting-stats" class="number">0%</span>
+                <span id="__snapshot-voting-stats" class="number">
+                  0%
+                </span>
               </span>
 
-              <span class="label">Snapshot voting</span>
+              <span class="label">
+                Snapshot voting
+              </span>
             </li>
           {{/if}}
           {{#if siteSettings.Show_on_chain_votes}}
             <li>
               <span class="value">
-                <span id="__on-chain-voting-stats" class="number">0%</span>
+                <span id="__on-chain-voting-stats" class="number">
+                  0%
+                </span>
               </span>
 
-              <span class="label">On-chain voting</span>
+              <span class="label">
+                On-chain voting
+              </span>
             </li>
           {{/if}}
         </ul>

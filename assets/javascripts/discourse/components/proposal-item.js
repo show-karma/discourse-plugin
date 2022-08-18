@@ -1,25 +1,32 @@
 import Component from "@ember/component";
-import { computed, set } from "@ember/object";
+import { action, computed, set } from "@ember/object";
 const { BigInt } = window;
 
 export default Component.extend({
-  proposal: undefined,
+  proposal: {},
+
+  tokenContract: "",
 
   link: "",
 
-  tokenContract: "",
+  pointer: "",
 
   text: computed(function () {
     return this.getText();
   }),
 
   getText() {
-    let text = this.proposal.dateDescription ? "See" : "Vote";
+    let text = "Open";
     if (this.proposal.type === "Off-chain") {
       return text + " on Snapshot";
     } else {
       return text + " on Tally";
     }
+  },
+
+  @action
+  redirect() {
+    window.open(this.link, "_blank");
   },
 
   getLink() {
@@ -32,15 +39,14 @@ export default Component.extend({
         ? `https://tally.xyz/governance/eip155:1:${this.tokenContract}/proposal/${proposalId}`
         : "";
     }
+    if (nLink) {
+      set(this, "pointer", "cursor:pointer");
+    }
     set(this, "link", nLink);
   },
 
   init() {
     this._super(...arguments);
     this.getLink();
-  },
-
-  didReceiveAttrs() {
-    this._super(...arguments);
   },
 });
