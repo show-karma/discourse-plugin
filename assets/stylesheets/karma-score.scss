@@ -17,6 +17,7 @@
   }
   overflow-y: auto;
   overflow-x: hidden;
+
   &.w-full,
   .w-full {
     .voting-item {
@@ -27,6 +28,7 @@
       }
     }
   }
+
   .voting-item {
     .name {
       padding-top: 5px;
@@ -63,14 +65,50 @@
     }
     .decision {
       display: flex;
-      align-items: center;
-      justify-content: center;
       width: 27%;
       margin-left: 10px;
+      > div {
+        &:nth-of-type(1) {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 50%;
+        }
+        &:nth-of-type(2) {
+          width: 50%;
+        }
+      }
       p.vote-choice {
         width: 50%;
         text-align: center;
       }
+    }
+  }
+}
+
+.karma-loading {
+  .svg-icon {
+    animation: bounce infinite 1s;
+    &:nth-of-type(2) {
+      animation-delay: 100ms;
+    }
+    &:nth-of-type(3) {
+      animation-delay: 200ms;
+    }
+    font-size: 1em !important;
+    color: var(--success);
+  }
+
+  @keyframes bounce {
+    0% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-10px);
+    }
+    75%,
+    100% {
+      transform: translateY(0);
     }
   }
 }

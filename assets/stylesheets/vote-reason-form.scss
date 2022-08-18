@@ -1,0 +1,81 @@
+$breakpoint-sm: 550px !default;
+$breakpoint-md: 932px !default;
+$breakpoint-xs: 348px !default;
+$color-black-alpha-1: rgba(0, 0, 0, 0.125) !default;
+$color-black-alpha-2: rgba(0, 0, 0, 0.3) !default;
+
+.karma-form-submitted-message {
+  padding: 0 2em;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.7);
+  font-size: 1.3em;
+}
+button.k-btn {
+  transition: 200ms ease-in-out;
+  box-shadow: 0 0 0.2em $color-black-alpha-1;
+  padding: 0.5em 1.5em;
+  border: none;
+  border-radius: 5px;
+  color: white;
+
+  &.btn-danger {
+    background-color: var(--danger);
+  }
+  &.btn-success {
+    background-color: var(--success);
+  }
+  &.btn-info {
+    background-color: var(--tertiary);
+  }
+
+  &:hover {
+    filter: brightness(0.9);
+  }
+  &:active {
+    filter: brightness(0.8);
+  }
+}
+
+.__karma-vote-form-modal {
+  transition: 200ms ease-in-out;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100vw;
+  .backdrop {
+    background-color: $color-black-alpha-1;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+  .modal-content {
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid $color-black-alpha-2;
+    box-shadow: 0 0 1em $color-black-alpha-1;
+    min-width: 500px;
+    padding: 2em 1.5em;
+    .form-reason {
+      textarea,
+      input {
+        border: 1px solid $color-black-alpha-2;
+        border-radius: 5px;
+        width: 100%;
+      }
+    }
+    .footer {
+      text-align: right;
+      width: 100%;
+      border-top: 1px solid $color-black-alpha-1;
+      padding-top: 1em;
+    }
+  }
+}

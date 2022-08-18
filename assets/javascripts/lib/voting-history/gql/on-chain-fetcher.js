@@ -18,6 +18,7 @@ function parseVotes(votes = []) {
   votes.forEach((vote) => {
     const { proposal } = vote;
     array.push({
+      proposalId: proposal.id,
       voteMethod: "On-chain",
       proposal: parseMdLink(proposal?.description),
       choice: vote?.support,

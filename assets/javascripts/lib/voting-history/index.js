@@ -53,10 +53,10 @@ const VotingHistory = {
       moment(a.executed).isBefore(moment(b.executed)) ? 1 : -1
     );
 
-    this.render(votes.slice(0, amount), `${wrapperId} #__karma-voting-history`);
+    return votes.slice(0, amount);
   },
 
-  async render(data = [], elId = "") {
+  async render(data = [], elId = `.__karma-stats #__karma-voting-history`) {
     const wrapper = $(`${elId}`);
     let display;
     if (data.length) {

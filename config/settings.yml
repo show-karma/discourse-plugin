@@ -11,6 +11,9 @@ plugins:
   Show_Karma_score:
     default: true
     client: true
+  Show_vote_reason_form:
+    default: true
+    client: true
   Show_delegated_votes:
     default: true
     client: true

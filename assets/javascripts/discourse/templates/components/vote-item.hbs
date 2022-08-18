@@ -1,0 +1,19 @@
+<div class="voting-item">
+  <div class="details">
+    <p class="name">{{vote.proposal}}</p>
+    <div class="status-container">
+      <p class="chain">{{vote.voteMethod}}</p>
+      <p class="executed">Executed {{vote.executed}}</p>
+    </div>
+  </div>
+  <div class="decision">
+    <div>
+      {{html-safe icon}}
+    </div>
+    <div>
+      {{#if (eq this.currentUser.username profile.ensName)}}
+        {{vote-reason-form profile=profile vote=vote}}
+      {{/if}}
+    </div>
+  </div>
+</div>

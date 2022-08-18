@@ -9,32 +9,7 @@ $color-black-alpha-2: rgba(0, 0, 0, 0.3) !default;
     background-color: "white";
     background-position: center center;
   }
-  .proposals-loading {
-    .svg-icon {
-      animation: bounce infinite 1s;
-      &:nth-of-type(2) {
-        animation-delay: 100ms;
-      }
-      &:nth-of-type(3) {
-        animation-delay: 200ms;
-      }
-      font-size: 1em !important;
-      color: var(--success);
-    }
 
-    @keyframes bounce {
-      0% {
-        transform: translateY(0);
-      }
-      40% {
-        transform: translateY(-10px);
-      }
-      75%,
-      100% {
-        transform: translateY(0);
-      }
-    }
-  }
   .__banner-wrapper {
     padding: 1.5em 3em 0em;
     margin: 2.5em auto;
