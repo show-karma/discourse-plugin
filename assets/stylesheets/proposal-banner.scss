@@ -78,40 +78,49 @@ $color-black-alpha-2: rgba(0, 0, 0, 0.3) !default;
       &:not(.opened) {
         overflow-y: hidden;
       }
-      .proposal {
+      > .ember-view {
         word-wrap: break-word;
         word-break: break-word;
         width: 100%;
         overflow-y: hidden;
-        user-select: none;
+        .btn-link {
+          margin-left: 5px;
+          border: 0px;
+        }
         &:hover {
+          .redirect-text {
+            visibility: visible !important;
+          }
           background-color: rgba(0, 0, 0, 0.05);
         }
         &:not(:last-of-type) {
           border-bottom: 1px dashed $color-black-alpha-1;
         }
-        .btn-link {
-          margin-left: 5px;
-          border: 0px;
-        }
-        padding: 1.5rem 1rem 0.5rem;
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        &-title {
-          width: 100%;
-        }
-        &-description {
-          width: 100%;
-        }
-        &-due-date {
-          margin-top: 1em;
+        .proposal {
+          padding: 1.5rem 1rem 0.5rem;
           display: flex;
-          align-items: flex-end;
-          justify-content: flex-end;
-          font-size: 0.8em;
-          font-weight: bold;
-          color: rgba(0, 0, 0, 0.3);
+          justify-content: space-between;
+          flex-wrap: wrap;
+          user-select: none;
+          &-title {
+            width: 100%;
+          }
+          &-description {
+            width: 100%;
+          }
+          &-due-date {
+            margin-top: 1em;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: rgba(0, 0, 0, 0.3);
+            .redirect-text {
+              visibility: hidden;
+              margin-left: 1ch;
+            }
+          }
         }
       }
     }
