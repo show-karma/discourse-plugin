@@ -9,6 +9,8 @@ $color-brand-gray-2: #6c7b8b;
 $color-brand-blue-1: #536cef;
 
 .below-site-header-outlet.banner-connector {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
   .__banner-link-banner-wrapper {
     background-color: "white";
     background-position: center center;
@@ -128,7 +130,6 @@ $color-brand-blue-1: #536cef;
           justify-content: space-between;
           flex-wrap: wrap;
           user-select: none;
-          font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
           &-title {
             width: 100%;
             font-weight: 600;
@@ -192,14 +193,16 @@ $color-brand-blue-1: #536cef;
     }
 
     .__banner-content {
-      width: 50%;
-      text-align: left;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-
-      p {
-        margin-bottom: 0;
+      @media screen and (min-width: $breakpoint-md) {
+        width: 50%;
+        text-align: left;
+        display: flex;
+        justify-content: flex-start;
+        gap: 20px;
+        p {
+          margin-bottom: 0;
+          color: rgba(0, 0, 0, 0.35);
+        }
       }
     }
 
