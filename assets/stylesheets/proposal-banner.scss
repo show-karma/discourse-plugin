@@ -77,6 +77,23 @@ $color-brand-blue-1: #536cef;
       }
     }
 
+    .banner-body {
+      display: flex;
+      @media screen and (max-width: $breakpoint-md) {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        .active-proposals-wrapper {
+          width: 100% !important;
+          order: 2;
+        }
+        .reveal-more-button {
+          width: 170px;
+          margin: 0;
+        }
+      }
+    }
+
     .active-proposals-wrapper {
       display: flex;
       flex-wrap: wrap;
@@ -201,6 +218,7 @@ $color-brand-blue-1: #536cef;
         .featured-banner-link {
           width: 100%;
           padding: 0 0 2em;
+          justify-content: center;
         }
       }
     }
@@ -212,7 +230,7 @@ $color-brand-blue-1: #536cef;
         padding: 0 !important;
         flex-wrap: wrap;
         > div {
-          width: 33%;
+          width: 100%;
           padding: 0.7em 0;
           height: max-content !important;
           span {
@@ -228,6 +246,10 @@ $color-brand-blue-1: #536cef;
     @media screen and (max-width: $breakpoint-xs) {
       .featured-banner-link {
         > div {
+          a {
+            width: 60%;
+            justify-content: center !important;
+          }
           width: 100% !important;
         }
       }
