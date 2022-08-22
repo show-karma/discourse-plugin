@@ -21,6 +21,10 @@ export default Component.extend({
 
   tokenContract: "",
 
+  logo: computed(function () {
+    return this.siteSettings.Custom_banner_icon_url || this.siteSettings.logo;
+  }),
+
   @action
   toggleBanner() {
     set(this, "openClass", this.openClass === "opened" ? "" : "opened");
