@@ -15,13 +15,15 @@
             {{#each bannerLinks as |link|}}
               {{#if link.url}}
                 <div>
-                  <a href={{link.url}}>
-                    <h3>
-                      {{d-icon link.icon}}
-                      <span>
-                        {{link.text}}
-                      </span>
-                    </h3>
+                  <a
+                    href={{link.url}}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    {{d-icon link.icon}}
+                    <span>
+                      {{link.text}}
+                    </span>
                   </a>
                 </div>
               {{/if}}

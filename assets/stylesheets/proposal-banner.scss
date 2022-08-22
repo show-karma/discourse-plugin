@@ -6,6 +6,8 @@ $color-black-alpha-2: rgba(0, 0, 0, 0.3) !default;
 $color-brand-gray-0: #fafafc;
 $color-brand-gray-1: #e9e9e9;
 $color-brand-gray-2: #6c7b8b;
+$color-brand-blue-1: #536cef;
+
 .below-site-header-outlet.banner-connector {
   .__banner-link-banner-wrapper {
     background-color: "white";
@@ -13,7 +15,7 @@ $color-brand-gray-2: #6c7b8b;
   }
 
   .__banner-wrapper {
-    padding: 1.5em 3em 0em;
+    padding: 1.5em 3em 2em;
     margin: 2.5em auto;
     background-color: $color-brand-gray-0;
     border: 1px solid $color-brand-gray-1;
@@ -23,27 +25,34 @@ $color-brand-gray-2: #6c7b8b;
       box-sizing: border-box;
       display: flex;
       flex-wrap: wrap;
-      padding: 0 25px;
+      padding: 0 0 0 15px;
       width: 100%;
 
       .featured-banner-link {
         display: flex;
-        justify-content: center;
         align-items: center;
-
+        justify-content: end;
+        gap: 8px;
         > div {
-          width: 33%;
+          a {
+            border-radius: 8px;
+            border: 1px solid $color-brand-blue-1;
+            padding: 5px 20px;
+            .d-icon {
+              color: $color-brand-blue-1;
+              margin: 0 !important;
+            }
+            span {
+              margin-left: 10px;
+            }
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+          }
           height: 100px;
           display: flex;
           align-items: center;
           justify-content: center;
-          @media screen and (min-width: 551px) {
-            padding: 0 20px;
-            &:nth-of-type(2) {
-              border-right: 1px solid $color-black-alpha-1;
-              border-left: 1px solid $color-black-alpha-1;
-            }
-          }
           svg {
             display: block;
             font-size: 1.75em;
@@ -54,10 +63,6 @@ $color-brand-gray-2: #6c7b8b;
           a {
             .d-icon {
               margin-bottom: 0.35em;
-            }
-
-            &:hover {
-              text-decoration: underline;
             }
           }
 
@@ -98,16 +103,18 @@ $color-brand-gray-2: #6c7b8b;
           background-color: rgba(0, 0, 0, 0.05);
         }
         &:not(:last-of-type) {
-          border-bottom: 1px dashed $color-black-alpha-1;
+          border-bottom: 1px solid $color-black-alpha-1;
         }
         .proposal {
-          padding: 1.5rem 1rem 0.5rem;
+          padding: 1.5rem 1rem;
           display: flex;
           justify-content: space-between;
           flex-wrap: wrap;
           user-select: none;
+          font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
           &-title {
             width: 100%;
+            font-weight: 600;
           }
           &-description {
             width: 100%;
@@ -117,9 +124,8 @@ $color-brand-gray-2: #6c7b8b;
             display: flex;
             align-items: flex-end;
             justify-content: flex-end;
-            font-size: 0.8em;
-            font-weight: bold;
-            color: rgba(0, 0, 0, 0.3);
+            font-size: 1em;
+            color: rgba(0, 0, 0, 0.35);
             .redirect-text {
               visibility: hidden;
               margin-left: 1ch;
@@ -130,10 +136,11 @@ $color-brand-gray-2: #6c7b8b;
     }
 
     .reveal-more-button {
+      margin: 35px 0 0 25px;
+      padding: 0 20px;
       position: relative;
       display: flex;
       align-items: center;
-      padding: 0 20px;
       text-align: center;
       cursor: pointer;
       border: none;
@@ -154,7 +161,7 @@ $color-brand-gray-2: #6c7b8b;
       .available-to-show {
         font-size: 0.8em;
         width: 70px;
-        color: $color-black-alpha-2;
+        color: $color-brand-gray-2;
       }
     }
 
