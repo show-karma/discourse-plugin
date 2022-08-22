@@ -15,13 +15,15 @@
             {{#each bannerLinks as |link|}}
               {{#if link.url}}
                 <div>
-                  <a href={{link.url}}>
-                    <h3>
-                      {{d-icon link.icon}}
-                      <span>
-                        {{link.text}}
-                      </span>
-                    </h3>
+                  <a
+                    href={{link.url}}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    {{d-icon link.icon}}
+                    <span>
+                      {{link.text}}
+                    </span>
                   </a>
                 </div>
               {{/if}}
@@ -40,30 +42,33 @@
           {{karma-loading}}
         {{/if}}
       </div>
-      <div
-        class={{
-          html-safe (concat "wrap active-proposals-wrapper" " " openClass)
-        }}
-        style={{html-safe (concat "height: " bannerHeight ";")}}
-      >
-        {{#each proposals as |proposal|}}
-          {{proposal-item proposal=proposal tokenContract=tokenContract}}
-        {{/each}}
-      </div>
-      {{#if (gte proposals.length 2)}}
-        <button
-          class={{concat "reveal-more-button" " " openClass}}
-          onclick={{toggleBanner}}
-          type="button"
+      <div class="banner-body">
+        <div
+          class={{html-safe (concat "active-proposals-wrapper" " " openClass)}}
+          style={{html-safe (concat "height: " bannerHeight ";")}}
         >
-          {{d-icon "chevron-down"}}
-          {{#unless openClass}}
+          {{#each proposals as |proposal|}}
+            {{proposal-item proposal=proposal tokenContract=tokenContract}}
+          {{/each}}
+        </div>
+        {{#if (gte proposals.length 2)}}
+          <button
+            class={{concat "reveal-more-button" " " openClass}}
+            onclick={{toggleBanner}}
+            type="button"
+          >
             <div class="available-to-show">
-              {{availableToShow}} hidden
+              {{#unless openClass}}
+                {{availableToShow}}
+                hidden
+              {{else}}
+                Hide list
+              {{/unless}}
             </div>
-          {{/unless}}
-        </button>
-      {{/if}}
+            {{d-icon "chevron-down"}}
+          </button>
+        {{/if}}
+      </div>
     </div>
   </div>
 {{/if}}
