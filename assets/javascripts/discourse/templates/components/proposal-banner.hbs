@@ -5,7 +5,7 @@
         <div class="__banner-content">
           {{#if siteSettings.Show_icon_on_banner}}
             <div class="logo">
-              <img src={{logo}} height="40">
+              <img src={{logo}} height="40" />
             </div>
           {{/if}}
           <div>
@@ -23,6 +23,7 @@
               {{#if link.url}}
                 <div>
                   <a
+                    class="k-btn btn-secondary"
                     href={{link.url}}
                     rel="noopener noreferrer"
                     target="_blank"
