@@ -280,7 +280,7 @@ $color-brand-light-0: #9b9ba7 !default;
 .k-btn {
   &.btn-secondary {
     color: #5298ff;
-    font-weight: 600;
+    // font-weight: lighter;
     border: none !important;
     background-color: $color-brand-blue-0;
   }
