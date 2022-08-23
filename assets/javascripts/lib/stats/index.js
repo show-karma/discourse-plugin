@@ -115,7 +115,7 @@ const KarmaStats = {
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://showkarma.xyz/dao/delegates/${daoName}"
+          href="https://www.showkarma.xyz/dao/link/forum?dao=${daoName}"
         >
             ${daoName.toUpperCase()} leaderboard
         </a>`
