@@ -1,12 +1,19 @@
 $breakpoint-sm: 550px !default;
 $breakpoint-md: 932px !default;
 $breakpoint-xs: 348px !default;
+
 $color-black-alpha-1: rgba(0, 0, 0, 0.125) !default;
 $color-black-alpha-2: rgba(0, 0, 0, 0.3) !default;
+
 $color-brand-gray-0: #fafafc;
 $color-brand-gray-1: #e9e9e9;
 $color-brand-gray-2: #6c7b8b;
-$color-brand-blue-1: #536cef;
+
+$color-brand-blue-0: #eef5ff;
+$color-brand-blue-1: #5298ff;
+
+$color-brand-dark-0: #333 !default;
+$color-brand-light-0: #9b9ba7 !default;
 
 .below-site-header-outlet.banner-connector {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -53,7 +60,7 @@ $color-brand-blue-1: #536cef;
           }
           height: 100px;
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           justify-content: center;
           svg {
             display: block;
@@ -154,7 +161,7 @@ $color-brand-blue-1: #536cef;
     }
 
     .reveal-more-button {
-      margin: 35px 0 0 25px;
+      margin: calc(35px - 0.1em) 0 0 25px;
       padding: 0 20px;
       position: relative;
       display: flex;
@@ -165,6 +172,7 @@ $color-brand-blue-1: #536cef;
       background: none;
       border: 2px solid $color-brand-gray-2;
       border-radius: 20px;
+      font-size: 1.1em;
       svg {
         transform: rotateZ(180deg);
       }
@@ -193,16 +201,19 @@ $color-brand-blue-1: #536cef;
     }
 
     .__banner-content {
+      h2 {
+        color: $color-brand-dark-0;
+      }
+      p {
+        margin-bottom: 0;
+        color: $color-brand-light-0;
+      }
       @media screen and (min-width: $breakpoint-md) {
         width: 50%;
         text-align: left;
         display: flex;
         justify-content: flex-start;
         gap: 20px;
-        p {
-          margin-bottom: 0;
-          color: rgba(0, 0, 0, 0.35);
-        }
       }
     }
 
@@ -264,4 +275,13 @@ $color-brand-blue-1: #536cef;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.k-btn {
+  &.btn-secondary {
+    color: #5298ff;
+    font-weight: 600;
+    border: none !important;
+    background-color: $color-brand-blue-0;
+  }
 }
