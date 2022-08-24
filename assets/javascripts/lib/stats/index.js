@@ -117,7 +117,7 @@ const KarmaStats = {
           rel="noopener noreferrer"
           href="https://www.showkarma.xyz/dao/link/forum?dao=${daoName}"
         >
-            ${daoName.toUpperCase()} leaderboard
+            Link Wallet
         </a>`
       )
     );

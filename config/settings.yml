@@ -30,7 +30,7 @@ plugins:
     default: "3"
     client: true
   User_not_found_message:
-    default: Couldn't find stats. Link your wallet to get stats. [[KarmaDaoUrl]]
+    default: Couldn't find stats. Link your wallet to display stats. [[KarmaDaoUrl]]
     client: true
   Show_proposal_banner:
     default: true
