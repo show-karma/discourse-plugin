@@ -1,10 +1,12 @@
 # **Karma Score** Discourse Plugin
 
-**Plugin Summary**
+## Plugin Summary
 
-Karma discourse plugin can be used by DAOs on their forum to display forum user's governance stats. This plugin can be installed on both self-hosted instances and managed hosting.
+Karma discourse plugin can be used by DAOs on their forum to display forum user's governance stats.
 
-We have experience working with managed hosting providers to install our plugin. If you need help with installation, contact us at info@showkarma.xyz
+## Installation
+
+ This plugin can be installed on both self-hosted instances and managed hosting. We have experience working with managed hosting providers to install our plugin. If you need help with installation, contact us at info@showkarma.xyz
 
 
 __Step 1__: To install the plugin, you can follow the [Install Plugins in Discourse](https://meta.discourse.org/t/install-plugins-in-discourse/19157) official instructions.
