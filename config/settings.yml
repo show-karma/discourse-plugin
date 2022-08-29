@@ -33,7 +33,7 @@ plugins:
     default: Couldn't find stats. Link your wallet to display stats. [[KarmaDaoUrl]]
     client: true
   Show_proposal_banner:
-    default: true
+    default: false
     client: true
   Banner_title:
     default: "Active Proposals"
