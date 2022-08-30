@@ -29,9 +29,11 @@
                     target="_blank"
                   >
                     {{d-icon link.icon}}
-                    <span>
-                      {{link.text}}
-                    </span>
+                    {{#if link.text}}
+                      <span>
+                        {{link.text}}
+                      </span>
+                    {{/if}}
                   </a>
                 </div>
               {{/if}}
