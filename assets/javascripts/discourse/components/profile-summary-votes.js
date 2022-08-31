@@ -1,7 +1,7 @@
 import Component from "@ember/component";
 import { inject as service } from "@ember/service";
 import { set } from "@ember/object";
-import VotingHistory from "../../lib/voting-history";
+import VotingHistory from "../../lib/voting-history/index";
 
 export default Component.extend({
   router: service(),
