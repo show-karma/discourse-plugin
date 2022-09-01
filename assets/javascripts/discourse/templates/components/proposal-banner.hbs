@@ -1,10 +1,12 @@
 {{#if (and siteSettings.Show_proposal_banner shouldShow)}}
   <div class="wrap __banner-link-banner">
-    <div class="__banner-wrapper">
-      {{#if (and fetched)}}
-        <div class="__banner-content-wrapper">
-          <div class="__banner-content">
-            {{#if proposals.length}}
+    {{#if fetched}}
+      {{#unless proposals.length}}
+        {{banner-links links=bannerLinks}}
+      {{else}}
+        <div class="__banner-wrapper">
+          <div class="__banner-content-wrapper">
+            <div class="__banner-content">
               {{#if siteSettings.Show_icon_on_banner}}
                 <div class="logo">
                   <img src={{logo}} height="40">
@@ -18,33 +20,9 @@
                   {{siteSettings.Banner_description}}
                 </p>
               </div>
-            {{/if}}
-          </div>
-          <div class="links-wrapper">
-            <div class="featured-banner-link">
-              {{#each bannerLinks as |link|}}
-                {{#if link.url}}
-                  <div>
-                    <a
-                      class="k-btn btn-secondary"
-                      href={{link.url}}
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                      {{d-icon link.icon}}
-                      {{#if link.text}}
-                        <span>
-                          {{link.text}}
-                        </span>
-                      {{/if}}
-                    </a>
-                  </div>
-                {{/if}}
-              {{/each}}
             </div>
+            {{banner-links links=bannerLinks}}
           </div>
-        </div>
-        {{#if proposals.length}}
           <div class="banner-body">
             <div
               class={{
@@ -74,10 +52,10 @@
               </button>
             {{/if}}
           </div>
-        {{/if}}
-      {{else}}
-        {{karma-loading}}
-      {{/if}}
-    </div>
+        </div>
+      {{/unless}}
+    {{else}}
+      {{karma-loading}}
+    {{/if}}
   </div>
 {{/if}}

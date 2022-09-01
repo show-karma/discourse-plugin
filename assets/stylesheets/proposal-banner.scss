@@ -33,55 +33,9 @@ $color-brand-light-0: #9b9ba7 !default;
       box-sizing: border-box;
       display: flex;
       flex-wrap: wrap;
+      justify-content: space-between;
       padding: 0 0 0 15px;
       width: 100%;
-
-      .featured-banner-link {
-        display: flex;
-        align-items: center;
-        justify-content: end;
-        gap: 8px;
-        > div {
-          a {
-            border-radius: 8px;
-            border: 1px solid $color-brand-blue-1;
-            padding: 5px 20px;
-            .d-icon {
-              color: $color-brand-blue-1;
-              margin: 0 !important;
-            }
-            span {
-              margin-left: 10px;
-            }
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-          }
-          display: flex;
-          align-items: flex-start;
-          justify-content: center;
-          svg {
-            display: block;
-            font-size: 1.75em;
-            margin: 0 auto 0.25em auto;
-            color: rgba(0, 0, 0, 0.55);
-          }
-
-          a {
-            .d-icon {
-              margin-bottom: 0.35em;
-            }
-          }
-
-          h3 {
-            font-weight: normal;
-            white-space: nowrap;
-            text-align: center;
-            line-height: 1.2;
-            margin: 0;
-          }
-        }
-      }
     }
 
     .banner-body {
@@ -195,10 +149,6 @@ $color-brand-light-0: #9b9ba7 !default;
       line-height: 1.2;
     }
 
-    .links-wrapper {
-      width: 50%;
-    }
-
     .__banner-content {
       h2 {
         color: $color-brand-dark-0;
@@ -226,7 +176,8 @@ $color-brand-light-0: #9b9ba7 !default;
         width: 100%;
       }
 
-      .links-wrapper {
+      .links-wrapper,
+      .ember-view .links-wrapper {
         width: 100%;
         .featured-banner-link {
           width: 100%;
@@ -266,6 +217,53 @@ $color-brand-light-0: #9b9ba7 !default;
           width: 100% !important;
         }
       }
+    }
+  }
+}
+
+.featured-banner-link {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 8px;
+  > div {
+    a {
+      border-radius: 8px;
+      border: 1px solid $color-brand-blue-1;
+      padding: 5px 20px;
+      .d-icon {
+        color: $color-brand-blue-1;
+        margin: 0 !important;
+      }
+      span {
+        margin-left: 10px;
+      }
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    svg {
+      display: block;
+      font-size: 1.75em;
+      margin: 0 auto 0.25em auto;
+      color: rgba(0, 0, 0, 0.55);
+    }
+
+    a {
+      .d-icon {
+        margin-bottom: 0.35em;
+      }
+    }
+
+    h3 {
+      font-weight: normal;
+      white-space: nowrap;
+      text-align: center;
+      line-height: 1.2;
+      margin: 0;
     }
   }
 }
