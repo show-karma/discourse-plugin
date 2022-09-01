@@ -1,84 +1,83 @@
 {{#if (and siteSettings.Show_proposal_banner shouldShow)}}
   <div class="wrap __banner-link-banner">
     <div class="__banner-wrapper">
-      <div class="__banner-content-wrapper">
-        <div class="__banner-content">
-          {{#if siteSettings.Show_icon_on_banner}}
-            <div class="logo">
-              <img src={{logo}} height="40">
-            </div>
-          {{/if}}
-          <div>
-            <h2>
-              {{siteSettings.Banner_title}}
-            </h2>
-            <p>
-              {{siteSettings.Banner_description}}
-            </p>
-          </div>
-        </div>
-        <div class="links-wrapper">
-          <div class="featured-banner-link">
-            {{#each bannerLinks as |link|}}
-              {{#if link.url}}
-                <div>
-                  <a
-                    class="k-btn btn-secondary"
-                    href={{link.url}}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    {{d-icon link.icon}}
-                    {{#if link.text}}
-                      <span>
-                        {{link.text}}
-                      </span>
-                    {{/if}}
-                  </a>
+      {{#if (and fetched)}}
+        <div class="__banner-content-wrapper">
+          <div class="__banner-content">
+            {{#if proposals.length}}
+              {{#if siteSettings.Show_icon_on_banner}}
+                <div class="logo">
+                  <img src={{logo}} height="40">
                 </div>
               {{/if}}
-            {{/each}}
+              <div>
+                <h2>
+                  {{siteSettings.Banner_title}}
+                </h2>
+                <p>
+                  {{siteSettings.Banner_description}}
+                </p>
+              </div>
+            {{/if}}
+          </div>
+          <div class="links-wrapper">
+            <div class="featured-banner-link">
+              {{#each bannerLinks as |link|}}
+                {{#if link.url}}
+                  <div>
+                    <a
+                      class="k-btn btn-secondary"
+                      href={{link.url}}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      {{d-icon link.icon}}
+                      {{#if link.text}}
+                        <span>
+                          {{link.text}}
+                        </span>
+                      {{/if}}
+                    </a>
+                  </div>
+                {{/if}}
+              {{/each}}
+            </div>
           </div>
         </div>
-      </div>
-      <div style="margin-bottom:2em">
-        {{#if fetched}}
-          {{#unless proposals.length}}
-            <h4 style="text-align:center;">
-              No active proposals found.
-            </h4>
-          {{/unless}}
-        {{else}}
-          {{karma-loading}}
-        {{/if}}
-      </div>
-      <div class="banner-body">
-        <div
-          class={{html-safe (concat "active-proposals-wrapper" " " openClass)}}
-          style={{html-safe (concat "height: " bannerHeight ";")}}
-        >
-          {{#each proposals as |proposal|}}
-            {{proposal-item proposal=proposal tokenContract=tokenContract}}
-          {{/each}}
-        </div>
-        {{#if (gte proposals.length 2)}}
-          <button
-            class={{concat "reveal-more-button" " " openClass}}
-            onclick={{toggleBanner}}
-            type="button"
-          >
-            <div class="available-to-show">
-              {{#unless openClass}}
-                {{availableToShow}}
-                hidden
-              {{else}}
-                Hide list
-              {{/unless}}
+        {{#if proposals.length}}
+          <div class="banner-body">
+            <div
+              class={{
+                html-safe (concat "active-proposals-wrapper" " " openClass)
+              }}
+              style={{html-safe (concat "height: " bannerHeight ";")}}
+            >
+              {{#each proposals as |proposal|}}
+                {{proposal-item proposal=proposal tokenContract=tokenContract}}
+              {{/each}}
             </div>
-            {{d-icon "chevron-down"}}
-          </button>
+            {{#if (gte proposals.length 2)}}
+              <button
+                class={{concat "reveal-more-button" " " openClass}}
+                onclick={{toggleBanner}}
+                type="button"
+              >
+                <div class="available-to-show">
+                  {{#unless openClass}}
+                    {{availableToShow}}
+                    hidden
+                  {{else}}
+                    Hide list
+                  {{/unless}}
+                </div>
+                {{d-icon "chevron-down"}}
+              </button>
+            {{/if}}
+          </div>
         {{/if}}
-      </div>
+      {{else}}
+        {{karma-loading}}
+      {{/if}}
     </div>
   </div>
 {{/if}}
