@@ -1,12 +1,11 @@
-{{#if (gt siteSettings.Show_voting_history 0)}}
+{{#if (and (gt siteSettings.Show_voting_history 0) profile.address)}}
   <div id="__karma-voting-wrapper">
     <div style="display:flex;align-items:center;margin:10px 0;">
       {{#if siteSettings.Show_Karma_logo}}
         <a
           alt="Show Karma App"
-          href={{concat
-            "https://showkarma.xyz/profile/"
-            this.currentUser.username
+          href={{
+            concat "https://showkarma.xyz/profile/" this.currentUser.username
           }}
           target="_blank"
           rel="noopener noreferrer"
@@ -15,10 +14,13 @@
             src="https://www.showkarma.xyz/icons/karma-logo.svg"
             height="28"
             width="28"
-          >
+          />
         </a>
       {{/if}}
-      <b>Voting History</b><br>
+      <b>
+        Voting History
+      </b>
+      <br />
     </div>
     <small class="text-disabled">
       Showing latest {{profile.ensName}}'s
@@ -31,7 +33,9 @@
           {{vote-item vote=vote profile=profile}}
         {{/each}}
       {{else}}
-        <div class="loading">Loading voting history</div>
+        <div class="loading">
+          Loading voting history
+        </div>
       {{/if}}
     </div>
   </div>
