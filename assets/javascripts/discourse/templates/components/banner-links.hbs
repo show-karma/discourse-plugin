@@ -1,0 +1,23 @@
+<div class="links-wrapper" style="margin-top:2em">
+  <div class="featured-banner-link">
+    {{#each links as |link|}}
+      {{#if link.url}}
+        <div>
+          <a
+            class="k-btn btn-secondary"
+            href={{link.url}}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            {{d-icon link.icon}}
+            {{#if link.text}}
+              <span>
+                {{link.text}}
+              </span>
+            {{/if}}
+          </a>
+        </div>
+      {{/if}}
+    {{/each}}
+  </div>
+</div>
