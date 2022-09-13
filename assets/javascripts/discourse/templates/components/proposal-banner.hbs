@@ -4,11 +4,6 @@
       <div class="__banner-wrapper">
         <div class="__banner-content-wrapper">
           <div class="__banner-content">
-            {{#if siteSettings.Show_icon_on_banner}}
-              <div class="logo">
-                <img src={{logo}} height="40" />
-              </div>
-            {{/if}}
             <div>
               <h2>
                 {{siteSettings.Banner_title}}
@@ -18,6 +13,7 @@
               </p>
             </div>
           </div>
+          {{banner-links links=bannerLinks}}
         </div>
         <div class="banner-body">
           <div

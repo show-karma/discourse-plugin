@@ -44,12 +44,6 @@ plugins:
   Banner_past_proposal_days:
     default: 2
     client: true
-  Show_icon_on_banner: 
-    default: true
-    client: true
-  Custom_banner_icon_url:
-    default: ""
-    client: true
   Banner_forum_rules_link:
     default: "/"
     client: true

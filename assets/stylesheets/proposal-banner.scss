@@ -192,7 +192,7 @@ $color-brand-light-0: #9b9ba7 !default;
         color: $color-brand-light-0;
       }
       @media screen and (min-width: $breakpoint-md) {
-        width: 100%;
+        width: 40%;
         text-align: left;
         display: flex;
         justify-content: flex-start;
@@ -200,7 +200,7 @@ $color-brand-light-0: #9b9ba7 !default;
       }
     }
 
-    @media screen and (max-width: $breakpoint-md) {
+    @media screen and (max-width: $breakpoint-sm) {
       flex-wrap: wrap;
 
       .__banner-content {
