@@ -67,7 +67,10 @@ const withVoteBreakdown = async (proposals = []) => {
       );
       // eslint-disable-next-line no-bitwise
       if (~proposalVotes) {
-        proposal.voteBreakdown = getVoteBreakdown(proposalVotes);
+        proposal.voteBreakdown = getVoteBreakdown(
+          proposalVotes,
+          Array.isArray(proposal.choices) ? proposal.choices : undefined
+        );
       }
       return proposal;
     });
@@ -85,6 +88,7 @@ const parseProposals = (proposals = []) =>
     endsAt: moment.unix(proposal.endsAt).format("MMMM D, YYYY"),
     dateDescription: dateDiff(proposal.endsAt),
     snapshotId: proposal.space.id,
+    choices: proposal.choices,
   }));
 
 export async function fetchActiveOffChainProposals(daoNames, daysAgo) {
