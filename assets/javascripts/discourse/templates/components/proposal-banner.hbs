@@ -30,7 +30,9 @@
               {{proposal-item proposal=proposal tokenContract=tokenContract}}
             {{/each}}
           </div>
-          {{#if (gte proposals.length 2)}}
+        </div>
+        {{#if (gte proposals.length 2)}}
+          <div class="reveal-button-wrapper">
             <button
               class={{concat "reveal-more-button" " " openClass}}
               onclick={{toggleBanner}}
@@ -46,8 +48,8 @@
               </div>
               {{d-icon "chevron-down"}}
             </button>
-          {{/if}}
-        </div>
+          </div>
+        {{/if}}
       </div>
     {{else}}
       {{karma-loading}}

@@ -2,6 +2,7 @@ import gql from "./fetcher";
 import { history, proposal as proposalQuery } from "./queries";
 import { parseMdLink } from "../../parse-md-link";
 import { dateDiff } from "../../date-diff";
+import { getVoteBreakdown } from "../../vote-breakdown";
 
 const subgraphUrl = new URL("https://hub.snapshot.org/graphql");
 
@@ -53,15 +54,7 @@ export async function fetchOffChainProposalVotes(
   }
 }
 
-const getVoteBreakdown = (votes = []) => {
-  const vb = { for: 0, abs: 0, no: 0, total: votes.length };
-  votes.forEach((item) => {
-    item.choice === 1 ? vb.for++ : item.choice === 2 ? vb.no++ : vb.abs++;
-  });
-  return vb;
-};
-
-const fetchVoteBreakdown = async (proposals = []) => {
+const withVoteBreakdown = async (proposals = []) => {
   const voteBreakdownQuery = proposalQuery.offChain.votes(
     proposals.map((p) => p.id)
   );
@@ -104,7 +97,7 @@ export async function fetchActiveOffChainProposals(daoNames, daysAgo) {
     );
     const { proposals } = await gql.query(subgraphUrl, proposalsQuery);
     if (proposals && Array.isArray(proposals)) {
-      return fetchVoteBreakdown(parseProposals(proposals));
+      return withVoteBreakdown(parseProposals(proposals));
     }
     return [];
   } catch (error) {

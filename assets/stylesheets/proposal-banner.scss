@@ -39,6 +39,9 @@ $color-brand-light-0: #9b9ba7 !default;
         &.against {
           background-color: #cddaec;
         }
+        &.abstain {
+          background-color: #e4eefd85;
+        }
       }
     }
   }
@@ -53,7 +56,9 @@ $color-brand-light-0: #9b9ba7 !default;
     background-color: transparent;
     border: 1px solid $color-brand-gray-1;
     border-radius: 8px;
-    width: 70%;
+    @media screen and (min-width: $breakpoint-md) {
+      width: 70%;
+    }
     .__banner-content-wrapper {
       box-sizing: border-box;
       display: flex;
@@ -110,7 +115,7 @@ $color-brand-light-0: #9b9ba7 !default;
           border-bottom: 1px solid $color-black-alpha-1;
         }
         .proposal {
-          padding: .5rem 1rem;
+          padding: 0.5rem 1rem;
           display: flex;
           justify-content: space-between;
           flex-wrap: wrap;
@@ -138,8 +143,13 @@ $color-brand-light-0: #9b9ba7 !default;
       }
     }
 
+    .reveal-button-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
     .reveal-more-button {
-      margin: calc(35px - 0.1em) 0 0 25px;
       padding: 0 20px;
       position: relative;
       display: flex;
@@ -148,7 +158,6 @@ $color-brand-light-0: #9b9ba7 !default;
       cursor: pointer;
       border: none;
       background: none;
-      border: 2px solid $color-brand-gray-2;
       border-radius: 20px;
       font-size: 1.1em;
       svg {
