@@ -1,21 +1,16 @@
-{{!-- {{#if votes.length}} --}}
-<div class="breakdown against" style={{html-safe (concat "width:" againstPct)}}>
-  <b>
-    Against
-  </b>
-  {{breakdown.no}} votes
-</div>
-
-<div class="breakdown for" style={{html-safe (concat "width:" forPct)}}>
-  <b>
-    For
-  </b>
-  {{breakdown.for}} Votes
-</div>
-<div class="breakdown abstain" style={{html-safe (concat "width:" abstainPct)}}>
-  <b>
-    Abstain
-  </b>
-  {{breakdown.abs}} votes
-</div>
-{{!-- {{/if}} --}}
+{{#if values.length}}
+  {{#each values as |value|}}
+    <div
+      class="breakdown against"
+      style={{
+        html-safe (concat "width:" value.pct ";background-color:" value.color)
+      }}
+    >
+      {{karma-tooltip label=value.name}}
+      <b>
+        {{value.shortname}}
+      </b>
+      {{value.count}} votes
+    </div>
+  {{/each}}
+{{/if}}
