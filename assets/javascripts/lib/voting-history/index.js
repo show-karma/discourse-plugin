@@ -41,13 +41,14 @@ const VotingHistory = {
       amount
     );
 
-    const offChain = await fetchOffChainProposalVotes(
-      daoNames,
-      profile.address,
-      amount
-    );
+    // const offChain = await fetchOffChainProposalVotes(
+    //   daoNames,
+    //   profile.address,
+    //   amount
+    // );
 
-    const votes = onChain.concat(offChain);
+    // const votes = onChain.concat(offChain);
+    const votes = onChain;
 
     votes.sort((a, b) =>
       moment(a.executed).isBefore(moment(b.executed)) ? 1 : -1
