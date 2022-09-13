@@ -16,12 +16,7 @@ export default Component.extend({
   }),
 
   getText() {
-    let text = "Open";
-    if (this.proposal.type === "Off-chain") {
-      return text + " on Snapshot";
-    } else {
-      return text + " on Tally";
-    }
+    return "View details";
   },
 
   @action

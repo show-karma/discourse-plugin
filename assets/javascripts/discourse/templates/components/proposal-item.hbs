@@ -4,6 +4,9 @@
       {{html-safe proposal.title}}
     </div>
   </div>
+  <div class="vote-breakdown">
+    {{vote-breakdown breakdown=proposal.voteBreakdown}}
+  </div>
   <div class="proposal-due-date">
     {{proposal.type}}
     |
@@ -13,9 +16,9 @@
     {{#if proposal.dateDescription}}
       -
       {{proposal.dateDescription}}
-      <span class="redirect-text">
-        {{d-icon "link"}} {{text}}
-      </span>
     {{/if}}
+    <span class="redirect-text">
+      {{d-icon "link"}} {{text}}
+    </span>
   </div>
 </div>

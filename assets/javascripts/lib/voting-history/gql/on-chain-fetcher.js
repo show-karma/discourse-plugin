@@ -2,6 +2,7 @@ import gql from "./fetcher";
 import { history, proposal as proposalQuery } from "./queries";
 import { parseMdLink } from "../../parse-md-link";
 import { dateDiff } from "../../date-diff";
+import { getVoteBreakdown } from "../../vote-breakdown";
 
 const subgraphUrl = new URL(
   "https://api.thegraph.com/subgraphs/name/show-karma/dao-on-chain-voting"
@@ -61,6 +62,7 @@ const parseProposals = (proposals = []) =>
     type: "On-chain",
     title: parseMdLink(proposal.title),
     voteCount: proposal.votes.length,
+    voteBreakdown: getVoteBreakdown(proposal.votes),
     endsAt: moment.unix(proposal.endsAt).format("MMMM D, YYYY"),
     dateDescription: dateDiff(proposal.endsAt),
     snapshotId: proposal.organization.id,

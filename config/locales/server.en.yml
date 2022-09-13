@@ -25,5 +25,3 @@ en:
     Banner_custom_link_icon: "Icon to display"
     Banner_custom_link_text: "Text to display"
     Banner_past_proposal_days: "Show proposals from past X days. If not set, only shows active proposals"
-    Show_icon_on_banner: "Show an icon next to banner title"
-    Custom_banner_icon_url: "URL to a custom icon. Leave blank to show the current logo (ideal size of 50x50)"

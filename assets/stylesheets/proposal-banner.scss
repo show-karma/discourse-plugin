@@ -6,7 +6,7 @@ $color-black-alpha-1: rgba(0, 0, 0, 0.125) !default;
 $color-black-alpha-2: rgba(0, 0, 0, 0.3) !default;
 
 $color-brand-gray-0: #fafafc;
-$color-brand-gray-1: #e9e9e9;
+$color-brand-gray-1: #d1d5da;
 $color-brand-gray-2: #6c7b8b;
 
 $color-brand-blue-0: #eef5ff;
@@ -18,17 +18,47 @@ $color-brand-light-0: #9b9ba7 !default;
 .below-site-header-outlet.banner-connector {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
+  .vote-breakdown {
+    width: 100%;
+    border-radius: 5px;
+    margin-top: 1em;
+    overflow: hidden;
+    .ember-view {
+      display: flex;
+      width: 100%;
+      height: 30px;
+      .breakdown {
+        max-width: 70%;
+        min-width: 15%;
+        text-align: center;
+        color: #364c6a;
+        padding: 5px 0;
+        &.for {
+          background-color: #e2eaf5;
+        }
+        &.against {
+          background-color: #cddaec;
+        }
+        &.abstain {
+          background-color: #e4eefd85;
+        }
+      }
+    }
+  }
   .__banner-link-banner-wrapper {
     background-color: "white";
     background-position: center center;
   }
 
   .__banner-wrapper {
-    padding: 2em 3em 2em;
-    margin: 2.5em auto;
-    background-color: $color-brand-gray-0;
+    padding: 1em 0.5em 1em;
+    margin: 5em 0 0;
+    background-color: transparent;
     border: 1px solid $color-brand-gray-1;
     border-radius: 8px;
+    @media screen and (min-width: $breakpoint-md) {
+      width: 70%;
+    }
     .__banner-content-wrapper {
       box-sizing: border-box;
       display: flex;
@@ -62,7 +92,7 @@ $color-brand-light-0: #9b9ba7 !default;
       justify-content: space-between;
       transition: ease-in-out 300ms;
       overflow-y: hidden;
-      width: calc(100% - 170px);
+      width: 100%;
       &:not(.opened) {
         overflow-y: hidden;
       }
@@ -85,7 +115,7 @@ $color-brand-light-0: #9b9ba7 !default;
           border-bottom: 1px solid $color-black-alpha-1;
         }
         .proposal {
-          padding: 1.5rem 1rem;
+          padding: 0.5rem 1rem;
           display: flex;
           justify-content: space-between;
           flex-wrap: wrap;
@@ -113,8 +143,13 @@ $color-brand-light-0: #9b9ba7 !default;
       }
     }
 
+    .reveal-button-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
     .reveal-more-button {
-      margin: calc(35px - 0.1em) 0 0 25px;
       padding: 0 20px;
       position: relative;
       display: flex;
@@ -123,7 +158,6 @@ $color-brand-light-0: #9b9ba7 !default;
       cursor: pointer;
       border: none;
       background: none;
-      border: 2px solid $color-brand-gray-2;
       border-radius: 20px;
       font-size: 1.1em;
       svg {
@@ -158,7 +192,7 @@ $color-brand-light-0: #9b9ba7 !default;
         color: $color-brand-light-0;
       }
       @media screen and (min-width: $breakpoint-md) {
-        width: 50%;
+        width: 40%;
         text-align: left;
         display: flex;
         justify-content: flex-start;
@@ -166,7 +200,7 @@ $color-brand-light-0: #9b9ba7 !default;
       }
     }
 
-    @media screen and (max-width: $breakpoint-md) {
+    @media screen and (max-width: $breakpoint-sm) {
       flex-wrap: wrap;
 
       .__banner-content {

@@ -2,6 +2,7 @@ import gql from "./fetcher";
 import { history, proposal as proposalQuery } from "./queries";
 import { parseMdLink } from "../../parse-md-link";
 import { dateDiff } from "../../date-diff";
+import { getVoteBreakdown } from "../../vote-breakdown";
 
 const subgraphUrl = new URL("https://hub.snapshot.org/graphql");
 
@@ -53,12 +54,35 @@ export async function fetchOffChainProposalVotes(
   }
 }
 
+const withVoteBreakdown = async (proposals = []) => {
+  const voteBreakdownQuery = proposalQuery.offChain.votes(
+    proposals.map((p) => p.id)
+  );
+  const { votes } = await gql.query(subgraphUrl, voteBreakdownQuery);
+
+  if (votes && Array.isArray(votes)) {
+    return proposals.map((proposal) => {
+      const proposalVotes = votes.filter(
+        (item) => item.proposal.id === proposal.id
+      );
+      // eslint-disable-next-line no-bitwise
+      if (~proposalVotes) {
+        proposal.voteBreakdown = getVoteBreakdown(proposalVotes);
+        proposal.voteCount = votes.length;
+      }
+      return proposal;
+    });
+  }
+  return proposals;
+};
+
 const parseProposals = (proposals = []) =>
   proposals.map((proposal) => ({
     id: proposal.id,
     type: "Off-chain",
     title: parseMdLink(proposal.title),
     voteCount: proposal.votes,
+    voteBreakdown: { for: 0, abs: 0, no: 0, total: 0 },
     endsAt: moment.unix(proposal.endsAt).format("MMMM D, YYYY"),
     dateDescription: dateDiff(proposal.endsAt),
     snapshotId: proposal.space.id,
@@ -73,7 +97,7 @@ export async function fetchActiveOffChainProposals(daoNames, daysAgo) {
     );
     const { proposals } = await gql.query(subgraphUrl, proposalsQuery);
     if (proposals && Array.isArray(proposals)) {
-      return parseProposals(proposals);
+      return withVoteBreakdown(parseProposals(proposals));
     }
     return [];
   } catch (error) {
