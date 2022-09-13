@@ -20,7 +20,7 @@ export const proposal = {
         id
         title: description
         endsAt: timestamp
-        votes {user {id}}
+        votes {choice: support}
         organization {id}
       }
     }`,
@@ -37,6 +37,12 @@ export const proposal = {
         endsAt: end
         votes
         space {id}
+      }
+    }`,
+    votes: (proposalIds = []) => `query Votes {
+      votes(first:2000,where:{proposal_in: ${inStatement(proposalIds)}}){
+        choice
+        proposal {id}
       }
     }`,
   },

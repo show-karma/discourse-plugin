@@ -61,6 +61,7 @@ const parseProposals = (proposals = []) =>
     type: "On-chain",
     title: parseMdLink(proposal.title),
     voteCount: proposal.votes.length,
+    voteBreakdown: { for: 0, abs: 0, no: 0 },
     endsAt: moment.unix(proposal.endsAt).format("MMMM D, YYYY"),
     dateDescription: dateDiff(proposal.endsAt),
     snapshotId: proposal.organization.id,
