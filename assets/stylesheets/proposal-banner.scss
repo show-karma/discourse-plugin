@@ -94,7 +94,7 @@ $color-brand-light-0: #9b9ba7 !default;
     }
 
     .banner-body {
-      margin-top: 3em;
+      margin-top: 1.5em;
       display: flex;
       @media screen and (max-width: $breakpoint-md) {
         flex-direction: column;
