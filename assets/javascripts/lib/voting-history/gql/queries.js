@@ -37,10 +37,11 @@ export const proposal = {
         endsAt: end
         votes
         space {id}
+        choices
       }
     }`,
     votes: (proposalIds = []) => `query Votes {
-      votes(first:2000,where:{proposal_in: ${inStatement(proposalIds)}}){
+      votes(first:4000,where: {proposal_in: ${inStatement(proposalIds)}}){
         choice
         proposal {id}
       }

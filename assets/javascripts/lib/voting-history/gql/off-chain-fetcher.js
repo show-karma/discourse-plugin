@@ -68,7 +68,6 @@ const withVoteBreakdown = async (proposals = []) => {
       // eslint-disable-next-line no-bitwise
       if (~proposalVotes) {
         proposal.voteBreakdown = getVoteBreakdown(proposalVotes);
-        proposal.voteCount = votes.length;
       }
       return proposal;
     });

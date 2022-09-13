@@ -1,7 +1,13 @@
-export const getVoteBreakdown = (votes = []) => {
-  const vb = { for: 0, abs: 0, no: 0, total: votes.length };
+export const getVoteBreakdown = (
+  votes = [],
+  choices = ["For", "Against", "Abstain"]
+) => {
+  const vb = {};
+  choices.forEach((choice) => (vb[choice] = 0));
+
   votes.forEach((item) => {
-    item.choice === 1 ? vb.for++ : item.choice === 2 ? vb.no++ : vb.abs++;
+    vb[choices[+item.choice - 1]]++;
   });
+  vb.total = votes.length;
   return vb;
 };
