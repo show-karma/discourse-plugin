@@ -1,18 +1,18 @@
 {{!-- {{#if votes.length}} --}}
-<div class="breakdown against" style={{concat "width:" againstPct}}>
+<div class="breakdown against" style={{html-safe (concat "width:" againstPct)}}>
   <b>
     Against
   </b>
   {{breakdown.no}} votes
 </div>
 
-<div class="breakdown for" style={{concat "width:" forPct}}>
+<div class="breakdown for" style={{html-safe (concat "width:" forPct)}}>
   <b>
     For
   </b>
   {{breakdown.for}} Votes
 </div>
-<div class="breakdown abstain" style={{concat "width:" abstainPct}}>
+<div class="breakdown abstain" style={{html-safe (concat "width:" abstainPct)}}>
   <b>
     Abstain
   </b>
