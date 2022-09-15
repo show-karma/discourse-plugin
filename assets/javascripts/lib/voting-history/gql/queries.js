@@ -10,7 +10,7 @@ function yesterdayUTC(daysAgo = 1) {
 
 export const proposal = {
   onChain: {
-    proposal: (daoNames = [], amount = 100, daysAgo = 1) => `query Proposals {
+    proposal: (daoNames = [], amount = 100, daysAgo = 0) => `query Proposals {
       proposals(
         first: ${amount},
         where: { organization_in: ${inStatement(
@@ -26,7 +26,7 @@ export const proposal = {
     }`,
   },
   offChain: {
-    proposal: (daoNames = [], amount = 100, daysAgo) => `query Proposals {
+    proposal: (daoNames = [], amount = 100, daysAgo = 0) => `query Proposals {
       proposals(
         first: ${amount},
         where: { space_in: ${inStatement(daoNames)}, end_gt: ${yesterdayUTC(
