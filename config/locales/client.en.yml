@@ -1,4 +1,10 @@
 en:
+  admin_js: 
+    admin:
+      site_settings:
+        categories: 
+          Karma_Score: "Karma Score"
+          Proposal_Banner: "Proposal Banner"
   js:
     discourse_plugin_name:
       placeholder: placeholder

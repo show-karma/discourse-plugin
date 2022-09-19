@@ -1,4 +1,4 @@
-plugins:
+Karma_Score:
   Enable_Karma_plugin:
     default: true
     client: true
@@ -32,6 +32,8 @@ plugins:
   User_not_found_message:
     default: Couldn't find stats. Link your wallet to display stats. [[KarmaDaoUrl]]
     client: true
+  
+Proposal_Banner:
   Show_proposal_banner:
     default: false
     client: true
@@ -42,7 +44,7 @@ plugins:
     default: "See the latest active proposals"
     client: true
   Banner_past_proposal_days:
-    default: 2
+    default: 0
     client: true
   Banner_forum_rules_link:
     default: "/"
