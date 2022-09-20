@@ -1,5 +1,6 @@
 import Component from "@ember/component";
 import { set } from "@ember/object";
+import { shortenNumber } from "../../lib/shorten-number";
 
 export default Component.extend({
   breakdown: {},
@@ -17,7 +18,7 @@ export default Component.extend({
         shortname: `${key.slice(0, 4).trim()}${
           key[4] && key[4] !== " " ? "..." : ""
         }`,
-        count: this.breakdown[key],
+        count: shortenNumber(this.breakdown[key], 1),
         pct: (this.breakdown[key] / this.breakdown.total) * 100 + "%",
         color: rgb(index),
       }));

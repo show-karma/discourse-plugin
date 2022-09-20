@@ -1,5 +1,4 @@
 import voting from "../lib/snapshot/index";
-import { shortenNumber } from "./shorten-number";
 const scoreApiUrl = "https://score.snapshot.org/api/scores";
 
 export async function getScores(
@@ -97,10 +96,12 @@ export const getVoteBreakdown = (
 export const getVoteBreakdownByProposal = (proposal = {}) => {
   const vb = getChoices(proposal.choices);
   const keys = Object.keys(vb);
-  proposal.scores.forEach((score, idx) => {
-    vb[keys[idx]] = shortenNumber(+score);
-  });
 
+  vb.total = 0;
+  proposal.scores.forEach((score, idx) => {
+    vb[keys[idx]] = score;
+    vb.total += score;
+  });
   proposal.voteBreakdown = vb;
 
   return proposal;

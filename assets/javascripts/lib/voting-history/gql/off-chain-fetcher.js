@@ -3,7 +3,7 @@ import gql from "./fetcher";
 import { history, proposal as proposalQuery } from "./queries";
 import { parseMdLink } from "../../parse-md-link";
 import { dateDiff } from "../../date-diff";
-import { getResults, getVoteBreakdownByProposal } from "../../vote-breakdown";
+import { getResults } from "../../vote-breakdown";
 
 const subgraphUrl = new URL("https://hub.snapshot.org/graphql");
 
@@ -73,13 +73,13 @@ const withVoteBreakdown = async (proposals = []) => {
       return proposal;
     });
 
-    const promises = proposals
-      .splice(0, 1)
-      .map((proposal) => getResults(space, proposal, proposal.votes));
+    const promises = proposals.map((proposal) =>
+      getResults(space, proposal, proposal.votes)
+    );
 
     proposals = await Promise.all(promises);
 
-    return proposals.map(getVoteBreakdownByProposal);
+    return proposals;
   }
   return [];
 };
@@ -90,7 +90,7 @@ const parseProposals = (proposals = []) =>
     type: "Off-chain",
     title: parseMdLink(proposal.title),
     voteCount: proposal.votes,
-    voteBreakdown: { for: 0, abs: 0, no: 0, total: 0 },
+    voteBreakdown: { For: 0, Abstain: 0, Against: 0, total: 0 },
     endsAt: moment.unix(proposal.endsAt).format("MMMM D, YYYY"),
     dateDescription: dateDiff(proposal.endsAt),
     snapshotId: proposal.space.id,
