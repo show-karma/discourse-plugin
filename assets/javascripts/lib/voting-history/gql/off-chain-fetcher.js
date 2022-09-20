@@ -1,8 +1,9 @@
+/* eslint-disable no-restricted-globals */
 import gql from "./fetcher";
 import { history, proposal as proposalQuery } from "./queries";
 import { parseMdLink } from "../../parse-md-link";
 import { dateDiff } from "../../date-diff";
-import { getVoteBreakdown } from "../../vote-breakdown";
+import { getResults, getVoteBreakdownByProposal } from "../../vote-breakdown";
 
 const subgraphUrl = new URL("https://hub.snapshot.org/graphql");
 
@@ -59,23 +60,28 @@ const withVoteBreakdown = async (proposals = []) => {
     proposals.map((p) => p.id)
   );
   const { votes } = await gql.query(subgraphUrl, voteBreakdownQuery);
+  const { spaces } = await gql.query(
+    subgraphUrl,
+    proposalQuery.offChain.strategies([proposals[0].snapshotId])
+  );
+
+  const [space] = spaces;
 
   if (votes && Array.isArray(votes)) {
-    return proposals.map((proposal) => {
-      const proposalVotes = votes.filter(
-        (item) => item.proposal.id === proposal.id
-      );
-      // eslint-disable-next-line no-bitwise
-      if (~proposalVotes) {
-        proposal.voteBreakdown = getVoteBreakdown(
-          proposalVotes,
-          Array.isArray(proposal.choices) ? proposal.choices : undefined
-        );
-      }
+    proposals = proposals.map((proposal) => {
+      proposal.votes = votes.filter((item) => item.proposal.id === proposal.id);
       return proposal;
     });
+
+    const promises = proposals
+      .splice(0, 1)
+      .map((proposal) => getResults(space, proposal, proposal.votes));
+
+    proposals = await Promise.all(promises);
+
+    return proposals.map(getVoteBreakdownByProposal);
   }
-  return proposals;
+  return [];
 };
 
 const parseProposals = (proposals = []) =>
@@ -89,6 +95,10 @@ const parseProposals = (proposals = []) =>
     dateDescription: dateDiff(proposal.endsAt),
     snapshotId: proposal.space.id,
     choices: proposal.choices,
+    strategies: proposal.strategies,
+    network: proposal.network,
+    snapshot: proposal.snapshot,
+    proposalType: proposal.type,
   }));
 
 export async function fetchActiveOffChainProposals(daoNames, daysAgo) {

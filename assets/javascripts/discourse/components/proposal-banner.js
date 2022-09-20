@@ -67,7 +67,7 @@ export default Component.extend({
           : 0;
       } else {
         el.each((_, item) => {
-          bannerHeight += item.clientHeight;
+          bannerHeight += item.clientHeight + 15;
         });
       }
     }

@@ -38,12 +38,36 @@ export const proposal = {
         votes
         space {id}
         choices
+        network
+        snapshot
+        type
+        strategies {
+          name
+          network
+          params
+        }
       }
     }`,
     votes: (proposalIds = []) => `query Votes {
       votes(first:4000,where: {proposal_in: ${inStatement(proposalIds)}}){
         choice
+        vp
+        vp_by_strategy
+        vp_state
         proposal {id}
+        voter
+      }
+    }`,
+    strategies: (daoNames = []) => `query Strategies {
+      spaces (where: {
+        id_in: ${inStatement(daoNames)}
+      }) {
+        id
+        strategies {
+          name
+          network
+          params
+        }
       }
     }`,
   },
