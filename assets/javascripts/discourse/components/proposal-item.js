@@ -41,10 +41,10 @@ export default Component.extend({
     set(this, "link", nLink);
   },
 
-  async getBreakdown() {
-    if(this.proposal.type === 'Off-chain'){
-      const proposal = await getVoteBreakdownByProposal(this.proposal);
-      set(this, 'proposal', proposal);
+  getBreakdown() {
+    if (this.proposal.type === "Off-chain") {
+      const proposal = getVoteBreakdownByProposal(this.proposal);
+      set(this, "proposal", proposal);
     }
   },
 

@@ -20,7 +20,10 @@ export const proposal = {
         id
         title: description
         endsAt: timestamp
-        votes {choice: support}
+        votes {
+          choice: support,
+          weight
+        }
         organization {id}
       }
     }`,

@@ -70,6 +70,7 @@ export async function getResults(space, proposal, votes) {
 const getChoices = (choices = []) => {
   const vb = {};
   choices.forEach((choice) => (vb[choice] = 0));
+  vb.total = 0;
   return vb;
 };
 
@@ -87,9 +88,16 @@ export const getVoteBreakdown = (
 ) => {
   const vb = getChoices(choices);
   votes.forEach((item) => {
-    vb[choices[+item.choice - 1]]++;
+    let choiceIdx = +item.choice;
+    if (+item.choice === 0) {
+      choiceIdx = 1;
+    } else if (+item.choice === 1) {
+      choiceIdx = 0;
+    }
+    const rValue = +item.weight / 1e18;
+    vb[choices[choiceIdx]] += rValue;
+    vb.total += rValue;
   });
-  vb.total = votes.length;
   return vb;
 };
 
