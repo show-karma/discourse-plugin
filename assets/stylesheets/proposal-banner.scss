@@ -30,13 +30,17 @@ $color-brand-light-0: #9b9ba7 !default;
       .breakdown {
         position: relative;
         max-width: 70%;
-        min-width: 15%;
+        min-width: 16%;
         text-align: center;
         color: #364c6a;
         padding: 5px 0;
         &:hover {
+          .ember-view {
+            width: max-content;
+          }
           .ember-view .__karma-tooltip {
             opacity: 1;
+            z-index: 1;
           }
         }
         &:not(:last-of-type) {
@@ -52,10 +56,12 @@ $color-brand-light-0: #9b9ba7 !default;
         }
         > .ember-view {
           position: absolute;
-          top: -30px;
-          width: max-content;
+          right: 0;
+          top: -35px;
+          width: 0;
           .__karma-tooltip {
-            z-index: 2;
+            z-index: -1;
+            position: relative;
             opacity: 0;
             border: 1px solid rgba(0, 0, 0, 0.35);
             box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.3);
@@ -64,7 +70,7 @@ $color-brand-light-0: #9b9ba7 !default;
             background-color: white;
             border-radius: 5px;
             padding: 5px 15px;
-            transition: 200ms ease-in-out;
+            // transition: 200ms ease-in-out;
           }
         }
       }
@@ -117,6 +123,7 @@ $color-brand-light-0: #9b9ba7 !default;
       justify-content: space-between;
       transition: ease-in-out 300ms;
       overflow-y: hidden;
+      overflow-x: hidden;
       width: 100%;
       &:not(.opened) {
         overflow-y: hidden;
@@ -125,7 +132,7 @@ $color-brand-light-0: #9b9ba7 !default;
         word-wrap: break-word;
         word-break: break-word;
         width: 100%;
-        overflow-y: hidden;
+        // overflow-y: hidden;
         .btn-link {
           margin-left: 5px;
           border: 0px;

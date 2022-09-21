@@ -7,10 +7,12 @@
       }}
     >
       {{karma-tooltip label=value.name}}
-      <b>
-        {{value.shortname}}
-      </b>
-      {{value.count}} votes
+      <div style="max-height:100%;overflow:hidden">
+        <b>
+          {{value.shortname}}
+        </b>
+        {{value.count}} votes
+      </div>
     </div>
   {{/each}}
 {{/if}}

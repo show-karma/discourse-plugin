@@ -1,5 +1,6 @@
 import Component from "@ember/component";
 import { action, computed, set } from "@ember/object";
+import { getVoteBreakdownByProposal } from "../../lib/vote-breakdown";
 const { BigInt } = window;
 
 export default Component.extend({
@@ -40,8 +41,16 @@ export default Component.extend({
     set(this, "link", nLink);
   },
 
+  getBreakdown() {
+    if (this.proposal.type === "Off-chain") {
+      const proposal = getVoteBreakdownByProposal(this.proposal);
+      set(this, "proposal", proposal);
+    }
+  },
+
   init() {
     this._super(...arguments);
     this.getLink();
+    this.getBreakdown();
   },
 });
