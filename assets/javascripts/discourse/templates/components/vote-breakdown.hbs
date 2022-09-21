@@ -1,18 +1,26 @@
-{{#if values.length}}
-  {{#each values as |value|}}
-    <div
-      class="breakdown against"
-      style={{
-        html-safe (concat "width:" value.pct ";background-color:" value.color)
-      }}
-    >
-      {{karma-tooltip label=value.name}}
-      <div style="max-height:100%;overflow:hidden">
-        <b>
-          {{value.shortname}}
-        </b>
-        {{value.count}} votes
-      </div>
+{{#if loading}}
+  <div style="width:100%">
+    <div style="transform:scale(0.5)">
+      {{karma-loading}}
     </div>
-  {{/each}}
+  </div>
+{{else}}
+  {{#if values.length}}
+    {{#each values as |value|}}
+      <div
+        class="breakdown against"
+        style={{
+          html-safe (concat "width:" value.pct ";background-color:" value.color)
+        }}
+      >
+        {{karma-tooltip label=value.name}}
+        <div style="max-height:100%;overflow:hidden">
+          <b>
+            {{value.shortname}}
+          </b>
+          {{value.count}} votes
+        </div>
+      </div>
+    {{/each}}
+  {{/if}}
 {{/if}}
