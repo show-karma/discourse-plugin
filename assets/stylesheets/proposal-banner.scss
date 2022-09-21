@@ -57,9 +57,11 @@ $color-brand-light-0: #9b9ba7 !default;
         > .ember-view {
           position: absolute;
           right: 0;
+          top: -35px;
           width: 0;
           .__karma-tooltip {
             z-index: -1;
+            position: relative;
             opacity: 0;
             border: 1px solid rgba(0, 0, 0, 0.35);
             box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.3);
