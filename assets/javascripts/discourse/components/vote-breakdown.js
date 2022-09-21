@@ -7,6 +7,8 @@ export default Component.extend({
 
   values: [],
 
+  loading: false,
+
   sortVotes(votes) {
     if (
       Array.isArray(votes) &&

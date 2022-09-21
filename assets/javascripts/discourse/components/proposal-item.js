@@ -1,6 +1,10 @@
 import Component from "@ember/component";
 import { action, computed, set } from "@ember/object";
-import { getVoteBreakdownByProposal } from "../../lib/vote-breakdown";
+import {
+  getResults,
+  getVoteBreakdownByProposal,
+} from "../../lib/vote-breakdown";
+
 const { BigInt } = window;
 
 export default Component.extend({
@@ -11,6 +15,8 @@ export default Component.extend({
   link: "",
 
   pointer: "",
+
+  loading: false,
 
   text: computed(function () {
     return this.getText();
@@ -41,10 +47,16 @@ export default Component.extend({
     set(this, "link", nLink);
   },
 
-  getBreakdown() {
+  async getBreakdown() {
     if (this.proposal.type === "Off-chain") {
-      const proposal = getVoteBreakdownByProposal(this.proposal);
-      set(this, "proposal", proposal);
+      set(this, "loading", true);
+      const proposal = { ...this.proposal };
+      const withScores = getVoteBreakdownByProposal(
+        await getResults(proposal.space, proposal, proposal.votes)
+      );
+
+      set(this, "proposal", withScores);
+      set(this, "loading", false);
     }
   },
 

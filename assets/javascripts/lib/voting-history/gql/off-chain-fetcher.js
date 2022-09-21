@@ -3,7 +3,6 @@ import gql from "./fetcher";
 import { history, proposal as proposalQuery } from "./queries";
 import { parseMdLink } from "../../parse-md-link";
 import { dateDiff } from "../../date-diff";
-import { getResults } from "../../vote-breakdown";
 
 const subgraphUrl = new URL("https://hub.snapshot.org/graphql");
 
@@ -70,14 +69,9 @@ const withVoteBreakdown = async (proposals = []) => {
   if (votes && Array.isArray(votes)) {
     proposals = proposals.map((proposal) => {
       proposal.votes = votes.filter((item) => item.proposal.id === proposal.id);
+      proposal.space = space;
       return proposal;
     });
-
-    const promises = proposals.map((proposal) =>
-      getResults(space, proposal, proposal.votes)
-    );
-
-    proposals = await Promise.all(promises);
 
     return proposals;
   }
