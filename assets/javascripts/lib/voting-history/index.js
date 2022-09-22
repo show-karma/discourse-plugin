@@ -18,7 +18,6 @@ const VotingHistory = {
     if (!ctx || !ctx.SiteSettings || !profile) {
       return;
     }
-
     if (profile && profile.address) {
       $(`${wrapperId} #__karma-voting-wrapper`).css("display", "initial");
       $(`${wrapperId} #__karma-user-profile`).prop(
@@ -48,7 +47,6 @@ const VotingHistory = {
     );
 
     const votes = onChain.concat(offChain);
-
     votes.sort((a, b) =>
       moment(a.executed).isBefore(moment(b.executed)) ? 1 : -1
     );

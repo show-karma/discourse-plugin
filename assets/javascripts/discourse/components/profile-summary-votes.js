@@ -10,13 +10,15 @@ export default Component.extend({
 
   votes: [],
 
-  didReceiveAttrs() {
-    this._super(...arguments);
-    const _this = this;
-    VotingHistory.start(this.profile, { SiteSettings: this.siteSettings }).then(
-      (votes) => {
-        set(_this, "votes", votes);
+  async didReceiveAttrs() {
+    if (!this.votes.length) {
+      this._super(...arguments);
+      const votes = await VotingHistory.start(this.profile, {
+        SiteSettings: this.siteSettings,
+      });
+      if (!this.votes.length && votes.length) {
+        set(this, "votes", votes);
       }
-    );
+    }
   },
 });
