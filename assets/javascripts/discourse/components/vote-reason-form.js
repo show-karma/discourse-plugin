@@ -75,21 +75,14 @@ export default Component.extend({
       if (this.form.reason.length + this.form.summary.length < 20) {
         return false;
       }
-
-      const res = await postToTopic({
+      await postToTopic({
         threadId: this.threadId,
-        body: `
-          ${this.proposalTitle}
-          <br/><br/>
-          <b>Summary</b>:${this.form.summary}
-          <br/><br/>
-          <b>Recommendation</b>:
-          ${this.form.reason}
-        `,
+        body: `${this.proposalTitle}\n
+          **Summary**: ${this.form.summary}\n
+          **Recommendation**:
+          ${this.form.reason}`,
         csrf: this.session.csrfToken,
       });
-
-      console.debug(res);
     } catch (error) {
       console.error(error);
     }

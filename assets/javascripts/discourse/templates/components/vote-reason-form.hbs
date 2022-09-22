@@ -45,22 +45,24 @@
               <label for="reason">
                 Summary
               </label>
-              <textarea
+              {{d-editor value=form.summary}}
+              {{!-- <textarea
                 name="reason"
                 placeholder="I voted FOR, because I believe this is a good proposal."
                 value={{form.summary}}
                 onkeyup={{setSummary}}
-              ></textarea>
+              ></textarea> --}}
               <br />
               <label for="reason">
                 Recommendation
               </label>
-              <textarea
+              {{d-editor value=form.reason}}
+              {{!-- <textarea
                 name="reason"
                 placeholder="I voted FOR, because I believe this is a good proposal."
                 value={{form.reason}}
                 onkeyup={{setReason}}
-              ></textarea>
+              ></textarea> --}}
               <br />
             </div>
             <div class="footer">
