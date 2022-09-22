@@ -83,6 +83,7 @@ const parseProposals = (proposals = []) =>
     id: proposal.id,
     type: "Off-chain",
     title: parseMdLink(proposal.title),
+    shortname: proposal.title.slice(0, 40) + "...",
     voteCount: proposal.votes,
     voteBreakdown: { For: 0, Abstain: 0, Against: 0, total: 0 },
     endsAt: moment.unix(proposal.endsAt).format("MMMM D, YYYY"),

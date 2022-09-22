@@ -11,9 +11,6 @@ Karma_Score:
   Show_Karma_score:
     default: true
     client: true
-  Show_vote_reason_form:
-    default: true
-    client: true
   Show_delegated_votes:
     default: true
     client: true
@@ -72,4 +69,18 @@ Proposal_Banner:
     client: true
   Banner_custom_link_icon:
     default: "star"
+    client: true
+
+Forms:
+  Show_delegate_pitch_form:
+    default: true
+    client: true
+  Delegate_pitch_thread_id: 
+    default: 1
+    client: true
+  Show_vote_reason_form:
+    default: true
+    client: true
+  Vote_reason_thread_id:
+    default: 2
     client: true

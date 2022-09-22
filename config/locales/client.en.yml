@@ -5,6 +5,7 @@ en:
         categories: 
           Karma_Score: "Karma Score"
           Proposal_Banner: "Proposal Banner"
+          Forms: "Forms"
   js:
     discourse_plugin_name:
       placeholder: placeholder

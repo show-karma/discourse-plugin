@@ -28,6 +28,14 @@ button.k-btn {
     background-color: var(--tertiary);
   }
 
+  &.btn-link {
+    background-color: transparent;
+    color: var(--tertiary);
+    box-shadow: none;
+    text-decoration: underline;
+    padding: 10px;
+  }
+
   &:hover {
     filter: brightness(0.9);
   }

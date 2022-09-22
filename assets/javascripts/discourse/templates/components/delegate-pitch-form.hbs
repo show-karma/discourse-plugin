@@ -1,11 +1,11 @@
-{{#if siteSettings.Show_vote_reason_form}}
+{{#if siteSettings.Show_delegate_pitch_form}}
   {{#unless hasSetReason}}
     <button
       type="button"
       class="__karma-send-reason-btn k-btn btn-link"
       onClick={{toggleModal}}
     >
-      Submit vote reason {{threadId}}
+      Delegate pitch {{threadId}}
     </button>
   {{/unless}}
 
@@ -24,36 +24,7 @@
           <div class="modal-content">
             <div class="form-reason">
               <label for="reason">
-                Summary
-              </label>
-              <select
-                name="reason"
-                placeholder="I voted FOR, because I believe this is a good proposal."
-                value={{form.proposalId}}
-                onchange={{setProposal}}
-              >
-                <option value="null" disabled selected>
-                  Select an option
-                </option>
-                {{#each proposals as |proposal index|}}
-                  <option value={{index}}>
-                    {{proposal.shortname}}
-                  </option>
-                {{/each}}
-              </select>
-              <br />
-              <label for="reason">
-                Summary
-              </label>
-              <textarea
-                name="reason"
-                placeholder="I voted FOR, because I believe this is a good proposal."
-                value={{form.summary}}
-                onkeyup={{setSummary}}
-              ></textarea>
-              <br />
-              <label for="reason">
-                Recommendation
+                Submit a reason:
               </label>
               <textarea
                 name="reason"
