@@ -10,15 +10,18 @@ export default Component.extend({
 
   wrapperId: "__karma-stats-summary",
 
-  didReceiveAttrs() {
+  setProfile(profile) {
+    set(this, "profile", profile);
+  },
+
+  async init() {
     this._super(...arguments);
-    const _this = this;
-    KarmaStats.start(
+    const profile = await KarmaStats.start(
       30,
       { SiteSettings: this.siteSettings },
       "#" + this.wrapperId
-    ).then((profile) => {
-      set(_this, "profile", profile);
-    });
+    );
+
+    this.setProfile(profile);
   },
 });
