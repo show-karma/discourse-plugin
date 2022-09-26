@@ -138,14 +138,14 @@ export default Component.extend({
           set(this, "message", "");
           set(this, "errors", []);
           set(this, "form", {
+            ...this.form,
             reason: "",
-            user: "",
             proposalId: -1,
             summary: "",
           });
         }, 250);
       }, 2000);
-      set(this, "message", "Thank you! You reason was submitted successfully.");
+      set(this, "message", "Thank you! Your reason was submitted successfully.");
     }
   },
 

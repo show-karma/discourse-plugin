@@ -26,9 +26,17 @@
               <label for="reason">
                 Submit your Delegate Pitch
               </label>
-              {{d-editor value=form.reason}}
+              {{d-editor value=form.pitch}}
               <br />
             </div>
+            {{#if errors.length}}
+              {{#each errors as |error|}}
+                <span class="error" style="color:var(--danger)">
+                  {{error}}
+                </span>
+                <br />
+              {{/each}}
+            {{/if}}
             <div class="footer">
               <button
                 type="button"

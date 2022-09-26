@@ -57,24 +57,22 @@ export default Component.extend({
     }
   },
 
+  checkErrors() {
+    set(this, "errors", []);
+    const errors = this.errors;
+
+    if (this.form.pitch.length < 20) {
+      errors.push("Your message should have at least 20 chars.");
+    }
+    set(this, "errors", errors);
+    return !!errors.length;
+  },
+
   async post() {
     try {
-      const raw = `${this.proposalTitle}
-      **Summary**: ${this.form.summary}
-      **Recommendation**:${this.form.reason}`;
-
-      if (raw.length < 20) {
-        return false;
-      }
-
       await postToTopic({
         threadId: this.threadId,
-        body: `${this.proposalTitle}
-
-**Summary**: ${this.form.summary}
-
-**Recommendation**: ${this.form.reason}`,
-
+        body: this.form.pitch,
         csrf: this.session.csrfToken,
       });
     } catch (error) {
@@ -83,16 +81,25 @@ export default Component.extend({
   },
 
   async send() {
-    set(this, "loading", true);
-    await this.post();
-    set(this, "loading", false);
-    setTimeout(() => {
-      this.toggleModal();
+    const hasErrors = this.checkErrors();
+    if (!hasErrors) {
+      console.log("has", hasErrors);
+      set(this, "loading", true);
+      await this.post();
+      set(this, "loading", false);
       setTimeout(() => {
-        set(this, "message", "");
-      }, 250);
-    }, 2000);
-    set(this, "message", "Thank you! You reason was submitted successfully.");
+        this.toggleModal();
+        setTimeout(() => {
+          set(this, "message", "");
+          set(this, "errors", []);
+          set(this, "form", {
+            ...this.form,
+            reason: "",
+          });
+        }, 250);
+      }, 2000);
+      set(this, "message", "Thank you! You pitch was submitted successfully.");
+    }
   },
 
   @action
