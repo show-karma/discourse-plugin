@@ -83,7 +83,6 @@ export default Component.extend({
   async send() {
     const hasErrors = this.checkErrors();
     if (!hasErrors) {
-      console.log("has", hasErrors);
       set(this, "loading", true);
       await this.post();
       set(this, "loading", false);
@@ -92,10 +91,6 @@ export default Component.extend({
         setTimeout(() => {
           set(this, "message", "");
           set(this, "errors", []);
-          set(this, "form", {
-            ...this.form,
-            reason: "",
-          });
         }, 250);
       }, 2000);
       set(this, "message", "Thank you! You pitch was submitted successfully.");
