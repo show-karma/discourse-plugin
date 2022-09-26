@@ -56,25 +56,29 @@ export async function fetchOffChainProposalVotes(
 }
 
 const withVoteBreakdown = async (proposals = []) => {
-  const voteBreakdownQuery = proposalQuery.offChain.votes(
-    proposals.map((p) => p.id)
-  );
-  const { votes } = await gql.query(subgraphUrl, voteBreakdownQuery);
-  const { spaces } = await gql.query(
-    subgraphUrl,
-    proposalQuery.offChain.strategies([proposals[0].snapshotId])
-  );
+  if (proposals.length) {
+    const voteBreakdownQuery = proposalQuery.offChain.votes(
+      proposals.map((p) => p.id)
+    );
+    const { votes } = await gql.query(subgraphUrl, voteBreakdownQuery);
+    const { spaces } = await gql.query(
+      subgraphUrl,
+      proposalQuery.offChain.strategies([proposals[0].snapshotId])
+    );
 
-  const [space] = spaces;
+    const [space] = spaces;
 
-  if (votes && Array.isArray(votes)) {
-    proposals = proposals.map((proposal) => {
-      proposal.votes = votes.filter((item) => item.proposal.id === proposal.id);
-      proposal.space = space;
-      return proposal;
-    });
+    if (votes && Array.isArray(votes)) {
+      proposals = proposals.map((proposal) => {
+        proposal.votes = votes.filter(
+          (item) => item.proposal.id === proposal.id
+        );
+        proposal.space = space;
+        return proposal;
+      });
 
-    return proposals;
+      return proposals;
+    }
   }
   return [];
 };
