@@ -3,7 +3,7 @@ en:
     admin:
       site_settings:
         categories: 
-          Karma_Score: "Karma Score"
+          Karma_Score: "Score"
           Proposal_Banner: "Proposal Banner"
           Forms: "Forms"
   js:

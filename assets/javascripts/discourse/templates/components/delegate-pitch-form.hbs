@@ -24,14 +24,9 @@
           <div class="modal-content">
             <div class="form-reason">
               <label for="reason">
-                Submit a reason:
+                Submit your Delegate Pitch
               </label>
-              <textarea
-                name="reason"
-                placeholder="I voted FOR, because I believe this is a good proposal."
-                value={{form.reason}}
-                onkeyup={{setReason}}
-              ></textarea>
+              {{d-editor value=form.reason}}
               <br />
             </div>
             <div class="footer">

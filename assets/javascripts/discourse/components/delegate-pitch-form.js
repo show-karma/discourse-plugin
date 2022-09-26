@@ -2,6 +2,7 @@ import Component from "@ember/component";
 import { inject as service } from "@ember/service";
 import { action, computed, set } from "@ember/object";
 import { throttle } from "@ember/runloop";
+import postToTopic from "../../lib/post-to-topic";
 
 export default Component.extend({
   router: service(),
@@ -24,7 +25,7 @@ export default Component.extend({
 
   modalId: "__karma-vote-pitch-modal",
 
-  threadId: computed(function() {
+  threadId: computed(function () {
     return this.siteSettings.Delegate_pitch_thread_id;
   }),
 
@@ -56,21 +57,42 @@ export default Component.extend({
     }
   },
 
+  async post() {
+    try {
+      const raw = `${this.proposalTitle}
+      **Summary**: ${this.form.summary}
+      **Recommendation**:${this.form.reason}`;
+
+      if (raw.length < 20) {
+        return false;
+      }
+
+      await postToTopic({
+        threadId: this.threadId,
+        body: `${this.proposalTitle}
+
+**Summary**: ${this.form.summary}
+
+**Recommendation**: ${this.form.reason}`,
+
+        csrf: this.session.csrfToken,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   async send() {
     set(this, "loading", true);
-    // eslint-disable-next-line no-restricted-globals
-    await new Promise((r) =>
-      setTimeout(() => {
-        r(true);
-      }, 2000)
-    );
+    await this.post();
     set(this, "loading", false);
-
     setTimeout(() => {
       this.toggleModal();
+      setTimeout(() => {
+        set(this, "message", "");
+      }, 250);
     }, 2000);
     set(this, "message", "Thank you! You reason was submitted successfully.");
-    set(this, "hasSetReason", true);
   },
 
   @action

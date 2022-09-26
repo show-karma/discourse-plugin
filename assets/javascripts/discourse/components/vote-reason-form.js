@@ -5,13 +5,16 @@ import { throttle } from "@ember/runloop";
 import postToTopic from "../../lib/post-to-topic";
 import { fetchActiveOffChainProposals } from "../../lib/voting-history/gql/off-chain-fetcher";
 import { fetchActiveOnChainProposals } from "../../lib/voting-history/gql/on-chain-fetcher";
+import fetchUserThreads from "../../lib/fetch-user-threads";
 
 export default Component.extend({
-  form: { reason: "", user: "", proposalId: -1, summary: "" },
+  form: { reason: "", user: "", proposalId: -1, summary: "", threadId: -1 },
 
   vote: {},
 
   proposals: [],
+
+  threads: [],
 
   message: "",
 
@@ -21,16 +24,16 @@ export default Component.extend({
 
   visible: false,
 
+  errors: [],
+
   modalId: computed(function () {
     return this.vote.proposalId + "__karma-vote-form-modal";
   }),
 
-  threadId: computed(function () {
-    return this.siteSettings.Vote_reason_thread_id;
-  }),
+  threadId: -1,
 
   proposalTitle: computed(function () {
-    return this.proposals[this.form.proposalId]?.id;
+    return this.proposals[this.form.proposalId]?.title;
   }),
 
   // proposalTitle: computed(function() {
@@ -70,17 +73,32 @@ export default Component.extend({
     }
   },
 
+  async fetchThreads() {
+    try {
+      const threads = await fetchUserThreads(this.form.user);
+      set(
+        this,
+        "threads",
+        threads.topic_list.topics.map((topic) => ({
+          name: topic.fancy_title,
+          id: topic.id,
+        }))
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  },
+
   async post() {
     try {
-      if (this.form.reason.length + this.form.summary.length < 20) {
-        return false;
-      }
       await postToTopic({
         threadId: this.threadId,
-        body: `${this.proposalTitle}\n
-          **Summary**: ${this.form.summary}\n
-          **Recommendation**:
-          ${this.form.reason}`,
+        body: `${this.proposalTitle}
+
+**Summary**: ${this.form.summary}
+
+**Recommendation**: ${this.form.reason}`,
+
         csrf: this.session.csrfToken,
       });
     } catch (error) {
@@ -88,14 +106,47 @@ export default Component.extend({
     }
   },
 
+  checkErrors() {
+    set(this, "errors", []);
+    const raw = this.form.reason + this.form.summary;
+    const errors = this.errors;
+
+    if (this.form.proposalId === -1) {
+      errors.push("Proposal is required.");
+    }
+
+    if (this.form.threadId === -1) {
+      errors.push("Reason thread is required.");
+    }
+
+    if (raw.length < 20) {
+      errors.push("Your messages should have at least 20 chars.");
+    }
+    set(this, "errors", errors);
+    return !!errors.length;
+  },
+
   async send() {
-    set(this, "loading", true);
-    await this.post();
-    set(this, "loading", false);
-    setTimeout(() => {
-      this.toggleModal();
-    }, 2000);
-    set(this, "message", "Thank you! You reason was submitted successfully.");
+    const hasErrors = this.checkErrors();
+    if (!hasErrors) {
+      set(this, "loading", true);
+      await this.post();
+      set(this, "loading", false);
+      setTimeout(() => {
+        this.toggleModal();
+        setTimeout(() => {
+          set(this, "message", "");
+          set(this, "errors", []);
+          set(this, "form", {
+            reason: "",
+            user: "",
+            proposalId: -1,
+            summary: "",
+          });
+        }, 250);
+      }, 2000);
+      set(this, "message", "Thank you! You reason was submitted successfully.");
+    }
   },
 
   async fetchProposals() {
@@ -139,9 +190,15 @@ export default Component.extend({
   setProposal(e) {
     this.setFormData("proposalId", e.target.value);
   },
+  @action
+  setThreadId(e) {
+    const idx = +e.target.value;
+    this.setFormData("threadId", this.threads[idx].id);
+  },
 
   didReceiveAttrs() {
     this._super(...arguments);
     this.form.user = this.currentUser.username;
+    this.fetchThreads();
   },
 });

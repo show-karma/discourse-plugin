@@ -23,21 +23,41 @@
         <form onSubmit={{submit}}>
           <div class="modal-content">
             <div class="form-reason">
+              <label for="thread-id">
+                Reason thread
+              </label>
+              <select
+                name="thread-id"
+                value={{threadId}}
+                onchange={{setThreadId}}
+                required
+              >
+                <option value="null" disabled selected>
+                  Select an option
+                </option>
+                {{#each threads as |thread index|}}
+                  <option value={{index}}>
+                    {{thread.name}}
+                  </option>
+                {{/each}}
+              </select>
+
               <label for="reason">
-                Summary
+                Proposal
               </label>
               <select
                 name="reason"
                 placeholder="I voted FOR, because I believe this is a good proposal."
                 value={{form.proposalId}}
                 onchange={{setProposal}}
+                required
               >
                 <option value="null" disabled selected>
                   Select an option
                 </option>
                 {{#each proposals as |proposal index|}}
                   <option value={{index}}>
-                    {{proposal.shortname}}
+                    {{proposal.title}}
                   </option>
                 {{/each}}
               </select>
@@ -46,25 +66,21 @@
                 Summary
               </label>
               {{d-editor value=form.summary}}
-              {{!-- <textarea
-                name="reason"
-                placeholder="I voted FOR, because I believe this is a good proposal."
-                value={{form.summary}}
-                onkeyup={{setSummary}}
-              ></textarea> --}}
               <br />
               <label for="reason">
                 Recommendation
               </label>
               {{d-editor value=form.reason}}
-              {{!-- <textarea
-                name="reason"
-                placeholder="I voted FOR, because I believe this is a good proposal."
-                value={{form.reason}}
-                onkeyup={{setReason}}
-              ></textarea> --}}
               <br />
             </div>
+            {{#if errors.length}}
+              {{#each errors as |error|}}
+                <span class="error" style="color:var(--danger)">
+                  {{error}}
+                </span>
+                <br />
+              {{/each}}
+            {{/if}}
             <div class="footer">
               <button
                 type="button"

@@ -72,6 +72,12 @@ button.k-btn {
     min-width: 500px;
     padding: 2em 1.5em;
     .form-reason {
+      .d-editor-container {
+        height: 150px;
+      }
+      .d-editor-preview-wrapper {
+        display: none;
+      }
       textarea,
       input {
         border: 1px solid $color-black-alpha-2;
