@@ -16,7 +16,7 @@ export default Component.extend({
     publicAddress: "",
   },
 
-  postId: 0,
+  postId: null,
 
   profile: {},
 
