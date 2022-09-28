@@ -3,13 +3,18 @@ import { inject as service } from "@ember/service";
 import { action, computed, set } from "@ember/object";
 import { throttle } from "@ember/runloop";
 import postToTopic from "../../lib/post-to-topic";
+import { isEthAddress } from "../../lib/is-eth-address";
+import KarmaApiClient from "../../lib/karma-api-client";
 
 export default Component.extend({
   router: service(),
 
   proposalId: "",
 
-  form: { pitch: "", user: "" },
+  form: {
+    description: "",
+    publicAddress: "",
+  },
 
   profile: {},
 
@@ -60,20 +65,36 @@ export default Component.extend({
   checkErrors() {
     set(this, "errors", []);
     const errors = this.errors;
-
-    if (this.form.pitch.length < 20) {
+    console.debug(this.form.description);
+    if (this.form.description.length < 20) {
       errors.push("Your message should have at least 20 chars.");
     }
+
+    if (!isEthAddress(this.form.publicAddress)) {
+      errors.push("The provided public address for delegate is invalid");
+    }
+
     set(this, "errors", errors);
     return !!errors.length;
   },
 
   async post() {
     try {
-      await postToTopic({
+      const cli = new KarmaApiClient(
+        this.siteSettings.DAO_name,
+        this.form.publicAddress
+      );
+
+      const { id: postId } = await postToTopic({
         threadId: this.threadId,
-        body: this.form.pitch,
+        body: this.form.description,
         csrf: this.session.csrfToken,
+      });
+      await cli.saveDelegatePitch({
+        threadId: this.threadId,
+        description: this.form.description,
+        discourseHandle: this.currentUser.username,
+        postId,
       });
     } catch (error) {
       console.error(error);
@@ -107,9 +128,18 @@ export default Component.extend({
   setReason(e) {
     set(this, "form", { ...this.form, reason: e.target.value });
   },
+  @action
+  setPublicAddress(e) {
+    set(this, "form", { ...this.form, publicAddress: e.target.value });
+  },
 
   didReceiveAttrs() {
     this._super(...arguments);
-    this.form.user = this.currentUser.username;
+    if (this.profile?.address) {
+      set(this, "form", {
+        ...this.form,
+        publicAddress: this.profile.address,
+      });
+    }
   },
 });

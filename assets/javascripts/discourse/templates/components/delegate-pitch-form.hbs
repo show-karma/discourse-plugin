@@ -24,9 +24,13 @@
           <div class="modal-content">
             <div class="form-reason">
               <label for="reason">
+                Delegate Address
+              </label>
+              <input type="text" value={{form.publicAddress}} onchange={{setPublicAddress}} />
+              <label for="reason">
                 Submit your Delegate Pitch
               </label>
-              {{d-editor value=form.pitch}}
+              {{d-editor value=form.description}}
               <br />
             </div>
             {{#if errors.length}}
@@ -34,7 +38,7 @@
                 <span class="error" style="color:var(--danger)">
                   {{error}}
                 </span>
-                <br />
+                <br>
               {{/each}}
             {{/if}}
             <div class="footer">

@@ -2,6 +2,7 @@ import { withPluginApi } from "discourse/lib/plugin-api";
 import KarmaStats from "../lib/stats/index";
 import VotingHistory from "../lib/voting-history/index";
 
+// TODO: !!Refactor this to ember components
 function bootstrap(_, ctx) {
   function release(wrapperId = "#__karma-stats") {
     let showing = false;
@@ -33,6 +34,8 @@ export default {
   name: "karma-stats",
 
   initialize(container) {
+    // eslint-disable-next-line no-console
+    console.info("Karma Score (v1.3.6-beta)");
     const SiteSettings = container.lookup("site-settings:main");
     if (SiteSettings.Enable_Karma_plugin) {
       withPluginApi("0.8.7", bootstrap, { SiteSettings, container });
