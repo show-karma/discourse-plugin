@@ -1,16 +1,18 @@
 import Component from "@ember/component";
-import { inject as service } from "@ember/service";
 import { action, computed, set } from "@ember/object";
 import { throttle } from "@ember/runloop";
 import postToTopic from "../../lib/post-to-topic";
 import { fetchActiveOffChainProposals } from "../../lib/voting-history/gql/off-chain-fetcher";
 import { fetchActiveOnChainProposals } from "../../lib/voting-history/gql/on-chain-fetcher";
 import fetchUserThreads from "../../lib/fetch-user-threads";
+import KarmaApiClient from "../../lib/karma-api-client";
 
 export default Component.extend({
-  form: { reason: "", user: "", proposalId: -1, summary: "", threadId: -1 },
+  form: { recommendation: "", summary: "", publicAddress: "", postId: null },
 
   vote: {},
+
+  submittedVotes: [],
 
   proposals: [],
 
@@ -32,18 +34,15 @@ export default Component.extend({
 
   threadId: -1,
 
+  proposalId: -1,
+
   proposalTitle: computed(function () {
-    return this.proposals[this.form.proposalId]?.title;
+    return this.proposals[this.proposalId]?.title;
   }),
 
   // proposalTitle: computed(function() {
   //   return this.proposal[this.form.proposalId]?.id
   // })
-
-  init() {
-    this._super(...arguments);
-    this.fetchProposals();
-  },
 
   @action
   toggleModal() {
@@ -73,33 +72,28 @@ export default Component.extend({
     }
   },
 
-  async fetchThreads() {
-    try {
-      const threads = await fetchUserThreads(this.form.user);
-      set(
-        this,
-        "threads",
-        threads.topic_list.topics.map((topic) => ({
-          name: topic.fancy_title,
-          id: topic.id,
-        }))
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  },
-
   async post() {
     try {
-      await postToTopic({
+      const cli = new KarmaApiClient(
+        this.siteSettings.DAO_name,
+        this.form.publicAddress
+      );
+
+      const { id: postId } = await postToTopic({
         threadId: this.threadId,
         body: `${this.proposalTitle}
 
 **Summary**: ${this.form.summary}
 
-**Recommendation**: ${this.form.reason}`,
+**Recommendation**: ${this.form.recommendation}`,
 
         csrf: this.session.csrfToken,
+      });
+
+      await cli.saveVoteReason(this.proposals[this.proposalId].id, {
+        ...this.form,
+        postId,
+        threadId: this.threadId,
       });
     } catch (error) {
       console.error(error);
@@ -108,10 +102,10 @@ export default Component.extend({
 
   checkErrors() {
     set(this, "errors", []);
-    const raw = this.form.reason + this.form.summary;
+    const raw = this.form.recommendation + this.form.summary;
     const errors = this.errors;
 
-    if (this.form.proposalId === -1) {
+    if (this.proposalId === -1) {
       errors.push("Proposal is required.");
     }
 
@@ -139,13 +133,33 @@ export default Component.extend({
           set(this, "errors", []);
           set(this, "form", {
             ...this.form,
-            reason: "",
+            recommendation: "",
             proposalId: -1,
             summary: "",
           });
         }, 250);
       }, 2000);
-      set(this, "message", "Thank you! Your reason was submitted successfully.");
+      set(
+        this,
+        "message",
+        "Thank you! Your recommendation was submitted successfully."
+      );
+    }
+  },
+
+  async fetchThreads() {
+    try {
+      const threads = await fetchUserThreads(this.currentUser.username);
+      set(
+        this,
+        "threads",
+        threads.topic_list.topics.map((topic) => ({
+          name: topic.fancy_title,
+          id: topic.id,
+        }))
+      );
+    } catch (error) {
+      console.error(error);
     }
   },
 
@@ -162,8 +176,30 @@ export default Component.extend({
     const proposals = onChain
       .concat(offChain)
       .sort((a, b) => (moment(a.endsAt).isBefore(moment(b.endsAt)) ? 1 : -1));
+
+    return proposals;
+  },
+
+  async fetchVoteReasons(proposals = []) {
+    const cli = new KarmaApiClient(
+      this.siteSettings.DAO_name,
+      this.profile.address
+    );
+    const { reasons } = await cli.fetchVoteReasons();
+    if (reasons && Array.isArray(reasons)) {
+      proposals = proposals.map((proposal) => {
+        const hasReason = reasons.find(
+          (reason) => reason.proposalId === proposal.id
+        );
+        if (hasReason) {
+          proposal.reason = hasReason;
+          proposal.disabled = true;
+        }
+        return proposal;
+      });
+    }
+    console.debug("here", proposals);
     set(this, "proposals", proposals);
-    set(this, "fetched", true);
   },
 
   @action
@@ -178,7 +214,7 @@ export default Component.extend({
 
   @action
   setReason(e) {
-    this.setFormData("reason", e.target.value);
+    this.setFormData("recommendation", e.target.value);
   },
 
   @action
@@ -188,17 +224,23 @@ export default Component.extend({
 
   @action
   setProposal(e) {
-    this.setFormData("proposalId", e.target.value);
+    set(this, "proposalId", e.target.value);
   },
+
   @action
   setThreadId(e) {
     const idx = +e.target.value;
-    this.setFormData("threadId", this.threads[idx].id);
+    set(this, "threadId", this.threads[idx].id);
   },
 
-  didReceiveAttrs() {
+  async didReceiveAttrs() {
     this._super(...arguments);
-    this.form.user = this.currentUser.username;
+    if (this.profile.address) {
+      const proposals = await this.fetchProposals();
+      await this.fetchVoteReasons(proposals);
+      set(this, "fetched", true);
+      set(this, "form", { ...this.form, publicAddress: this.profile.address });
+    }
     this.fetchThreads();
   },
 });

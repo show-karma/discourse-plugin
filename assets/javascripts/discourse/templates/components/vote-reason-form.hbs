@@ -26,12 +26,7 @@
               <label for="thread-id">
                 Reason thread
               </label>
-              <select
-                name="thread-id"
-                value={{threadId}}
-                onchange={{setThreadId}}
-                required
-              >
+              <select name="thread-id" onchange={{setThreadId}} required>
                 <option value="null" disabled selected>
                   Select an option
                 </option>
@@ -48,7 +43,7 @@
               <select
                 name="reason"
                 placeholder="I voted FOR, because I believe this is a good proposal."
-                value={{form.proposalId}}
+                value={{proposalId}}
                 onchange={{setProposal}}
                 required
               >
@@ -56,7 +51,8 @@
                   Select an option
                 </option>
                 {{#each proposals as |proposal index|}}
-                  <option value={{index}}>
+                  <option value={{index}} disabled={{proposal.disabled}}>
+                    {{log proposal.disabled}}
                     {{proposal.title}}
                   </option>
                 {{/each}}
@@ -70,7 +66,7 @@
               <label for="reason">
                 Recommendation
               </label>
-              {{d-editor value=form.reason}}
+              {{d-editor value=form.recommendation}}
               <br />
             </div>
             {{#if errors.length}}

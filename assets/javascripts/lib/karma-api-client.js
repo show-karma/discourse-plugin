@@ -22,7 +22,14 @@ class KarmaApiClient {
   }
 
   saveVoteReason(proposalId, reason) {
-    if (!(reason.summary || reason.threadId || reason.recommendation)) {
+    if (
+      !(
+        reason.summary ||
+        reason.threadId ||
+        reason.recommendation ||
+        reason.postId
+      )
+    ) {
       throw Error("Missing values for reason.");
     }
 
