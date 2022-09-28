@@ -16,7 +16,11 @@ export default Component.extend({
     publicAddress: "",
   },
 
+  postId: 0,
+
   profile: {},
+
+  lockDelegateAddress: false,
 
   vote: {},
 
@@ -65,7 +69,6 @@ export default Component.extend({
   checkErrors() {
     set(this, "errors", []);
     const errors = this.errors;
-    console.debug(this.form.description);
     if (this.form.description.length < 20) {
       errors.push("Your message should have at least 20 chars.");
     }
@@ -76,6 +79,23 @@ export default Component.extend({
 
     set(this, "errors", errors);
     return !!errors.length;
+  },
+
+  async fetchDelegatePitch() {
+    if (this.profile.address) {
+      const cli = new KarmaApiClient(
+        this.siteSettings.DAO_name,
+        this.profile.address
+      );
+      const { delegatePitch } = await cli.fetchDelegatePitch();
+      if (delegatePitch) {
+        set(this, "form", {
+          ...this.form,
+          description: delegatePitch.description,
+        });
+        set(this, "postId", delegatePitch.postId);
+      }
+    }
   },
 
   async post() {
@@ -90,6 +110,7 @@ export default Component.extend({
         body: this.form.description,
         csrf: this.session.csrfToken,
       });
+
       await cli.saveDelegatePitch({
         threadId: this.threadId,
         description: this.form.description,
@@ -136,6 +157,8 @@ export default Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
     if (this.profile?.address) {
+      this.fetchDelegatePitch();
+      set(this, "lockDelegateAddress", true);
       set(this, "form", {
         ...this.form,
         publicAddress: this.profile.address,

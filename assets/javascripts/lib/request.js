@@ -1,7 +1,7 @@
 export async function request(url, body, method = "POST") {
   const { data } = await fetch(url, {
     method,
-    body: JSON.stringify(body),
+    body: body ? JSON.stringify(body) : undefined,
     headers: {
       "Content-Type": "application/json",
     },

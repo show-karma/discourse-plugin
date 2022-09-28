@@ -34,6 +34,13 @@ class KarmaApiClient {
     return request(this.voteUrl, null, "GET");
   }
 
+  /**
+   * Saves the delegate pitch to Karma Api
+   * @param {string} pitch.description the actual pitch
+   * @param {string} pitch.threadId the thread id
+   * @param {string} pitch.postId the post id
+   * @param {string} pitch.discourseHandle the discourse username
+   */
   saveDelegatePitch(pitch) {
     if (!(pitch.description || pitch.threadId)) {
       throw new Error("Missing values for pitch.");
@@ -41,6 +48,9 @@ class KarmaApiClient {
     return request(this.pitchUrl, pitch, "POST");
   }
 
+  /**
+   * Fetches the delegate pitch if exists
+   */
   fetchDelegatePitch() {
     return request(this.pitchUrl, null, "GET");
   }

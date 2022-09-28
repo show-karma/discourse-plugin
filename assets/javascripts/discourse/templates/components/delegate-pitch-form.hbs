@@ -26,7 +26,13 @@
               <label for="reason">
                 Delegate Address
               </label>
-              <input type="text" value={{form.publicAddress}} onchange={{setPublicAddress}} />
+              <input
+                type="text"
+                class="k-input"
+                value={{form.publicAddress}}
+                onchange={{setPublicAddress}}
+                disabled={{lockDelegateAddress}}
+              />
               <label for="reason">
                 Submit your Delegate Pitch
               </label>
@@ -38,7 +44,7 @@
                 <span class="error" style="color:var(--danger)">
                   {{error}}
                 </span>
-                <br>
+                <br />
               {{/each}}
             {{/if}}
             <div class="footer">
