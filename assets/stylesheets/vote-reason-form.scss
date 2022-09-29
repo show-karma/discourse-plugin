@@ -11,8 +11,10 @@ $color-black-alpha-2: rgba(0, 0, 0, 0.3) !default;
   font-size: 1.3em;
 }
 button.k-btn {
+  &:not(.btn-transparent) {
+    box-shadow: 0 0 0.2em $color-black-alpha-1;
+  }
   transition: 200ms ease-in-out;
-  box-shadow: 0 0 0.2em $color-black-alpha-1;
   padding: 0.5em 1.5em;
   border: none;
   border-radius: 5px;
@@ -26,6 +28,11 @@ button.k-btn {
   }
   &.btn-info {
     background-color: var(--tertiary);
+  }
+  &.btn-transparent {
+    background-color: transparent;
+    color: #555865;
+    font-weight: 600;
   }
 
   &.btn-link {
@@ -65,31 +72,66 @@ button.k-btn {
     z-index: -1;
   }
   .modal-content {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     background-color: white;
     border-radius: 8px;
     border: 1px solid $color-black-alpha-2;
     box-shadow: 0 0 1em $color-black-alpha-1;
-    min-width: 500px;
+    max-width: 500px;
+    @media screen and(min-width: $breakpoint-sm) {
+      width: 100%;
+    }
+
+    @media screen and(max-width: $breakpoint-sm) {
+      min-width: 340px;
+    }
     padding: 2em 1.5em;
+    .k-input {
+      padding: 15px 10px;
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid $color-black-alpha-2;
+    }
+    .modal-header {
+      font-size: 1.5em;
+      font-weight: 600;
+      padding: 0;
+      margin-top: 0;
+      margin-bottom: 2em;
+      border: none;
+    }
     .form-reason {
+      .editor-large {
+        .d-editor-container {
+          height: 440px;
+        }
+      }
       .d-editor-container {
         height: 150px;
+        .d-editor-textarea-wrapper {
+          border: 1px solid $color-black-alpha-2;
+          border-radius: 8px;
+          .d-editor-button-bar {
+            border: none;
+          }
+          .d-editor-input {
+            border: none;
+            border-top: 1px solid $color-black-alpha-2;
+            border-radius: 0;
+          }
+        }
       }
       .d-editor-preview-wrapper {
         display: none;
-      }
-      textarea,
-      input {
-        border: 1px solid $color-black-alpha-2;
-        border-radius: 5px;
-        width: 100%;
       }
     }
     .footer {
       text-align: right;
       width: 100%;
-      border-top: 1px solid $color-black-alpha-1;
       padding-top: 1em;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
     }
   }
 }

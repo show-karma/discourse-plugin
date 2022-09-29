@@ -5,7 +5,7 @@
       class="__karma-send-reason-btn k-btn btn-link"
       onClick={{toggleModal}}
     >
-      Submit vote reason {{threadId}}
+      Submit vote reason
     </button>
   {{/unless}}
 
@@ -22,13 +22,25 @@
       {{#unless message.length}}
         <form onSubmit={{submit}}>
           <div class="modal-content">
+            <p class="modal-header">
+              Enter a Voting Reason
+            </p>
             <div class="form-reason">
               <label for="thread-id">
-                Reason thread
+                Your vote reasons thread
               </label>
-              <select name="thread-id" onchange={{setThreadId}} required>
+              <select
+                name="thread-id"
+                onchange={{setThreadId}}
+                required
+                class="k-input"
+              >
                 <option value="null" disabled selected>
-                  Select an option
+                  {{#if proposalLoading}}
+                    Loading...
+                  {{else}}
+                    Select an option
+                  {{/if}}
                 </option>
                 {{#each threads as |thread index|}}
                   <option value={{index}}>
@@ -42,13 +54,18 @@
               </label>
               <select
                 name="reason"
+                class="k-input"
                 placeholder="I voted FOR, because I believe this is a good proposal."
                 value={{proposalId}}
                 onchange={{setProposal}}
                 required
               >
                 <option value="null" disabled selected>
-                  Select an option
+                  {{#if proposalLoading}}
+                    Loading...
+                  {{else}}
+                    Select an option
+                  {{/if}}
                 </option>
                 {{#each proposals as |proposal index|}}
                   <option value={{index}} disabled={{proposal.disabled}}>
@@ -78,16 +95,20 @@
               {{/each}}
             {{/if}}
             <div class="footer">
-              <button
-                type="button"
-                class="k-btn btn-danger"
-                onClick={{toggleModal}}
-              >
-                Cancel
-              </button>
-              <button type="submit" class="k-btn btn-success">
-                Send
-              </button>
+              <div>
+              </div>
+              <div>
+                <button
+                  type="button"
+                  class="k-btn btn-transparent"
+                  onClick={{toggleModal}}
+                >
+                  Cancel
+                </button>
+                <button type="submit" class="k-btn btn-info">
+                  Send
+                </button>
+              </div>
             </div>
           </div>
         </form>

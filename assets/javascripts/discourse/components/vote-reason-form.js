@@ -22,6 +22,8 @@ export default Component.extend({
 
   loading: false,
 
+  proposalLoading: false,
+
   fetched: false,
 
   visible: false,
@@ -105,12 +107,12 @@ export default Component.extend({
     const raw = this.form.recommendation + this.form.summary;
     const errors = this.errors;
 
-    if (this.proposalId === -1) {
-      errors.push("Proposal is required.");
+    if (this.threadId === -1) {
+      errors.push("Reason thread is required.");
     }
 
-    if (this.form.threadId === -1) {
-      errors.push("Reason thread is required.");
+    if (this.proposalId === -1) {
+      errors.push("Proposal is required.");
     }
 
     if (raw.length < 20) {
@@ -235,8 +237,10 @@ export default Component.extend({
   async didReceiveAttrs() {
     this._super(...arguments);
     if (this.profile.address) {
+      set(this, "proposalLoading", true);
       const proposals = await this.fetchProposals();
       await this.fetchVoteReasons(proposals);
+      set(this, "proposalLoading", false);
       set(this, "fetched", true);
       set(this, "form", { ...this.form, publicAddress: this.profile.address });
     }
