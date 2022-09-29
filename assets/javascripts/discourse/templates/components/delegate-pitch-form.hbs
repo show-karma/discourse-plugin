@@ -65,9 +65,11 @@
               >
                 Cancel
               </button>
-              <button type="submit" class="k-btn btn-success">
-                Send
-              </button>
+              {{#unless postId}}
+                <button type="submit" class="k-btn btn-success">
+                  Send
+                </button>
+              {{/unless}}
             </div>
           </div>
         </form>

@@ -198,7 +198,6 @@ export default Component.extend({
         return proposal;
       });
     }
-    console.debug("here", proposals);
     set(this, "proposals", proposals);
   },
 
