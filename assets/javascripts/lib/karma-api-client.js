@@ -1,7 +1,8 @@
+import { isTypeof } from "./is-typeof";
 import { request } from "./request";
 
 // const apiUrl = "https://api.showkarma.xyz/api/dao";
-const apiUrl = "http://192.168.123.101:3001/api/dao";
+const apiUrl = "/";
 
 class KarmaApiClient {
   daoName;
@@ -21,7 +22,8 @@ class KarmaApiClient {
     this.pitchUrl = `${apiUrl}/${daoName}/delegate-pitch/${publicAddress}`;
   }
 
-  saveVoteReason(proposalId, reason) {
+  saveVoteReason(proposalId, reason, csrfToken) {
+    isTypeof(csrfToken, "string");
     if (
       !(
         reason.summary ||
@@ -33,8 +35,19 @@ class KarmaApiClient {
       throw Error("Missing values for reason.");
     }
 
-    const url = this.voteUrl + `/${proposalId}`;
-    return request(url, reason, "POST");
+    const url = `/karma-score/vote-reason.json`;
+    return request(
+      url,
+      {
+        ...reason,
+        proposalId,
+        publicAddress: this.publicAddress,
+      },
+      "POST",
+      {
+        "X-CSRF-Token": csrfToken,
+      }
+    );
   }
 
   fetchVoteReasons() {
@@ -48,11 +61,23 @@ class KarmaApiClient {
    * @param {string} pitch.postId the post id
    * @param {string} pitch.discourseHandle the discourse username
    */
-  saveDelegatePitch(pitch) {
+  saveDelegatePitch(pitch, csrfToken) {
+    isTypeof(csrfToken, "string");
     if (!(pitch.description || pitch.threadId)) {
       throw new Error("Missing values for pitch.");
     }
-    return request(this.pitchUrl, pitch, "POST");
+
+    return request(
+      "/karma-score/delegate-pitch.json",
+      {
+        ...pitch,
+        publicAddress: this.publicAddress,
+      },
+      "POST",
+      {
+        "X-CSRF-Token": csrfToken,
+      }
+    );
   }
 
   /**

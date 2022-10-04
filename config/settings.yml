@@ -2,6 +2,9 @@ Karma_Score:
   Enable_Karma_plugin:
     default: true
     client: true
+  Karma_API_Key:
+    default: ""
+    client: false
   Show_Karma_logo:
     default: false
     client: true

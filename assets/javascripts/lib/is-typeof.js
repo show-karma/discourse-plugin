@@ -1,7 +1,7 @@
 /**
  * Validates if `o` is typeof `t` and perform desired actions.
  * @param {*} o the object to be tested
- * @param {string} t the typeof (number, string, object, array)
+ * @param {"number"|"string"|"object"|"array"} t the typeof (number, string, object, array)
  * @param {boolean} _throw will throw an error if true, otherwise, returns false.
  * @returns
  */

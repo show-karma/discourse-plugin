@@ -92,11 +92,15 @@ export default Component.extend({
         csrf: this.session.csrfToken,
       });
 
-      await cli.saveVoteReason(this.proposals[this.proposalId].id, {
-        ...this.form,
-        postId,
-        threadId: this.threadId,
-      });
+      await cli.saveVoteReason(
+        this.proposals[this.proposalId].id,
+        {
+          ...this.form,
+          postId,
+          threadId: this.threadId,
+        },
+        this.session.csrfToken
+      );
     } catch (error) {
       console.error(error);
     }
