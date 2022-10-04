@@ -5,6 +5,7 @@ import { throttle } from "@ember/runloop";
 import postToTopic from "../../lib/post-to-topic";
 import { isEthAddress } from "../../lib/is-eth-address";
 import KarmaApiClient from "../../lib/karma-api-client";
+import { request } from "../../lib/request";
 
 export default Component.extend({
   router: service(),
@@ -111,12 +112,15 @@ export default Component.extend({
         csrf: this.session.csrfToken,
       });
 
-      await cli.saveDelegatePitch({
-        threadId: this.threadId,
-        description: this.form.description,
-        discourseHandle: this.currentUser.username,
-        postId,
-      });
+      await cli.saveDelegatePitch(
+        {
+          threadId: this.threadId,
+          description: this.form.description,
+          discourseHandle: this.currentUser.username,
+          postId,
+        },
+        this.session.csrfToken
+      );
     } catch (error) {
       console.error(error);
     }
