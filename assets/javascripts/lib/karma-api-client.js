@@ -1,9 +1,9 @@
 import { isTypeof } from "./is-typeof";
 import { request } from "./request";
 
-// const apiUrl = "https://api.showkarma.xyz/api/dao";
 const apiUrl = "/";
-
+// const karmaUrl = "https://api.showkarma.xyz/api/dao";
+const karmaUrl = "http://192.168.123.101:3001/api";
 class KarmaApiClient {
   daoName;
   publicAddress;
@@ -18,8 +18,8 @@ class KarmaApiClient {
     this.daoName = daoName;
     this.publicAddress = publicAddress;
 
-    this.voteUrl = `${apiUrl}/${daoName}/vote-reason/${publicAddress}`;
-    this.pitchUrl = `${apiUrl}/${daoName}/delegate-pitch/${publicAddress}`;
+    this.voteUrl = `${karmaUrl}/dao/${daoName}/vote-reason/${publicAddress}`;
+    this.pitchUrl = `${karmaUrl}/dao/${daoName}/delegate-pitch/${publicAddress}`;
   }
 
   saveVoteReason(proposalId, reason, csrfToken) {
