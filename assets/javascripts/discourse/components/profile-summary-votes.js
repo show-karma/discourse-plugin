@@ -1,8 +1,7 @@
 import Component from "@ember/component";
 import { inject as service } from "@ember/service";
-import { action, set } from "@ember/object";
+import { set, computed } from "@ember/object";
 import VotingHistory from "../../lib/voting-history/index";
-import { request } from "../../lib/request";
 
 export default Component.extend({
   router: service(),
@@ -10,6 +9,14 @@ export default Component.extend({
   profile: {},
 
   votes: [],
+
+  shouldShowActionButtons: computed(function () {
+    return (
+      this.profile.username &&
+      this.currentUser &&
+      this.profile?.username === this.currentUser?.username
+    );
+  }),
 
   async didReceiveAttrs() {
     if (!this.votes.length) {

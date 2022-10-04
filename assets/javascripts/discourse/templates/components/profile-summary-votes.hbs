@@ -18,8 +18,10 @@
       <b>
         Voting History
       </b>
-      {{delegate-pitch-form profile=this.profile}}
-      {{vote-reason-form profile=this.profile}}
+      {{#if shouldShowActionButtons}}
+        {{delegate-pitch-form profile=this.profile}}
+        {{vote-reason-form profile=this.profile}}
+      {{/if}}
       <br />
     </div>
     <small class="text-disabled">

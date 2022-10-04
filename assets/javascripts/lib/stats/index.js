@@ -185,6 +185,7 @@ const KarmaStats = {
     } else if (totalTries < 30) {
       setTimeout(() => KarmaStats.start(++totalTries, ctx), 250);
     }
+    this.profile.username = user;
     return this.profile;
   },
 };
