@@ -74,6 +74,10 @@ export default Component.extend({
     }
   },
 
+  async createThread() {
+    return false;
+  },
+
   async post() {
     try {
       const cli = new KarmaApiClient(
@@ -130,6 +134,9 @@ export default Component.extend({
     const hasErrors = this.checkErrors();
     if (!hasErrors) {
       set(this, "loading", true);
+      if (this.threadId === -2) {
+        await this.createThread();
+      }
       await this.post();
       set(this, "loading", false);
       setTimeout(() => {
@@ -235,7 +242,9 @@ export default Component.extend({
   @action
   setThreadId(e) {
     const idx = +e.target.value;
-    set(this, "threadId", this.threads[idx].id);
+    if (idx !== "null") {
+      set(this, "threadId", idx === -2 ? idx : this.threads[idx].id);
+    }
   },
 
   async didReceiveAttrs() {
