@@ -67,6 +67,16 @@ export default Component.extend({
     }
   },
 
+  dispatchToggleModal() {
+    setTimeout(() => {
+      this.toggleModal();
+      setTimeout(() => {
+        set(this, "message", "");
+        set(this, "errors", []);
+      }, 250);
+    }, 2000);
+  }
+
   checkErrors() {
     set(this, "errors", []);
     const errors = this.errors;
@@ -146,13 +156,7 @@ export default Component.extend({
       set(this, "loading", true);
       try {
         await this.post();
-        setTimeout(() => {
-          this.toggleModal();
-          setTimeout(() => {
-            set(this, "message", "");
-            set(this, "errors", []);
-          }, 250);
-        }, 2000);
+        this.dispatchToggleModal()
         set(
           this,
           "message",
