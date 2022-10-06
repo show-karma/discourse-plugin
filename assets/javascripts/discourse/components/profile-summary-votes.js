@@ -1,6 +1,6 @@
 import Component from "@ember/component";
 import { inject as service } from "@ember/service";
-import { set, computed } from "@ember/object";
+import { computed, set } from "@ember/object";
 import VotingHistory from "../../lib/voting-history/index";
 import KarmaApiClient from "../../lib/karma-api-client";
 

@@ -83,24 +83,24 @@
                   </option>
                 {{/each}}
               </select>
-              <br />
+              <br>
               <label for="reason">
                 Summary
               </label>
               {{d-editor value=form.summary}}
-              <br />
+              <br>
               <label for="reason">
                 Recommendation
               </label>
               {{d-editor value=form.recommendation}}
-              <br />
+              <br>
             </div>
             {{#if errors.length}}
               {{#each errors as |error|}}
                 <span class="error" style="color:var(--danger)">
                   {{error}}
                 </span>
-                <br />
+                <br>
               {{/each}}
             {{/if}}
             <div class="footer">

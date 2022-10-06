@@ -132,7 +132,6 @@ export default Component.extend({
         postId = id;
       }
     } catch (error) {
-      console.log(error);
       throw new Error("We couldn't post your pitch on Discourse.");
     }
 
@@ -219,9 +218,7 @@ export default Component.extend({
         }))
       );
       this.setDefaultThreadId();
-    } catch (error) {
-      console.error(error);
-    }
+    } catch {}
   },
 
   async fetchProposals() {
@@ -281,7 +278,6 @@ export default Component.extend({
           (t) => t.id === this.reasons[0].threadId
         );
       }
-      console.log("here", threadId, this.reasons, this.threads);
       set(this, "threadId", threadId);
     }
   },
