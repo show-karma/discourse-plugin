@@ -1,7 +1,7 @@
 import { isTypeof } from "./is-typeof";
 import { request } from "./request";
 
-const apiUrl = "/";
+const apiUrl = "/karma-score";
 // const karmaUrl = "https://api.showkarma.xyz/api/dao";
 const karmaUrl = "http://192.168.123.101:3001/api";
 class KarmaApiClient {
@@ -35,7 +35,7 @@ class KarmaApiClient {
       throw Error("Missing values for reason.");
     }
 
-    const url = `/karma-score/vote-reason.json`;
+    const url = `${apiUrl}/vote-reason.json`;
     return request(
       url,
       {
@@ -68,7 +68,7 @@ class KarmaApiClient {
     }
 
     return request(
-      "/karma-score/delegate-pitch.json",
+      `${apiUrl}/delegate-pitch.json`,
       {
         ...pitch,
         publicAddress: this.publicAddress,
@@ -85,6 +85,12 @@ class KarmaApiClient {
    */
   fetchDelegatePitch() {
     return request(this.pitchUrl, null, "GET");
+  }
+
+  isApiAllowed(csrfToken) {
+    return request(`${apiUrl}/allowance.json`, null, "GET", {
+      "X-CSRF-Token": csrfToken,
+    });
   }
 }
 

@@ -2,6 +2,7 @@ import Component from "@ember/component";
 import { action, computed, set } from "@ember/object";
 import { throttle } from "@ember/runloop";
 import postToTopic from "../../lib/post-to-topic";
+import deletePost from "../../lib/delete-post";
 import { fetchActiveOffChainProposals } from "../../lib/voting-history/gql/off-chain-fetcher";
 import { fetchActiveOnChainProposals } from "../../lib/voting-history/gql/on-chain-fetcher";
 import fetchUserThreads from "../../lib/fetch-user-threads";
@@ -79,23 +80,27 @@ export default Component.extend({
   },
 
   async post() {
+    let postId;
+    const cli = new KarmaApiClient(
+      this.siteSettings.DAO_name,
+      this.form.publicAddress
+    );
     try {
-      const cli = new KarmaApiClient(
-        this.siteSettings.DAO_name,
-        this.form.publicAddress
-      );
-
-      const { id: postId } = await postToTopic({
+      const { id } = await postToTopic({
         threadId: this.threadId,
         body: `${this.proposalTitle}
-
-**Summary**: ${this.form.summary}
-
-**Recommendation**: ${this.form.recommendation}`,
+          
+          **Summary**: ${this.form.summary}
+          
+          **Recommendation**: ${this.form.recommendation}`,
 
         csrf: this.session.csrfToken,
       });
-
+      postId = id;
+    } catch (error) {
+      throw new Error("We couldn't post your pitch on Discourse.");
+    }
+    try {
       await cli.saveVoteReason(
         this.proposals[this.proposalId].id,
         {
@@ -106,7 +111,15 @@ export default Component.extend({
         this.session.csrfToken
       );
     } catch (error) {
-      console.error(error);
+      await deletePost({
+        postId,
+        csrf: this.session.csrfToken,
+      });
+      throw new Error(
+        `We couldn't send your vote to Karma. ${
+          error.message ? "Rason: error.message" : ""
+        }`
+      );
     }
   },
 

@@ -7,7 +7,7 @@
  * @returns
  */
 export async function request(url, body, method = "POST", headers = {}) {
-  const { data } = await fetch(url, {
+  const data = await fetch(url, {
     method,
     body: body ? JSON.stringify(body) : undefined,
     headers: {
@@ -15,6 +15,8 @@ export async function request(url, body, method = "POST", headers = {}) {
       ...headers,
     },
   }).then(async (res) => await res.json());
-
-  return { ...data };
+  if ("error" in data) {
+    throw new Error(data.error);
+  }
+  return { ...data.data };
 }

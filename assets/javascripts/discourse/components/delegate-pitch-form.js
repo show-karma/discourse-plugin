@@ -3,9 +3,9 @@ import { inject as service } from "@ember/service";
 import { action, computed, set } from "@ember/object";
 import { throttle } from "@ember/runloop";
 import postToTopic from "../../lib/post-to-topic";
+import deletePost from "../../lib/delete-post";
 import { isEthAddress } from "../../lib/is-eth-address";
 import KarmaApiClient from "../../lib/karma-api-client";
-import { request } from "../../lib/request";
 
 export default Component.extend({
   router: service(),
@@ -100,18 +100,24 @@ export default Component.extend({
   },
 
   async post() {
-    try {
-      const cli = new KarmaApiClient(
-        this.siteSettings.DAO_name,
-        this.form.publicAddress
-      );
+    let postId;
+    const cli = new KarmaApiClient(
+      this.siteSettings.DAO_name,
+      this.form.publicAddress
+    );
 
-      const { id: postId } = await postToTopic({
+    try {
+      const { id } = await postToTopic({
         threadId: this.threadId,
         body: this.form.description,
         csrf: this.session.csrfToken,
       });
+      postId = id;
+    } catch (error) {
+      throw new Error("We couldn't post your pitch");
+    }
 
+    try {
       await cli.saveDelegatePitch(
         {
           threadId: this.threadId,
@@ -122,7 +128,15 @@ export default Component.extend({
         this.session.csrfToken
       );
     } catch (error) {
-      console.error(error);
+      deletePost({
+        postId,
+        csrf: this.session.csrfToken,
+      }).catch();
+      throw new Error(
+        `We couldn't send your pitch to Karma. ${
+          error.message ? "Rason: " + error.message : ""
+        }`
+      );
     }
   },
 
@@ -130,16 +144,25 @@ export default Component.extend({
     const hasErrors = this.checkErrors();
     if (!hasErrors) {
       set(this, "loading", true);
-      await this.post();
-      set(this, "loading", false);
-      setTimeout(() => {
-        this.toggleModal();
+      try {
+        await this.post();
         setTimeout(() => {
-          set(this, "message", "");
-          set(this, "errors", []);
-        }, 250);
-      }, 2000);
-      set(this, "message", "Thank you! You pitch was submitted successfully.");
+          this.toggleModal();
+          setTimeout(() => {
+            set(this, "message", "");
+            set(this, "errors", []);
+          }, 250);
+        }, 2000);
+        set(
+          this,
+          "message",
+          "Thank you! You pitch was submitted successfully."
+        );
+      } catch (error) {
+        set(this, "errors", [error.message]);
+      } finally {
+        set(this, "loading", false);
+      }
     }
   },
 

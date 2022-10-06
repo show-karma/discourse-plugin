@@ -27,8 +27,9 @@ after_initialize do
   end
 
   require_relative "app/controllers/karma_controller.rb"
-  
+
   KarmaScore::Engine.routes.draw do
+    get "/allowance" => "karma#is_api_allowed"
     post "/vote-reason" => "karma#save_vote_reason"
     post "/delegate-pitch" => "karma#save_delegate_pitch"
   end

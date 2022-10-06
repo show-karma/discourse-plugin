@@ -18,7 +18,7 @@
       <b>
         Voting History
       </b>
-      {{#if shouldShowActionButtons}}
+      {{#if (and hasSetApiKey shouldShowActionButtons)}}
         {{delegate-pitch-form profile=this.profile}}
         {{vote-reason-form profile=this.profile}}
       {{/if}}

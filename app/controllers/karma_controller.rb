@@ -18,6 +18,12 @@ class KarmaScore::KarmaController < ::ApplicationController
     @headers = { "Content-Type" => "application/json", "X-AUTH-Token" => api_token }
   end
 
+  def is_api_allowed
+    begin
+      render json: { data: { allowance: !SiteSetting.Karma_API_Key.empty? } }
+    end
+  end
+
   def save_vote_reason
     public_address = params.require(:publicAddress)
     proposal_id = params.require(:proposalId)
@@ -25,6 +31,7 @@ class KarmaScore::KarmaController < ::ApplicationController
     recommendation = params.require(:recommendation)
     thread_id = params.require(:threadId)
     post_id = params.require(:postId)
+
     begin
       discourse_handle = current_user.username
 
