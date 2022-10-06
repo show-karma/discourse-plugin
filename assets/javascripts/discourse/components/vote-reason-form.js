@@ -17,6 +17,8 @@ export default Component.extend({
 
   proposals: [],
 
+  reasons: [],
+
   threads: [],
 
   message: "",
@@ -46,6 +48,15 @@ export default Component.extend({
   // proposalTitle: computed(function() {
   //   return this.proposal[this.form.proposalId]?.id
   // })
+
+  resetForm() {
+    set(this, "form", {
+      recommendation: "",
+      summary: "",
+      publicAddress: "",
+      postId: null,
+    });
+  },
 
   @action
   toggleModal() {
@@ -81,12 +92,7 @@ export default Component.extend({
       setTimeout(() => {
         set(this, "message", "");
         set(this, "errors", []);
-        set(this, "form", {
-          ...this.form,
-          recommendation: "",
-          proposalId: -1,
-          summary: "",
-        });
+        this.resetForm();
       }, 250);
     }, 2000);
   },
@@ -97,22 +103,25 @@ export default Component.extend({
 
   async post() {
     let postId;
+    const hasSetReason = !!this.proposals[this.proposalId].reason;
     const cli = new KarmaApiClient(
       this.siteSettings.DAO_name,
       this.form.publicAddress
     );
     try {
+      const reason = `${this.proposalTitle}
+
+      **Summary**: ${this.form.summary}
+
+      **Recommendation**: ${this.form.recommendation}`;
+
       const { id } = await postToTopic({
         threadId: this.threadId,
-        body: `${this.proposalTitle}
-          
-          **Summary**: ${this.form.summary}
-          
-          **Recommendation**: ${this.form.recommendation}`,
-
+        body: reason,
         csrf: this.session.csrfToken,
       });
       postId = id;
+      setPostReason(reason);
     } catch (error) {
       throw new Error("We couldn't post your pitch on Discourse.");
     }
@@ -124,7 +133,8 @@ export default Component.extend({
           postId,
           threadId: this.threadId,
         },
-        this.session.csrfToken
+        this.session.csrfToken,
+        hasSetReason
       );
     } catch (error) {
       await deletePost({
@@ -188,6 +198,7 @@ export default Component.extend({
           id: topic.id,
         }))
       );
+      this.setDefaultThreadId();
     } catch (error) {
       console.error(error);
     }
@@ -227,8 +238,32 @@ export default Component.extend({
         }
         return proposal;
       });
+      set(this, "reasons", reasons);
     }
     set(this, "proposals", proposals);
+  },
+
+  setPostReason() {
+    const proposals = [...this.proposals];
+    proposals[this.proposalId].reason = {
+      ...this.form,
+      threadId: this.threadId,
+    };
+
+    set(this, "proposals", proposals);
+  },
+
+  setDefaultThreadId() {
+    let threadId = this.threadId;
+    if (this.reasons.length && this.threads.length) {
+      if (this.reasons?.[0].threadId) {
+        threadId = this.threads.findIndex(
+          (t) => t.id === this.reasons[0].threadId
+        );
+      }
+      console.log("here", threadId, this.reasons, this.threads);
+      set(this, "threadId", threadId);
+    }
   },
 
   @action
@@ -253,7 +288,18 @@ export default Component.extend({
 
   @action
   setProposal(e) {
-    set(this, "proposalId", e.target.value);
+    const proposalId = +e.target.value;
+    const { reason } = this.proposals[proposalId];
+
+    if (reason) {
+      set(this, "form", {
+        ...this.form,
+        ...reason,
+      });
+    } else {
+      this.resetForm();
+    }
+    set(this, "proposalId", proposalId);
   },
 
   @action

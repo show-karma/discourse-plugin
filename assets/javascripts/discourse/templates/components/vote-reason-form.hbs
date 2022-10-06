@@ -36,20 +36,20 @@
                 class="k-input"
               >
                 {{#if proposalLoading}}
-                  <option value="null" disabled selected>
+                  <option value="null" disabled selected={{eq threadId -1}}>
                     Loading...
                   </option>
                 {{else}}
-                  <option value="null" disabled selected>
+                  <option value="null" disabled selected={{eq threadId -1}}>
                     Select an option
                   </option>
-                  {{!-- TODO: needs to check what about the category --}}
-                  {{!-- <option value="-2">
+                  {{! TODO: needs to check what about the category }}
+                  {{! <option value="-2">
                     Create a topic
-                  </option> --}}
+                  </option> }}
                 {{/if}}
                 {{#each threads as |thread index|}}
-                  <option value={{index}}>
+                  <option value={{index}} selected={{eq threadId index}}>
                     {{thread.name}}
                   </option>
                 {{/each}}
@@ -74,8 +74,11 @@
                   {{/if}}
                 </option>
                 {{#each proposals as |proposal index|}}
-                  <option value={{index}} disabled={{proposal.disabled}}>
-                    {{log proposal.disabled}}
+                  <option value={{index}}>
+                    {{#if proposal.reason}}
+                      ✔
+                    {{/if}}
+                    ({{proposal.type}})
                     {{proposal.title}}
                   </option>
                 {{/each}}
@@ -102,6 +105,16 @@
             {{/if}}
             <div class="footer">
               <div>
+                {{#if form.postId}}
+                  You have already submitted a
+                  <a
+                    rel="noreferrer noopener"
+                    target="_blank"
+                    href={{html-safe (concat "/p/" form.postId)}}
+                  >
+                    vote reason
+                  </a>
+                {{/if}}
               </div>
               <div>
                 <button
@@ -112,7 +125,11 @@
                   Cancel
                 </button>
                 <button type="submit" class="k-btn btn-info">
-                  Send
+                  {{#if form.postId}}
+                    Update
+                  {{else}}
+                    Send
+                  {{/if}}
                 </button>
               </div>
             </div>

@@ -71,11 +71,13 @@
                 >
                   Cancel
                 </button>
-                {{!-- {{#unless postId}} --}}
                 <button type="submit" class="k-btn btn-info">
-                  Send
+                  {{#if postId}}
+                    Update
+                  {{else}}
+                    Send
+                  {{/if}}
                 </button>
-                {{!-- {{/unless}} --}}
               </div>
             </div>
           </div>
