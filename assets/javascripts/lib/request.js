@@ -15,8 +15,8 @@ export async function request(url, body, method = "POST", headers = {}) {
       ...headers,
     },
   }).then(async (res) => await res.json());
-  if ("error" in data) {
-    throw new Error(data.error);
+  if ("error" in data || "errors" in data) {
+    throw new Error(data.error ?? data.errors[0]);
   }
   return { ...data.data };
 }

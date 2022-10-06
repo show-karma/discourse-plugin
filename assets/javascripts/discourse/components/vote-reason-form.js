@@ -7,6 +7,7 @@ import { fetchActiveOffChainProposals } from "../../lib/voting-history/gql/off-c
 import { fetchActiveOnChainProposals } from "../../lib/voting-history/gql/on-chain-fetcher";
 import fetchUserThreads from "../../lib/fetch-user-threads";
 import KarmaApiClient from "../../lib/karma-api-client";
+import updatePost from "../../lib/update-post";
 
 export default Component.extend({
   form: { recommendation: "", summary: "", publicAddress: "", postId: null },
@@ -103,30 +104,40 @@ export default Component.extend({
 
   async post() {
     let postId;
-    const hasSetReason = !!this.proposals[this.proposalId].reason;
-    const cli = new KarmaApiClient(
+    const { reason: hasReason } = this.proposals[this.proposalId];
+    const hasSetReason = !!hasReason;
+    const karma = new KarmaApiClient(
       this.siteSettings.DAO_name,
       this.form.publicAddress
     );
+    const reason = `${this.proposalTitle}
+
+**Summary**: ${this.form.summary}
+
+**Recommendation**: ${this.form.recommendation}`;
     try {
-      const reason = `${this.proposalTitle}
-
-      **Summary**: ${this.form.summary}
-
-      **Recommendation**: ${this.form.recommendation}`;
-
-      const { id } = await postToTopic({
-        threadId: this.threadId,
-        body: reason,
-        csrf: this.session.csrfToken,
-      });
-      postId = id;
-      setPostReason(reason);
+      if (hasReason?.postId) {
+        postId = hasReason.postId;
+        await updatePost({
+          postId,
+          body: reason,
+          csrf: this.session.csrfToken,
+        });
+      } else {
+        const { id } = await postToTopic({
+          threadId: this.threadId,
+          body: reason,
+          csrf: this.session.csrfToken,
+        });
+        postId = id;
+      }
     } catch (error) {
+      console.log(error);
       throw new Error("We couldn't post your pitch on Discourse.");
     }
+
     try {
-      await cli.saveVoteReason(
+      await karma.saveVoteReason(
         this.proposals[this.proposalId].id,
         {
           ...this.form,
@@ -136,14 +147,18 @@ export default Component.extend({
         this.session.csrfToken,
         hasSetReason
       );
+      set(this, "postId", postId);
+      this.setPostReason(reason);
     } catch (error) {
-      await deletePost({
-        postId,
-        csrf: this.session.csrfToken,
-      });
+      if (!hasSetReason) {
+        await deletePost({
+          postId,
+          csrf: this.session.csrfToken,
+        });
+      }
       throw new Error(
         `We couldn't send your vote to Karma. ${
-          error.message ? "Rason: error.message" : ""
+          error.message ? "Rason: " + error.message : ""
         }`
       );
     }
@@ -173,17 +188,22 @@ export default Component.extend({
     const hasErrors = this.checkErrors();
     if (!hasErrors) {
       set(this, "loading", true);
-      if (this.threadId === -2) {
-        await this.createThread();
+      try {
+        if (this.threadId === -2) {
+          await this.createThread();
+        }
+        await this.post();
+        this.dispatchToggleModal();
+        set(
+          this,
+          "message",
+          "Thank you! Your recommendation was submitted successfully."
+        );
+      } catch (error) {
+        set(this, "errors", [error.message]);
+      } finally {
+        set(this, "loading", false);
       }
-      await this.post();
-      set(this, "loading", false);
-      this.dispatchToggleModal();
-      set(
-        this,
-        "message",
-        "Thank you! Your recommendation was submitted successfully."
-      );
     }
   },
 
@@ -222,11 +242,11 @@ export default Component.extend({
   },
 
   async fetchVoteReasons(proposals = []) {
-    const cli = new KarmaApiClient(
+    const karma = new KarmaApiClient(
       this.siteSettings.DAO_name,
       this.profile.address
     );
-    const { reasons } = await cli.fetchVoteReasons();
+    const { reasons } = await karma.fetchVoteReasons();
     if (reasons && Array.isArray(reasons)) {
       proposals = proposals.map((proposal) => {
         const hasReason = reasons.find(
@@ -244,7 +264,7 @@ export default Component.extend({
   },
 
   setPostReason() {
-    const proposals = [...this.proposals];
+    const proposals = this.proposals.map((p) => ({ ...p }));
     proposals[this.proposalId].reason = {
       ...this.form,
       threadId: this.threadId,

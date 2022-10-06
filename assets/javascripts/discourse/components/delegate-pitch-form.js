@@ -93,11 +93,11 @@ export default Component.extend({
 
   async fetchDelegatePitch() {
     if (this.profile.address) {
-      const cli = new KarmaApiClient(
+      const karma = new KarmaApiClient(
         this.siteSettings.DAO_name,
         this.profile.address
       );
-      const { delegatePitch } = await cli.fetchDelegatePitch();
+      const { delegatePitch } = await karma.fetchDelegatePitch();
       if (delegatePitch) {
         set(this, "form", {
           ...this.form,
@@ -110,7 +110,7 @@ export default Component.extend({
 
   async post() {
     let postId = this.postId;
-    const cli = new KarmaApiClient(
+    const karma = new KarmaApiClient(
       this.siteSettings.DAO_name,
       this.form.publicAddress
     );
@@ -136,7 +136,7 @@ export default Component.extend({
     }
 
     try {
-      await cli.saveDelegatePitch(
+      await karma.saveDelegatePitch(
         {
           threadId: this.threadId,
           description: this.form.description,
