@@ -22,7 +22,7 @@ class KarmaApiClient {
     this.pitchUrl = `${karmaUrl}/dao/${daoName}/delegate-pitch/${publicAddress}`;
   }
 
-  saveVoteReason(proposalId, reason, csrfToken) {
+  saveVoteReason(proposalId, reason, csrfToken, isUpdate = false) {
     isTypeof(csrfToken, "string");
     if (
       !(
@@ -43,7 +43,8 @@ class KarmaApiClient {
         proposalId,
         publicAddress: this.publicAddress,
       },
-      "POST",
+      isUpdate ? "PUT" : "POST",
+
       {
         "X-CSRF-Token": csrfToken,
       }
@@ -61,7 +62,7 @@ class KarmaApiClient {
    * @param {string} pitch.postId the post id
    * @param {string} pitch.discourseHandle the discourse username
    */
-  saveDelegatePitch(pitch, csrfToken) {
+  saveDelegatePitch(pitch, csrfToken, isUpdate = false) {
     isTypeof(csrfToken, "string");
     if (!(pitch.description || pitch.threadId)) {
       throw new Error("Missing values for pitch.");
@@ -73,7 +74,7 @@ class KarmaApiClient {
         ...pitch,
         publicAddress: this.publicAddress,
       },
-      "POST",
+      isUpdate ? "PUT" : "POST",
       {
         "X-CSRF-Token": csrfToken,
       }

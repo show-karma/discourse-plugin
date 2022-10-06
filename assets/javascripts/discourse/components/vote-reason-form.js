@@ -75,6 +75,22 @@ export default Component.extend({
     }
   },
 
+  dispatchToggleModal() {
+    setTimeout(() => {
+      this.toggleModal();
+      setTimeout(() => {
+        set(this, "message", "");
+        set(this, "errors", []);
+        set(this, "form", {
+          ...this.form,
+          recommendation: "",
+          proposalId: -1,
+          summary: "",
+        });
+      }, 250);
+    }, 2000);
+  },
+
   async createThread() {
     return false;
   },
@@ -152,19 +168,7 @@ export default Component.extend({
       }
       await this.post();
       set(this, "loading", false);
-      setTimeout(() => {
-        this.toggleModal();
-        setTimeout(() => {
-          set(this, "message", "");
-          set(this, "errors", []);
-          set(this, "form", {
-            ...this.form,
-            recommendation: "",
-            proposalId: -1,
-            summary: "",
-          });
-        }, 250);
-      }, 2000);
+      this.dispatchToggleModal();
       set(
         this,
         "message",

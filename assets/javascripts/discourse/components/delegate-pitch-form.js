@@ -6,6 +6,7 @@ import postToTopic from "../../lib/post-to-topic";
 import deletePost from "../../lib/delete-post";
 import { isEthAddress } from "../../lib/is-eth-address";
 import KarmaApiClient from "../../lib/karma-api-client";
+import updatePost from "../../lib/update-post";
 
 export default Component.extend({
   router: service(),
@@ -26,8 +27,6 @@ export default Component.extend({
   vote: {},
 
   message: "",
-
-  hasSetReason: false,
 
   loading: false,
 
@@ -75,7 +74,7 @@ export default Component.extend({
         set(this, "errors", []);
       }, 250);
     }, 2000);
-  }
+  },
 
   checkErrors() {
     set(this, "errors", []);
@@ -110,20 +109,29 @@ export default Component.extend({
   },
 
   async post() {
-    let postId;
+    let postId = this.postId;
     const cli = new KarmaApiClient(
       this.siteSettings.DAO_name,
       this.form.publicAddress
     );
 
     try {
-      const { id } = await postToTopic({
-        threadId: this.threadId,
-        body: this.form.description,
-        csrf: this.session.csrfToken,
-      });
-      postId = id;
+      if (postId) {
+        await updatePost({
+          postId: this.postId,
+          body: this.form.description,
+          csrf: this.session.csrfToken,
+        });
+      } else {
+        const { id } = await postToTopic({
+          threadId: this.threadId,
+          body: this.form.description,
+          csrf: this.session.csrfToken,
+        });
+        postId = id;
+      }
     } catch (error) {
+      console.debug(error);
       throw new Error("We couldn't post your pitch");
     }
 
@@ -135,13 +143,17 @@ export default Component.extend({
           discourseHandle: this.currentUser.username,
           postId,
         },
-        this.session.csrfToken
+        this.session.csrfToken,
+        !!this.postId
       );
+      set(this, "postId", postId);
     } catch (error) {
-      deletePost({
-        postId,
-        csrf: this.session.csrfToken,
-      }).catch();
+      if (!this.postId) {
+        deletePost({
+          postId,
+          csrf: this.session.csrfToken,
+        }).catch();
+      }
       throw new Error(
         `We couldn't send your pitch to Karma. ${
           error.message ? "Rason: " + error.message : ""
@@ -156,7 +168,7 @@ export default Component.extend({
       set(this, "loading", true);
       try {
         await this.post();
-        this.dispatchToggleModal()
+        this.dispatchToggleModal();
         set(
           this,
           "message",

@@ -31,7 +31,9 @@ after_initialize do
   KarmaScore::Engine.routes.draw do
     get "/allowance" => "karma#is_api_allowed"
     post "/vote-reason" => "karma#save_vote_reason"
+    put "/vote-reason" => "karma#save_vote_reason"
     post "/delegate-pitch" => "karma#save_delegate_pitch"
+    put "/delegate-pitch" => "karma#save_delegate_pitch"
   end
 
   Discourse::Application.routes.append do

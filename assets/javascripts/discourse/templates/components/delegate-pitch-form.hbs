@@ -1,13 +1,11 @@
 {{#if siteSettings.Show_delegate_pitch_form}}
-  {{#unless hasSetReason}}
-    <button
-      type="button"
-      class="__karma-send-reason-btn k-btn btn-link"
-      onClick={{toggleModal}}
-    >
-      Delegate pitch
-    </button>
-  {{/unless}}
+  <button
+    type="button"
+    class="__karma-send-reason-btn k-btn btn-link"
+    onClick={{toggleModal}}
+  >
+    Delegate pitch
+  </button>
 
   <div
     id={{modalId}}
@@ -74,9 +72,9 @@
                   Cancel
                 </button>
                 {{!-- {{#unless postId}} --}}
-                  <button type="submit" class="k-btn btn-info">
-                    Send
-                  </button>
+                <button type="submit" class="k-btn btn-info">
+                  Send
+                </button>
                 {{!-- {{/unless}} --}}
               </div>
             </div>

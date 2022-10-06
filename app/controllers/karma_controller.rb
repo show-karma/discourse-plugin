@@ -15,7 +15,7 @@ class KarmaScore::KarmaController < ::ApplicationController
     @api_token = SiteSetting.Karma_API_Key
     @delegate_thread_id = SiteSetting.Delegate_pitch_thread_id
     @api_url = "http://192.168.123.101:3001/api/dao"
-    @headers = { "Content-Type" => "application/json", "X-AUTH-Token" => api_token }
+    @headers = { "Content-Type" => "application/json", "authorization" => api_token }
   end
 
   def is_api_allowed
@@ -45,7 +45,11 @@ class KarmaScore::KarmaController < ::ApplicationController
       }
 
       res = Net::HTTP::start(uri.host, uri.port) do |http|
-        req = Net::HTTP::Post.new(uri.request_uri, headers)
+        if (request.request_method === "POST")
+          req = Net::HTTP::Post.new(uri.request_uri, headers)
+        elsif (request.request_method === "PUT")
+          req = Net::HTTP::Put.new(uri.request_uri, headers)
+        end
         req.body = body.to_json
         http.request(req)
       end
@@ -81,7 +85,11 @@ class KarmaScore::KarmaController < ::ApplicationController
       }
 
       res = Net::HTTP::start(uri.host, uri.port) do |http|
-        req = Net::HTTP::Post.new(uri.request_uri, headers)
+        if (request.request_method === "POST")
+          req = Net::HTTP::Post.new(uri.request_uri, headers)
+        elsif (request.request_method === "PUT")
+          req = Net::HTTP::Put.new(uri.request_uri, headers)
+        end
         req.body = body.to_json
         http.request(req)
       end
