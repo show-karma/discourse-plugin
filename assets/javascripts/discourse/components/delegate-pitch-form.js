@@ -131,7 +131,6 @@ export default Component.extend({
         postId = id;
       }
     } catch (error) {
-      console.debug(error);
       throw new Error("We couldn't post your pitch");
     }
 
