@@ -16,7 +16,7 @@ export async function getGovAddrFromYml(daoName) {
     } else if (part.match("abi:")) {
       tokens[curIdx].daoName = part
         .split("abi: ")[1]
-        ?.replace(/(?<=\w)(govern(or|ance)+)$/gi, "")
+        ?.replace(/(((govern(or|ance))|(token))(.?)+)$/gi, "")
         .toLowerCase();
     }
   });

@@ -10,6 +10,7 @@
 
 enabled_site_setting :Enable_Karma_plugin
 
+register_asset "stylesheets/_variables.scss"
 register_asset "stylesheets/karma-score.scss"
 register_asset "stylesheets/proposal-banner.scss"
 register_asset "stylesheets/vote-reason-form.scss"
