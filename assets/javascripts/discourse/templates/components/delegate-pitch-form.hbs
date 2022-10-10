@@ -18,7 +18,7 @@
       {{karma-loading message="Submitting data, please wait."}}
     {{else}}
       {{#unless message.length}}
-        <div class="modal-body" onClick={{toggleModal}}>
+        <div class="modal-body">
           <form onSubmit={{submit}}>
             <div class="modal-content">
               <div class="close-button" onClick={{toggleModal}}>
@@ -51,7 +51,7 @@
                   </b>
                 </p>
                 <div class="interests">
-                  {{multi-select content=interests}}
+                  {{multi-select content=interests value=form.interests}}
                 </div>
                 <p>
                   <b>
@@ -59,7 +59,7 @@
                   </b>
                 </p>
                 <div class="interests">
-                  {{multi-select content=languages}}
+                  {{multi-select content=languages value=form.languages}}
                 </div>
               </div>
               {{#if errors.length}}

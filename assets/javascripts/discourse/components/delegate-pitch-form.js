@@ -16,6 +16,8 @@ export default Component.extend({
   form: {
     description: "",
     publicAddress: "",
+    interests: [],
+    languages: [],
   },
 
   postId: null,
@@ -87,6 +89,35 @@ export default Component.extend({
     }
   },
 
+  /**
+   * @param {"interests"|"languages"} prop
+   */
+  arrayToMultiselect(arr, prop = "interests") {
+    if (!(arr && Array.isArray(arr) && this[prop])) {
+      return [];
+    }
+
+    const unique = new Set();
+    arr.forEach((name) => {
+      const idx = this[prop].findIndex((interest) => interest.name === name);
+      if (idx > -1) {
+        unique.add(idx + 1);
+      }
+    });
+    return Array.from(unique);
+  },
+
+  parseMultiselect() {
+    return {
+      interests: this.form.interests.map(
+        (idx) => this.interests[idx - 1]?.name
+      ),
+      languages: this.form.languages.map(
+        (idx) => this.languages[idx - 1]?.name
+      ),
+    };
+  },
+
   dispatchToggleModal() {
     setTimeout(() => {
       this.toggleModal();
@@ -123,6 +154,14 @@ export default Component.extend({
         set(this, "form", {
           ...this.form,
           description: delegatePitch.description,
+          interests: this.arrayToMultiselect(
+            delegatePitch.interests,
+            "interests"
+          ),
+          languages: this.arrayToMultiselect(
+            delegatePitch.languages,
+            "languages"
+          ),
         });
         set(this, "postId", delegatePitch.postId);
       }
