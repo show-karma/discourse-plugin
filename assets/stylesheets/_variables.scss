@@ -1,0 +1,35 @@
+$breakpoint-sm: 550px !default;
+$breakpoint-md: 932px !default;
+$breakpoint-xs: 348px !default;
+
+$color-success: rgb(73, 179, 147) !default;
+$color-success-alpha-1: rgba(73, 179, 147, 0.15) !default;
+
+$color-danger: rgb(213, 85, 85) !default;
+$color-danger-alpha-1: rgba(213, 85, 85, 0.15) !default;
+
+$color-info: rgb(82, 152, 255) !default;
+$color-info-alpha-1: rgba(82, 152, 255, 0.15) !default;
+
+// $color-warn: ;
+$color-gray: rgb(232, 232, 235) !default;
+$color-gray-alpha-1: rgba(232, 232, 235, 0.15) !default;
+
+$color-black-alpha-0: rgba(0, 0, 0, 0.03) !default;
+$color-black-alpha-1: rgba(0, 0, 0, 0.125) !default;
+$color-black-alpha-2: rgba(0, 0, 0, 0.3) !default;
+
+$color-brand-gray-0: rgb(250, 250, 252);
+$color-brand-gray-1: rgb(209, 213, 218);
+$color-brand-gray-2: rgba(0, 0, 0, 0.65);
+
+$color-brand-blue-0: $color-gray;
+$color-brand-blue-1: $color-info;
+$color-brand-blue-alpha-1: $color-info-alpha-1;
+
+$color-brand-dark-0: rgb(51, 51, 51) !default;
+$color-brand-light-0: rgb(155, 155, 167) !default;
+
+$border-radius-xl: 12px;
+
+$box-shadow-1: rgb(232, 232, 235) 0px 2px 12px;
