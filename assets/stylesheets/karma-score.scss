@@ -22,6 +22,11 @@
 
   &.w-full,
   .w-full {
+    .ember-view {
+      &:not(:last-of-type) {
+        border-bottom: solid 1px $color-primary-low;
+      }
+    }
     .voting-item {
       max-width: 100% !important;
       width: 100% !important;
@@ -37,7 +42,7 @@
       margin: 5px 0 5px;
     }
     &:not(:last-of-type) {
-      border-bottom: solid 1px $color-black-alpha-1;
+      border-bottom: solid 1px $color-primary-low;
     }
     padding: 0.3em 15px;
     position: relative;
@@ -56,7 +61,7 @@
         text-overflow: ellipsis;
       }
       .status-container {
-        color: $color-black-alpha-2;
+        color: $color-primary-mid;
         font-size: 12px;
         font-weight: bold;
         display: flex;

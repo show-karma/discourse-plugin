@@ -5,7 +5,7 @@
 
   .vote-breakdown {
     width: 100%;
-    border-radius: 5px;
+    border-radius: $border-radius-sm;
     margin-top: 1em;
     // overflow: hidden;
     .ember-view {
@@ -17,7 +17,7 @@
         max-width: 70%;
         min-width: 16%;
         text-align: center;
-        color: $color-brand-gray-2;
+        color: $color-primary;
         padding: 5px 0;
         &:hover {
           .ember-view {
@@ -29,7 +29,7 @@
           }
         }
         &:not(:last-of-type) {
-          border-right: 1px dashed $color-black-alpha-1;
+          border-right: 1px dashed $color-secondary;
         }
         &:first-of-type {
           border-top-left-radius: 5px;
@@ -50,10 +50,11 @@
             opacity: 0;
             border: 1px solid $color-black-alpha-2;
             box-shadow: 0 0 0.5em $color-black-alpha-2;
+            color: $color-primary;
             height: fit-content;
             width: max-content;
-            background-color: white;
-            border-radius: 5px;
+            background-color: $color-secondary;
+            border-radius: $border-radius-sm;
             padding: 5px 15px;
             // transition: 200ms ease-in-out;
           }
@@ -62,19 +63,16 @@
     }
   }
   .__banner-link-banner-wrapper {
-    background-color: "white";
+    background-color: $color-primary;
     background-position: center center;
   }
 
   .__banner-wrapper {
     padding: 1em 0.5em 1em;
     margin: 5em 0 0;
-    background-color: white;
+    background-color: $color-secondary;
     border: 1px solid $color-brand-gray-1;
-    border-radius: 8px;
-    @media screen and (min-width: $breakpoint-md) {
-      width: 70%;
-    }
+    border-radius: $border-radius-xl;
     .__banner-content-wrapper {
       box-sizing: border-box;
       display: flex;
@@ -150,7 +148,7 @@
             align-items: flex-end;
             justify-content: flex-end;
             font-size: 1em;
-            color: $color-brand-gray-2;
+            color: $color-primary-high;
             .redirect-text {
               visibility: hidden;
               margin-left: 1ch;
@@ -175,7 +173,6 @@
       cursor: pointer;
       border: none;
       background: none;
-      border-radius: 20px;
       font-size: 1.1em;
       svg {
         transform: rotateZ(180deg);
@@ -190,7 +187,7 @@
       }
       .available-to-show {
         font-size: 0.8em;
-        color: $color-brand-gray-2;
+        color: $color-primary-high;
       }
     }
 
@@ -201,11 +198,11 @@
 
     .__banner-content {
       h2 {
-        color: $color-brand-dark-0;
+        color: $color-primary;
       }
       p {
         margin-bottom: 0;
-        color: $color-brand-light-0;
+        color: $color-brand-gray-1;
       }
       @media screen and (min-width: $breakpoint-md) {
         width: 40%;
@@ -279,11 +276,11 @@
   gap: 8px;
   > div {
     a {
-      border-radius: 8px;
-      border: 1px solid $color-brand-blue-1;
+      border-radius: $border-radius-xl;
+      border: 1px solid $color-info;
       padding: 5px 20px;
       .d-icon {
-        color: $color-brand-blue-1;
+        color: $color-info;
         margin: 0 !important;
       }
       span {
@@ -300,7 +297,7 @@
       display: block;
       font-size: 1.75em;
       margin: 0 auto 0.25em auto;
-      color: rgba(0, 0, 0, 0.55);
+      color: $color-primary;
     }
 
     a {
