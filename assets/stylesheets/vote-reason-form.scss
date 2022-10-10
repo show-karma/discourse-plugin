@@ -2,36 +2,49 @@
 
 .karma-form-submitted-message {
   padding: 0 2em;
-  border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: $border-radius-xl;
+  background-color: $color-secondary;
+  color: $color-primary;
   font-size: 1.3em;
 }
 
 .__karma-vote-form-modal {
-  max-height: calc(100vh - 60px);
+  min-height: 100vh;
+  width: 100vw;
   transition: 200ms ease-in-out;
   position: fixed;
-  top: 0;
+  top: -20px;
   left: 0;
-  z-index: 9;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  width: 100vw;
+
   .backdrop {
     background-color: $color-black-alpha-1;
-    height: 100%;
+    min-height: 100%;
     width: 100%;
     position: absolute;
     top: 0;
     left: 0;
     z-index: -1;
   }
+  .modal-body {
+    padding-top: 3vh;
+    height: 100vh;
+    width: 100vw;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  form {
+    max-height: 100%;
+  }
   .modal-content {
+    position: relative;
+    margin: 0 auto;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background-color: white;
-    border-radius: 8px;
+    background-color: $color-secondary;
+    border-radius: $border-radius-xl;
     border: 1px solid $color-black-alpha-2;
     box-shadow: 0 0 1em $color-black-alpha-1;
     max-width: 500px;
@@ -42,11 +55,19 @@
     @media screen and(max-width: $breakpoint-sm) {
       min-width: 340px;
     }
+
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: $color-primary;
+      cursor: pointer;
+    }
     padding: 2em 1.5em;
     .k-input {
       padding: 15px 10px;
       width: 100%;
-      border-radius: 8px;
+      border-radius: $border-radius-xl;
       border: 1px solid $color-black-alpha-2;
     }
     .modal-header {
@@ -60,7 +81,7 @@
     .form-reason {
       .editor-large {
         .d-editor-container {
-          height: 350px;
+          height: 300px;
         }
       }
       .interests {
@@ -72,7 +93,7 @@
         height: 150px;
         .d-editor-textarea-wrapper {
           border: 1px solid $color-black-alpha-2;
-          border-radius: 8px;
+          border-radius: $border-radius-xl;
           .d-editor-button-bar {
             border: none;
           }

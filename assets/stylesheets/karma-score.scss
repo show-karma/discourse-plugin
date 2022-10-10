@@ -164,6 +164,11 @@
   &.btn-primary {
     background-color: $color-primary;
   }
+  &.btn-link {
+    background-color: $color-secondary;
+    color: $color-tertiary;
+    box-shadow: none;
+  }
 
   &.btn-secondary {
     color: $color-info;
