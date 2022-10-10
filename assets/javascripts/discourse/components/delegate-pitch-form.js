@@ -92,13 +92,14 @@ export default Component.extend({
   /**
    * @param {"interests"|"languages"} prop
    */
-  arrayToMultiselect(arr, prop = "interests") {
-    if (!(arr && Array.isArray(arr) && this[prop])) {
+  arrayToMultiselect(arr = "", prop = "interests") {
+    const values = arr.split(",");
+    if (!(values && Array.isArray(values) && this[prop])) {
       return [];
     }
 
     const unique = new Set();
-    arr.forEach((name) => {
+    values.forEach((name) => {
       const idx = this[prop].findIndex((interest) => interest.name === name);
       if (idx > -1) {
         unique.add(idx + 1);
@@ -109,12 +110,12 @@ export default Component.extend({
 
   parseMultiselect() {
     return {
-      interests: this.form.interests.map(
-        (idx) => this.interests[idx - 1]?.name
-      ),
-      languages: this.form.languages.map(
-        (idx) => this.languages[idx - 1]?.name
-      ),
+      interests: this.form.interests
+        .map((idx) => this.interests[idx - 1]?.name)
+        .join(","),
+      languages: this.form.languages
+        .map((idx) => this.languages[idx - 1]?.name)
+        .join(","),
     };
   },
 
