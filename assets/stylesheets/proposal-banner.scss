@@ -1,19 +1,4 @@
-$breakpoint-sm: 550px !default;
-$breakpoint-md: 932px !default;
-$breakpoint-xs: 348px !default;
-
-$color-black-alpha-1: rgba(0, 0, 0, 0.125) !default;
-$color-black-alpha-2: rgba(0, 0, 0, 0.3) !default;
-
-$color-brand-gray-0: #fafafc;
-$color-brand-gray-1: #d1d5da;
-$color-brand-gray-2: #6c7b8b;
-
-$color-brand-blue-0: #eef5ff;
-$color-brand-blue-1: #5298ff;
-
-$color-brand-dark-0: #333 !default;
-$color-brand-light-0: #9b9ba7 !default;
+@import url("./variables");
 
 .below-site-header-outlet.banner-connector {
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -32,7 +17,7 @@ $color-brand-light-0: #9b9ba7 !default;
         max-width: 70%;
         min-width: 16%;
         text-align: center;
-        color: #364c6a;
+        color: $color-brand-gray-2;
         padding: 5px 0;
         &:hover {
           .ember-view {
@@ -44,7 +29,7 @@ $color-brand-light-0: #9b9ba7 !default;
           }
         }
         &:not(:last-of-type) {
-          border-right: 1px dashed rgba(0, 0, 0, 0.125);
+          border-right: 1px dashed $color-black-alpha-1;
         }
         &:first-of-type {
           border-top-left-radius: 5px;
@@ -63,8 +48,8 @@ $color-brand-light-0: #9b9ba7 !default;
             z-index: -1;
             position: relative;
             opacity: 0;
-            border: 1px solid rgba(0, 0, 0, 0.35);
-            box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.3);
+            border: 1px solid $color-black-alpha-2;
+            box-shadow: 0 0 0.5em $color-black-alpha-2;
             height: fit-content;
             width: max-content;
             background-color: white;
@@ -84,7 +69,7 @@ $color-brand-light-0: #9b9ba7 !default;
   .__banner-wrapper {
     padding: 1em 0.5em 1em;
     margin: 5em 0 0;
-    background-color: transparent;
+    background-color: white;
     border: 1px solid $color-brand-gray-1;
     border-radius: 8px;
     @media screen and (min-width: $breakpoint-md) {
@@ -141,7 +126,7 @@ $color-brand-light-0: #9b9ba7 !default;
           .redirect-text {
             visibility: visible !important;
           }
-          background-color: rgba(0, 0, 0, 0.05);
+          background-color: $color-black-alpha-0;
         }
         &:not(:last-of-type) {
           border-bottom: 1px solid $color-black-alpha-1;
@@ -165,7 +150,7 @@ $color-brand-light-0: #9b9ba7 !default;
             align-items: flex-end;
             justify-content: flex-end;
             font-size: 1em;
-            color: rgba(0, 0, 0, 0.35);
+            color: $color-brand-gray-2;
             .redirect-text {
               visibility: hidden;
               margin-left: 1ch;
@@ -245,9 +230,10 @@ $color-brand-light-0: #9b9ba7 !default;
       .ember-view .links-wrapper {
         width: 100%;
         .featured-banner-link {
-          width: 100%;
-          padding: 0 0 2em;
-          justify-content: center;
+          // width: 100%;
+          // padding: 0 0 2em;
+          // justify-content: center;
+          display: none;
         }
       }
     }
@@ -337,13 +323,4 @@ $color-brand-light-0: #9b9ba7 !default;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-}
-
-.k-btn {
-  &.btn-secondary {
-    color: #5298ff;
-    // font-weight: lighter;
-    border: none !important;
-    background-color: $color-brand-blue-0;
-  }
 }

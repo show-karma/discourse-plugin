@@ -1,39 +1,10 @@
-$breakpoint-sm: 550px !default;
-$breakpoint-md: 932px !default;
-$breakpoint-xs: 348px !default;
-$color-black-alpha-1: rgba(0, 0, 0, 0.125) !default;
-$color-black-alpha-2: rgba(0, 0, 0, 0.3) !default;
+@import url("./variables.scss");
 
 .karma-form-submitted-message {
   padding: 0 2em;
   border-radius: 8px;
   background-color: rgba(255, 255, 255, 0.7);
   font-size: 1.3em;
-}
-button.k-btn {
-  transition: 200ms ease-in-out;
-  box-shadow: 0 0 0.2em $color-black-alpha-1;
-  padding: 0.5em 1.5em;
-  border: none;
-  border-radius: 5px;
-  color: white;
-
-  &.btn-danger {
-    background-color: var(--danger);
-  }
-  &.btn-success {
-    background-color: var(--success);
-  }
-  &.btn-info {
-    background-color: var(--tertiary);
-  }
-
-  &:hover {
-    filter: brightness(0.9);
-  }
-  &:active {
-    filter: brightness(0.8);
-  }
 }
 
 .__karma-vote-form-modal {
