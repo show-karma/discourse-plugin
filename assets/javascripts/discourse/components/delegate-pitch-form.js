@@ -19,6 +19,27 @@ export default Component.extend({
   },
 
   postId: null,
+  // { id: 1, name: "Orange" },
+  interests: [
+    { id: 1, name: "DAOs" },
+    { id: 2, name: "Economics" },
+    { id: 3, name: "Governance" },
+    { id: 4, name: "Identity" },
+    { id: 5, name: "Social impact" },
+    { id: 6, name: "Software Engeneering" },
+  ],
+
+  languages: [
+    { id: 1, name: "English" },
+    { id: 2, name: "Mandarin" },
+    { id: 3, name: "Hindi" },
+    { id: 4, name: "Spanish" },
+    { id: 5, name: "French" },
+    { id: 6, name: "Arabic" },
+    { id: 7, name: "Bengali" },
+    { id: 8, name: "Portuguese" },
+    { id: 9, name: "Indonesian" },
+  ],
 
   profile: {},
 

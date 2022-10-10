@@ -52,6 +52,7 @@ button.k-btn {
 }
 
 .__karma-vote-form-modal {
+  max-height: calc(100vh - 60px);
   transition: 200ms ease-in-out;
   position: fixed;
   top: 0;
@@ -103,8 +104,13 @@ button.k-btn {
     .form-reason {
       .editor-large {
         .d-editor-container {
-          height: 440px;
+          height: 350px;
         }
+      }
+      .interests {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
       }
       .d-editor-container {
         height: 150px;

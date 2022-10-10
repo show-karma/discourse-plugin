@@ -33,21 +33,37 @@
                 value={{form.publicAddress}}
                 onchange={{setPublicAddress}}
                 disabled={{lockDelegateAddress}}
-              >
+              />
               <label for="reason">
                 Enter your pitch here
               </label>
               <div class="editor-large">
                 {{d-editor value=form.description}}
               </div>
-              <br>
+              <br />
+              <p>
+                <b>
+                  Interests:
+                </b>
+              </p>
+              <div class="interests">
+                {{multi-select content=interests}}
+              </div>
+              <p>
+                <b>
+                  Languages:
+                </b>
+              </p>
+              <div class="interests">
+                {{multi-select content=languages}}
+              </div>
             </div>
             {{#if errors.length}}
               {{#each errors as |error|}}
                 <span class="error" style="color:var(--danger)">
                   {{error}}
                 </span>
-                <br>
+                <br />
               {{/each}}
             {{/if}}
             <div class="footer">
