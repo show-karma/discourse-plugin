@@ -139,12 +139,15 @@
   &.btn-info {
     background-color: $color-info;
   }
+  &.btn-primary {
+    background-color: $color-primary;
+  }
 
   &.btn-secondary {
     color: $color-info;
     // font-weight: lighter;
-    border: none !important;
-    background-color: $color-gray;
+    border: 1px solid $color-info;
+    background-color: $color-secondary;
   }
 
   &:hover {
