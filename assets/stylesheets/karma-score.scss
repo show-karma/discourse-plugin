@@ -1,3 +1,5 @@
+@import url("./variables");
+
 .karma-stats {
   width: 100%;
   .loading {
@@ -7,7 +9,7 @@
   }
 }
 #__karma-voting-history {
-  box-shadow: rgba(0, 0, 0, 0.125) 0 0 0.5em;
+  box-shadow: $box-shadow-1;
   border-radius: 8px;
   &:not(.profile) {
     max-height: 220px;
@@ -20,6 +22,11 @@
 
   &.w-full,
   .w-full {
+    .ember-view {
+      &:not(:last-of-type) {
+        border-bottom: solid 1px $color-primary-low;
+      }
+    }
     .voting-item {
       max-width: 100% !important;
       width: 100% !important;
@@ -34,14 +41,16 @@
       padding-top: 5px;
       margin: 5px 0 5px;
     }
-    border-bottom: solid 1px rgba(0, 0, 0, 0.125);
+    &:not(:last-of-type) {
+      border-bottom: solid 1px $color-primary-low;
+    }
     padding: 0.3em 15px;
     position: relative;
     display: flex;
     align-items: center;
     transition: ease-in 200ms;
     &:hover {
-      background-color: rgba(0, 0, 0, 0.05);
+      background-color: $color-black-alpha-0;
     }
     .details {
       width: 70%;
@@ -52,12 +61,12 @@
         text-overflow: ellipsis;
       }
       .status-container {
-        color: rgba(0, 0, 0, 0.3);
+        color: $color-primary-mid;
         font-size: 12px;
         font-weight: bold;
         display: flex;
         p:first-of-type {
-          border-right: 1px solid rgba(0, 0, 0, 0.125);
+          border-right: 1px solid $color-black-alpha-1;
           padding-right: 15px;
           margin-right: 15px;
         }
@@ -96,7 +105,7 @@
       animation-delay: 200ms;
     }
     font-size: 1em !important;
-    color: var(--success);
+    color: $color-success;
   }
 
   @keyframes bounce {
@@ -132,4 +141,40 @@
 }
 .mb-5 {
   margin-bottom: 2em;
+}
+.k-btn {
+  transition: 200ms ease-in-out;
+  box-shadow: $box-shadow-1;
+  padding: 0.5em 1.5em;
+  border: none;
+  border-radius: 5px;
+  color: white;
+
+  &.btn-danger {
+    background-color: $color-danger;
+  }
+  &.btn-success {
+    background-color: $color-success;
+  }
+  &.btn-info {
+    background-color: $color-info;
+  }
+  &.btn-primary {
+    background-color: $color-primary;
+  }
+
+  &.btn-secondary {
+    color: $color-info;
+    // font-weight: lighter;
+    border: 1px solid $color-info;
+    background-color: $color-secondary;
+  }
+
+  &:hover {
+    filter: brightness(1.05);
+  }
+
+  &:active {
+    filter: brightness(1);
+  }
 }
