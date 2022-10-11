@@ -92,8 +92,8 @@ export default Component.extend({
   /**
    * @param {"interests"|"languages"} prop
    */
-  arrayToMultiselect(arr = "", prop = "interests") {
-    const values = arr.split(",");
+  stringToMultiselect(str = "", prop = "interests") {
+    const values = str.split(",");
     if (!(values && Array.isArray(values) && this[prop])) {
       return [];
     }
@@ -155,11 +155,11 @@ export default Component.extend({
         set(this, "form", {
           ...this.form,
           description: delegatePitch.description,
-          interests: this.arrayToMultiselect(
+          interests: this.stringToMultiselect(
             delegatePitch.interests,
             "interests"
           ),
-          languages: this.arrayToMultiselect(
+          languages: this.stringToMultiselect(
             delegatePitch.languages,
             "languages"
           ),
@@ -202,6 +202,7 @@ export default Component.extend({
           description: this.form.description,
           discourseHandle: this.currentUser.username,
           postId,
+          ...this.parseMultiselect(),
         },
         this.session.csrfToken,
         !!this.postId

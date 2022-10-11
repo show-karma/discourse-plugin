@@ -70,8 +70,7 @@ class KarmaScore::KarmaController < ::ApplicationController
     body = params.require(:karma)
     description = params.require(:description)
     post_id = params.require(:postId)
-    public_address = body.require(:publicAddress)
-
+    public_address = params.require(:publicAddress)
     begin
       discourse_handle = current_user.username
 
@@ -82,6 +81,8 @@ class KarmaScore::KarmaController < ::ApplicationController
         threadId: delegate_thread_id,
         postId: post_id,
         discourseHandle: discourse_handle,
+        languages: body["languages"],
+        interests: body["interests"],
       }
 
       res = Net::HTTP::start(uri.host, uri.port) do |http|
