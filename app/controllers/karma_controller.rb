@@ -14,7 +14,7 @@ class KarmaScore::KarmaController < ::ApplicationController
     @dao_name = SiteSetting.DAO_name
     @api_token = SiteSetting.Karma_API_Key
     @delegate_thread_id = SiteSetting.Delegate_pitch_thread_id
-    @api_url = "http://192.168.123.101:3001/api/dao"
+    @api_url = "https://api.showkarma.xyz/api/dao"
     @headers = { "Content-Type" => "application/json", "authorization" => api_token }
   end
 
