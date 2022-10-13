@@ -16,9 +16,32 @@ export default Component.extend({
   form: {
     description: "",
     publicAddress: "",
+    interests: [],
+    languages: [],
   },
 
   postId: null,
+  // { id: 1, name: "Orange" },
+  interests: [
+    { id: 1, name: "DAOs" },
+    { id: 2, name: "Economics" },
+    { id: 3, name: "Governance" },
+    { id: 4, name: "Identity" },
+    { id: 5, name: "Social impact" },
+    { id: 6, name: "Software Engeneering" },
+  ],
+
+  languages: [
+    { id: 1, name: "English" },
+    { id: 2, name: "Mandarin" },
+    { id: 3, name: "Hindi" },
+    { id: 4, name: "Spanish" },
+    { id: 5, name: "French" },
+    { id: 6, name: "Arabic" },
+    { id: 7, name: "Bengali" },
+    { id: 8, name: "Portuguese" },
+    { id: 9, name: "Indonesian" },
+  ],
 
   profile: {},
 
@@ -66,6 +89,36 @@ export default Component.extend({
     }
   },
 
+  /**
+   * @param {"interests"|"languages"} prop
+   */
+  stringToMultiselect(str = "", prop = "interests") {
+    const values = str.split(",");
+    if (!(values && Array.isArray(values) && this[prop])) {
+      return [];
+    }
+
+    const unique = new Set();
+    values.forEach((name) => {
+      const idx = this[prop].findIndex((interest) => interest.name === name);
+      if (idx > -1) {
+        unique.add(idx + 1);
+      }
+    });
+    return Array.from(unique);
+  },
+
+  parseMultiselect() {
+    return {
+      interests: this.form.interests
+        .map((idx) => this.interests[idx - 1]?.name)
+        .join(","),
+      languages: this.form.languages
+        .map((idx) => this.languages[idx - 1]?.name)
+        .join(","),
+    };
+  },
+
   dispatchToggleModal() {
     setTimeout(() => {
       this.toggleModal();
@@ -102,6 +155,14 @@ export default Component.extend({
         set(this, "form", {
           ...this.form,
           description: delegatePitch.description,
+          interests: this.stringToMultiselect(
+            delegatePitch.interests,
+            "interests"
+          ),
+          languages: this.stringToMultiselect(
+            delegatePitch.languages,
+            "languages"
+          ),
         });
         set(this, "postId", delegatePitch.postId);
       }
@@ -141,6 +202,7 @@ export default Component.extend({
           description: this.form.description,
           discourseHandle: this.currentUser.username,
           postId,
+          ...this.parseMultiselect(),
         },
         this.session.csrfToken,
         !!this.postId

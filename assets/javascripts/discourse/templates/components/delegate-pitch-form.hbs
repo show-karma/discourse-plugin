@@ -12,76 +12,97 @@
     class="__karma-vote-form-modal"
     style="display:none;opacity:0;transform:translateY(20px)"
   >
-    <div class="backdrop" onClick={{toggleModal}}>
+    <div class="backdrop">
     </div>
     {{#if loading}}
       {{karma-loading message="Submitting data, please wait."}}
     {{else}}
       {{#unless message.length}}
-        <form onSubmit={{submit}}>
-          <div class="modal-content">
-            <p class="modal-header">
-              Submit your Delegate Pitch
-            </p>
-            <div class="form-reason">
-              <label for="reason">
-                Your delegate address
-              </label>
-              <input
-                type="text"
-                class="k-input"
-                value={{form.publicAddress}}
-                onchange={{setPublicAddress}}
-                disabled={{lockDelegateAddress}}
-              >
-              <label for="reason">
-                Enter your pitch here
-              </label>
-              <div class="editor-large">
-                {{d-editor value=form.description}}
+        <div class="modal-body">
+          <form onSubmit={{submit}}>
+            <div class="modal-content">
+              <div class="close-button" onClick={{toggleModal}}>
+                {{d-icon "times"}}
               </div>
-              <br>
-            </div>
-            {{#if errors.length}}
-              {{#each errors as |error|}}
-                <span class="error" style="color:var(--danger)">
-                  {{error}}
-                </span>
-                <br>
-              {{/each}}
-            {{/if}}
-            <div class="footer">
-              <div>
-                {{#if postId}}
-                  You have already submitted a
-                  <a
-                    rel="noreferrer noopener"
-                    target="_blank"
-                    href={{html-safe (concat "/p/" postId)}}
-                  >
-                    delegate pitch
-                  </a>
-                {{/if}}
-              </div>
-              <div>
-                <button
-                  type="button"
-                  class="k-btn btn-transparent"
-                  onClick={{toggleModal}}
+              <p class="modal-header">
+                Submit your Delegate Pitch
+              </p>
+              <div class="form-reason">
+                <label for="reason">
+                  Your delegate address
+                </label>
+                <input
+                  type="text"
+                  class="k-input"
+                  value={{form.publicAddress}}
+                  onchange={{setPublicAddress}}
+                  disabled={{lockDelegateAddress}}
                 >
-                  Cancel
-                </button>
-                <button type="submit" class="k-btn btn-info">
+                <label for="reason">
+                  Enter your pitch here
+                </label>
+                <div class="editor-large">
+                  {{d-editor value=form.description}}
+                </div>
+                <br>
+                <p>
+                  <b>
+                    Interests:
+                  </b>
+                </p>
+                <div class="interests">
+                  {{multi-select content=interests value=form.interests}}
+                </div>
+                <p>
+                  <b>
+                    Languages:
+                  </b>
+                </p>
+                <div class="interests">
+                  {{multi-select content=languages value=form.languages}}
+                </div>
+              </div>
+              {{#if errors.length}}
+                {{#each errors as |error|}}
+                  <span class="error" style="color:var(--danger)">
+                    {{error}}
+                  </span>
+                  <br>
+                {{/each}}
+              {{/if}}
+              <div class="footer">
+                <div>
                   {{#if postId}}
-                    Update
-                  {{else}}
-                    Send
+                    You have already submitted a
+                    <a
+                      rel="noreferrer noopener"
+                      target="_blank"
+                      href={{html-safe (concat "/p/" postId)}}
+                    >
+                      delegate pitch
+                    </a>
                   {{/if}}
-                </button>
+                </div>
+                <div>
+                  <button
+                    type="button"
+                    class="k-btn btn-link"
+                    onClick={{toggleModal}}
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" class="k-btn btn-info">
+                    {{#if postId}}
+                      Update
+                    {{else}}
+                      Send
+                    {{/if}}
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       {{else}}
         <div class="karma-form-submitted-message">
           <p>
