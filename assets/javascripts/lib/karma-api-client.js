@@ -3,7 +3,7 @@ import { request } from "./request";
 
 const apiUrl = "/karma-score";
 const karmaUrl = "https://api.showkarma.xyz/api";
-// const karmaUrl = "http://192.168.123.101:3001/api";
+// const karmaUrl = "https://stageapi.showkarma.xyz/api";
 class KarmaApiClient {
   daoName;
   publicAddress;
