@@ -31,7 +31,7 @@ These stats will be shown at:
 ---
 ### Settings 
 
-Score settings are simple and easy to manage, makeing possible for the admin to choose which stats to show by ticking the checkboxes in the settings page (_note that health score works only for Gitcoin Dao_). Also, it's possible to change how many votes is desired to show in the card and profile summary by changing `Show voting history` field.
+Score settings are simple and easy to manage, making possible for the admin to choose which stats to show by ticking the checkboxes in the settings page (_note that health score works only for Gitcoin Dao_). Also, it's possible to change how many votes are desired to show in the card and profile summary by changing `Show voting history` field.
 
 ![plugin-settings](./docs/assets/score-settings.png)
 
@@ -40,13 +40,13 @@ Score settings are simple and easy to manage, makeing possible for the admin to 
 
 ![banner-display](./docs/assets/proposal-banner.jpg)
 
-The proposal banner is a widget that shows active and past proposals from a DAO. (_Note that this settings will use the __Karma Score DAO Name__ to search for proposals so make sure that you set it before start_)
+The proposal banner is a widget that shows active and past proposals from a DAO. (_Note that this setting will use the __Karma Score DAO Name__ to search for proposals so make sure that you set it before start_)
 
 ![plugin-settings](./docs/assets/banner-settings.jpg)
 
 The banner is provided with some options to customise the UI, such as:
 
-__Banner past proposal days__: adjust the amount of days before today to show proposals. If it's set to 0, then it'll only show proposals that ends after the time of now, and if not, will show proposals that have already ended, indicated with how many days that proposal finished.
+__Banner past proposal days__: adjust the number of days before today to show proposals. If it's set to 0, it'll only show proposals that end after the current time, and if not, it will show proposals that have already ended, indicated by the number of days since the end of that proposal.
 
 ![hiddn-button](./docs/assets/banner-proposal-days-w100.jpg)
 
