@@ -11,6 +11,8 @@ export default Component.extend({
 
   votes: [],
 
+  fetched: false,
+
   hasSetApiKey: false,
 
   shouldShowActionButtons: computed(function () {
@@ -36,6 +38,7 @@ export default Component.extend({
       const votes = await VotingHistory.start(this.profile, {
         SiteSettings: this.siteSettings,
       });
+      set(this, "fetched", true);
       if (!this.votes.length && votes.length) {
         set(this, "votes", votes);
       }

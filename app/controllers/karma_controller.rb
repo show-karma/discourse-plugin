@@ -14,7 +14,7 @@ class KarmaScore::KarmaController < ::ApplicationController
     @dao_name = SiteSetting.DAO_name
     @api_token = SiteSetting.Karma_API_Key
     @delegate_thread_id = SiteSetting.Delegate_pitch_thread_id
-    @api_url = "https://stageapi.showkarma.xyz/api/discourse"
+    @api_url = "http://192.168.123.101:3001/api/discourse"
     @headers = { "Content-Type" => "application/json", "authorization" => api_token }
   end
 
@@ -71,6 +71,7 @@ class KarmaScore::KarmaController < ::ApplicationController
     description = params.require(:description)
     post_id = params.require(:postId)
     public_address = params.require(:publicAddress)
+    forum = params.require(:forum)
     begin
       discourse_handle = current_user.username
 
@@ -83,6 +84,7 @@ class KarmaScore::KarmaController < ::ApplicationController
         discourseHandle: discourse_handle,
         languages: body["languages"],
         interests: body["interests"],
+        forum: forum,
       }
 
       res = Net::HTTP::start(uri.host, uri.port) do |http|

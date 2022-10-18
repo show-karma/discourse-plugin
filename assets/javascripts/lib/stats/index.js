@@ -6,7 +6,7 @@ import { htmlSafe } from "@ember/template";
  * Karma stats fetcher
  */
 const KarmaStats = {
-  url: "https://api.showkarma.xyz/api",
+  url: "http://192.168.123.101:3001/api",
   daoName: undefined,
   profile: {},
 
@@ -37,6 +37,7 @@ const KarmaStats = {
       const { data } = await fetch(url).then((res) => res.json());
       this.profile = data;
       const { delegates } = data;
+
       if (delegates) {
         const { stats } = delegates;
 
@@ -45,7 +46,7 @@ const KarmaStats = {
           (stats?.[0]?.offChainVotesPct || 0) + "%";
         userStats.onChainVotingStats = (stats?.[0]?.onChainVotesPct || 0) + "%";
         userStats.daoExp = stats?.[0]?.karmaScore || 0;
-        userStats.gitcoinHealthScore = stats?.[0].gitcoinHealthScore || 0;
+        userStats.gitcoinHealthScore = stats?.[0]?.gitcoinHealthScore || 0;
       }
       return userStats;
     } catch (error) {
@@ -179,7 +180,7 @@ const KarmaStats = {
         }
 
         this.toggleScore(false, wrapperId);
-      } else {
+      } else if (!user) {
         this.toggleErrorMessage(false, wrapperId);
       }
     } else if (totalTries < 30) {
