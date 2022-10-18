@@ -243,20 +243,22 @@ export default Component.extend({
       this.siteSettings.DAO_name,
       this.profile.address
     );
-    const { reasons } = await karma.fetchVoteReasons();
-    if (reasons && Array.isArray(reasons)) {
-      proposals = proposals.map((proposal) => {
-        const hasReason = reasons.find(
-          (reason) => reason.proposalId === proposal.id
-        );
-        if (hasReason) {
-          proposal.reason = hasReason;
-          proposal.disabled = true;
-        }
-        return proposal;
-      });
-      set(this, "reasons", reasons);
-    }
+    try {
+      const { reasons } = await karma.fetchVoteReasons();
+      if (reasons && Array.isArray(reasons)) {
+        proposals = proposals.map((proposal) => {
+          const hasReason = reasons.find(
+            (reason) => reason.proposalId === proposal.id
+          );
+          if (hasReason) {
+            proposal.reason = hasReason;
+            proposal.disabled = true;
+          }
+          return proposal;
+        });
+        set(this, "reasons", reasons);
+      }
+    } catch {}
     set(this, "proposals", proposals);
   },
 

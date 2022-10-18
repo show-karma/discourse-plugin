@@ -150,22 +150,24 @@ export default Component.extend({
         this.siteSettings.DAO_name,
         this.profile.address
       );
-      const { delegatePitch } = await karma.fetchDelegatePitch();
-      if (delegatePitch) {
-        set(this, "form", {
-          ...this.form,
-          description: delegatePitch.description,
-          interests: this.stringToMultiselect(
-            delegatePitch.interests,
-            "interests"
-          ),
-          languages: this.stringToMultiselect(
-            delegatePitch.languages,
-            "languages"
-          ),
-        });
-        set(this, "postId", delegatePitch.postId);
-      }
+      try {
+        const { delegatePitch } = await karma.fetchDelegatePitch();
+        if (delegatePitch) {
+          set(this, "form", {
+            ...this.form,
+            description: delegatePitch.description,
+            interests: this.stringToMultiselect(
+              delegatePitch.interests,
+              "interests"
+            ),
+            languages: this.stringToMultiselect(
+              delegatePitch.languages,
+              "languages"
+            ),
+          });
+          set(this, "postId", delegatePitch.postId);
+        }
+      } catch {}
     }
   },
 

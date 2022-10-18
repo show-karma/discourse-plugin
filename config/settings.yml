@@ -78,12 +78,9 @@ Forms:
   Show_delegate_pitch_form:
     default: true
     client: true
-  Delegate_pitch_thread_id: 
-    default: 1
-    client: true
   Show_vote_reason_form:
     default: true
     client: true
-  Vote_reason_thread_id:
-    default: 2
+  Delegate_pitch_thread_id: 
+    default: ""
     client: true
