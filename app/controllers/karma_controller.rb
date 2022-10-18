@@ -44,7 +44,7 @@ class KarmaScore::KarmaController < ::ApplicationController
         summary: summary,
       }
 
-      res = Net::HTTP::start(uri.host, uri.port) do |http|
+      res = Net::HTTP::start(uri.host, uri.port, :use_ssl => uri.scheme == "https") do |http|
         if (request.request_method === "POST")
           req = Net::HTTP::Post.new(uri.request_uri, headers)
         elsif (request.request_method === "PUT")
@@ -87,7 +87,7 @@ class KarmaScore::KarmaController < ::ApplicationController
         forum: forum,
       }
 
-      res = Net::HTTP::start(uri.host, uri.port) do |http|
+      res = Net::HTTP::start(uri.host, uri.port, :use_ssl => uri.scheme == "https") do |http|
         if (request.request_method === "POST")
           req = Net::HTTP::Post.new(uri.request_uri, headers)
         elsif (request.request_method === "PUT")
