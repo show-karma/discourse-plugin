@@ -125,7 +125,7 @@ export default Component.extend({
         });
       } else {
         const { id } = await postToTopic({
-          threadId: this.threadId,
+          threadId: +this.threadId,
           body: reason,
           csrf: this.session.csrfToken,
         });

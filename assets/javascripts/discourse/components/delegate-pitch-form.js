@@ -58,7 +58,7 @@ export default Component.extend({
   modalId: "__karma-vote-pitch-modal",
 
   threadId: computed(function () {
-    return this.siteSettings.Delegate_pitch_thread_id;
+    return +this.siteSettings.Delegate_pitch_thread_id;
   }),
 
   @action
