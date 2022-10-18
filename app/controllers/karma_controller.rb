@@ -57,7 +57,7 @@ class KarmaScore::KarmaController < ::ApplicationController
       response = JSON.parse(res.body)
 
       if (response.key?("statusCode"))
-        render json: { status: "error", error: response["error"]["message"] }, status: response["statusCode"]
+        render json: { status: "error", error: response["error"]["message"], rawError: response }, status: response["statusCode"]
       else
         render json: { status: "ok", res: response }
       end
@@ -100,7 +100,7 @@ class KarmaScore::KarmaController < ::ApplicationController
       response = JSON.parse(res.body)
 
       if (response.key?("statusCode"))
-        render json: { status: "error", error: response["error"]["message"] }, status: response["statusCode"]
+        render json: { status: "error", error: response["error"]["message"], rawError: response }, status: response["statusCode"]
       else
         render json: { status: "ok", res: response }
       end
