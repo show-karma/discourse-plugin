@@ -2,8 +2,8 @@ import { isTypeof } from "./is-typeof";
 import { request } from "./request";
 
 const apiUrl = "/karma-score";
-const karmaUrl = "https://api.showkarma.xyz/api";
-// const karmaUrl = "https://stageapi.showkarma.xyz/api";
+// const karmaUrl = "https://api.showkarma.xyz/api";
+const karmaUrl = "https://stageapi.showkarma.xyz/api";
 class KarmaApiClient {
   daoName;
   publicAddress;
