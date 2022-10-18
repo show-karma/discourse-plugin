@@ -52,9 +52,9 @@ export default Component.extend({
 
   resetForm() {
     set(this, "form", {
+      ...this.form,
       recommendation: "",
       summary: "",
-      publicAddress: "",
       postId: null,
     });
   },
