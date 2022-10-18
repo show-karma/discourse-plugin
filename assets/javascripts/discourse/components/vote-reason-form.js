@@ -314,8 +314,6 @@ export default Component.extend({
         ...this.form,
         ...reason,
       });
-    } else {
-      this.resetForm();
     }
     set(this, "proposalId", proposalId);
   },
