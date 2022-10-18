@@ -38,8 +38,8 @@ class KarmaScore::KarmaController < ::ApplicationController
       uri = URI.parse("#{api_url}/#{dao_name}/vote-reason/#{public_address}/#{proposal_id}")
 
       body = {
-        threadId: thread_id,
-        postId: post_id,
+        threadId: thread_id.to_i,
+        postId: post_id.to_i,
         recommendation: recommendation,
         summary: summary,
       }
@@ -79,8 +79,8 @@ class KarmaScore::KarmaController < ::ApplicationController
 
       body = {
         description: description,
-        threadId: delegate_thread_id,
-        postId: post_id,
+        threadId: delegate_thread_id.to_i,
+        postId: post_id.to_i,
         discourseHandle: discourse_handle,
         languages: body["languages"],
         interests: body["interests"],
