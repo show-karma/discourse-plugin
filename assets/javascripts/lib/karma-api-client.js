@@ -1,9 +1,9 @@
-import { karmaApiUrl } from "./consts";
+import { stageApiUrl } from "./consts";
 import { isTypeof } from "./is-typeof";
 import { request } from "./request";
 
 const localApi = "/karma-score";
-const karmaUrl = karmaApiUrl;
+const karmaUrl = stageApiUrl;
 class KarmaApiClient {
   daoName;
   publicAddress;
