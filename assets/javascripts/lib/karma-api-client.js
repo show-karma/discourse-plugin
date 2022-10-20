@@ -1,9 +1,9 @@
+import { karmaApiUrl } from "./consts";
 import { isTypeof } from "./is-typeof";
 import { request } from "./request";
 
-const apiUrl = "/karma-score";
-// const karmaUrl = "https://api.showkarma.xyz/api";
-const karmaUrl = "https://stageapi.showkarma.xyz/api";
+const localApi = "/karma-score";
+const karmaUrl = karmaApiUrl;
 class KarmaApiClient {
   daoName;
   publicAddress;
@@ -35,7 +35,7 @@ class KarmaApiClient {
       throw Error("Missing values for reason.");
     }
 
-    const url = `${apiUrl}/vote-reason.json`;
+    const url = `${localApi}/vote-reason.json`;
     return request(
       url,
       {
@@ -69,7 +69,7 @@ class KarmaApiClient {
     }
 
     return request(
-      `${apiUrl}/delegate-pitch.json`,
+      `${localApi}/delegate-pitch.json`,
       {
         ...pitch,
         publicAddress: this.publicAddress,
@@ -90,7 +90,7 @@ class KarmaApiClient {
   }
 
   isApiAllowed(csrfToken) {
-    return request(`${apiUrl}/allowance.json`, null, "GET", {
+    return request(`${localApi}/allowance.json`, null, "GET", {
       "X-CSRF-Token": csrfToken,
     });
   }

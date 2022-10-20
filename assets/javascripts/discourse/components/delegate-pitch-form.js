@@ -13,6 +13,8 @@ export default Component.extend({
 
   proposalId: "",
 
+  reloadTree: () => {},
+
   form: {
     description: "",
     publicAddress: "",
@@ -237,6 +239,7 @@ export default Component.extend({
           "message",
           "Thank you! You pitch was submitted successfully."
         );
+        this.reloadTree();
       } catch (error) {
         set(this, "errors", [error.message]);
       } finally {

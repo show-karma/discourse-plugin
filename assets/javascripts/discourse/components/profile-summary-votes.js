@@ -15,6 +15,8 @@ export default Component.extend({
 
   hasSetApiKey: false,
 
+  count: 0,
+
   shouldShowActionButtons: computed(function () {
     return (
       this.session &&
@@ -24,24 +26,31 @@ export default Component.extend({
     );
   }),
 
-  async didReceiveAttrs() {
-    const cli = new KarmaApiClient("ens", "");
+  async fetchVotes() {
+    set(this, "fetched", false);
+    const votes = await VotingHistory.start(this.profile, {
+      SiteSettings: this.siteSettings,
+    });
+    set(this, "fetched", true);
+    set(this, "votes", votes);
+  },
+
+  async init() {
+    this._super(...arguments);
     if (this.session) {
+      const cli = new KarmaApiClient(this.siteSettings.DAO_name, "");
       try {
         const { allowance } = await cli.isApiAllowed(this.session.csrfToken);
         set(this, "hasSetApiKey", !!allowance);
       } catch {}
     }
+  },
 
-    if (!this.votes.length) {
-      this._super(...arguments);
-      const votes = await VotingHistory.start(this.profile, {
-        SiteSettings: this.siteSettings,
-      });
-      set(this, "fetched", true);
-      if (!this.votes.length && votes.length) {
-        set(this, "votes", votes);
-      }
+  async didReceiveAttrs() {
+    this._super(...arguments);
+
+    if (this.profile.address && !this.fetched) {
+      this.fetchVotes();
     }
   },
 });

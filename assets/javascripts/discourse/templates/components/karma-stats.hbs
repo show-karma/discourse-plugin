@@ -20,14 +20,15 @@
         <b>
           Governance Stats
         </b>
-        {{#unless profile.address}}
-          {{delegate-pitch-form profile=this.profile}}
-        {{/unless}}
+
+        {{#if (and hasSetApiKey shouldShowActionButtons)}}
+          {{delegate-pitch-form reloadTree=fetchProfile profile=this.profile}}
+        {{/if}}
       </div>
       <div class="__loading" style="display:none;">
         Loading governance stats from Karma
       </div>
-      {{#if siteSettings.User_not_found_message}}
+      {{#if (and (not profile.address) siteSettings.User_not_found_message)}}
         <div class="__has-error" style="display:none;">
           {{html-safe siteSettings.User_not_found_message}}
         </div>
