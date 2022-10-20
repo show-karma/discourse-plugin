@@ -1,12 +1,12 @@
 import { set } from "@ember/object";
 import { shortenNumber } from "../shorten-number";
 import { htmlSafe } from "@ember/template";
-
+import { apiUrl } from "../consts";
 /**
  * Karma stats fetcher
  */
 const KarmaStats = {
-  url: "https://api.showkarma.xyz/api",
+  url: apiUrl,
   daoName: undefined,
   profile: {},
 
@@ -35,7 +35,7 @@ const KarmaStats = {
     const url = `${KarmaStats.url}/user/${userAddress}/${daoName}`;
     try {
       const { data } = await fetch(url).then((res) => res.json());
-      this.profile = data;
+      this.profile = data ?? {};
       const { delegates } = data;
 
       if (delegates) {
@@ -142,6 +142,7 @@ const KarmaStats = {
 
       this.toggleLoading(false, wrapperId);
       const stats = await KarmaStats.fetchUser(user, daoName);
+
       if (stats) {
         const wrapper = $(`${wrapperId} .__wrapper`)[0];
 
@@ -180,7 +181,7 @@ const KarmaStats = {
         }
 
         this.toggleScore(false, wrapperId);
-      } else if (!user) {
+      } else if (!(stats && user)) {
         this.toggleErrorMessage(false, wrapperId);
       }
     } else if (totalTries < 30) {
