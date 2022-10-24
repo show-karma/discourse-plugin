@@ -26,6 +26,7 @@ en:
     Banner_custom_link_text: "Text to display"
     Banner_past_proposal_days: "Show proposals from past X days. If not set, only shows active proposals"
     Show_delegate_pitch_form: ""
+    Delegate_pitch_fields: "Text fields to display on the delegate pitch form"
     Delegate_pitch_thread_id: "Thread in which the pitch will be posted. If empty, it'll be ignored."
     Show_vote_reason_form: ""
     Karma_API_Key: "API key to save data to the Karma api"

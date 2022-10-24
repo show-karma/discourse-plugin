@@ -78,6 +78,9 @@ Forms:
   Show_delegate_pitch_form:
     default: true
     client: true
+  Delegate_pitch_fields:
+    default: "About you; Enter your pitch here|text; Your age|number; Interests|select:o:DAOs o:Economics o:Governance o:Identity o:Social impact o:Software Engineering;Languages|select:o:English o:Mandarin o:Hindi o:Spanish o:French o:Arabic o:Bengali o:Portuguese o:Indonesian"
+    client: true
   Show_vote_reason_form:
     default: true
     client: true

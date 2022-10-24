@@ -37,37 +37,28 @@
                   value={{form.publicAddress}}
                   onchange={{setPublicAddress}}
                   disabled={{lockDelegateAddress}}
-                >
-                <label for="reason">
-                  Enter your pitch here
-                </label>
-                <div class="editor-large">
-                  {{d-editor value=form.description}}
-                </div>
-                <br>
-                <p>
-                  <b>
-                    Interests:
-                  </b>
-                </p>
-                <div class="interests">
-                  {{multi-select content=interests value=form.interests}}
-                </div>
-                <p>
-                  <b>
-                    Languages:
-                  </b>
-                </p>
-                <div class="interests">
-                  {{multi-select content=languages value=form.languages}}
-                </div>
+                />
+                {{#each fields as |field|}}
+                  <label>
+                    {{field.label}}<br />
+                  </label>
+                  {{#if (eq field.type "text")}}
+                    <div class="editor-large">
+                      {{d-editor value=field.value}}
+                    </div>
+                  {{else if (eq field.type "select")}}
+                    {{multi-select content=field.options value=field.value}}
+                  {{else}}
+                    <input type={{field.type}} value={{field.value}} />
+                  {{/if}}
+                {{/each}}
               </div>
               {{#if errors.length}}
                 {{#each errors as |error|}}
                   <span class="error" style="color:var(--danger)">
                     {{error}}
                   </span>
-                  <br>
+                  <br />
                 {{/each}}
               {{/if}}
               <div class="footer">

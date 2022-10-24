@@ -7,6 +7,7 @@ import deletePost from "../../lib/delete-post";
 import { isEthAddress } from "../../lib/is-eth-address";
 import KarmaApiClient from "../../lib/karma-api-client";
 import updatePost from "../../lib/update-post";
+import parseFields from "../../lib/parse-fields";
 
 export default Component.extend({
   router: service(),
@@ -21,6 +22,13 @@ export default Component.extend({
     interests: [],
     languages: [],
   },
+
+  fields: [
+    {
+      label: "Enter your pitch here",
+      type: "text",
+    },
+  ],
 
   postId: null,
   // { id: 1, name: "Orange" },
@@ -63,31 +71,27 @@ export default Component.extend({
     return +this.siteSettings.Delegate_pitch_thread_id;
   }),
 
-  @action
-  toggleModal() {
-    const ttl = 100;
-    const el = $(`#${this.modalId}`);
-    if (this.visible) {
-      el.animate(
-        {
-          opacity: "0",
-          transform: "translateY(20px)",
-        },
-        ttl
-      );
+  getFields() {
+    const { Delegate_pitch_fields: fields } = this.siteSettings;
+    if (fields) {
+      set(this, "fields", parseFields(fields));
+    }
+  },
 
-      setTimeout(() => el.hide(), ttl * 2);
-      set(this, "visible", false);
-    } else {
-      el.show();
-      el.animate(
-        {
-          opacity: "1",
-          transform: "translateY(0)",
-        },
-        ttl
-      );
-      set(this, "visible", true);
+  init() {
+    this._super(...arguments);
+    this.getFields();
+  },
+
+  didReceiveAttrs() {
+    this._super(...arguments);
+    if (this.profile?.address) {
+      this.fetchDelegatePitch();
+      set(this, "lockDelegateAddress", true);
+      set(this, "form", {
+        ...this.form,
+        publicAddress: this.profile.address,
+      });
     }
   },
 
@@ -247,7 +251,33 @@ export default Component.extend({
       }
     }
   },
+  @action
+  toggleModal() {
+    const ttl = 100;
+    const el = $(`#${this.modalId}`);
+    if (this.visible) {
+      el.animate(
+        {
+          opacity: "0",
+          transform: "translateY(20px)",
+        },
+        ttl
+      );
 
+      setTimeout(() => el.hide(), ttl * 2);
+      set(this, "visible", false);
+    } else {
+      el.show();
+      el.animate(
+        {
+          opacity: "1",
+          transform: "translateY(0)",
+        },
+        ttl
+      );
+      set(this, "visible", true);
+    }
+  },
   @action
   submit(e) {
     e.preventDefault();
@@ -261,17 +291,5 @@ export default Component.extend({
   @action
   setPublicAddress(e) {
     set(this, "form", { ...this.form, publicAddress: e.target.value });
-  },
-
-  didReceiveAttrs() {
-    this._super(...arguments);
-    if (this.profile?.address) {
-      this.fetchDelegatePitch();
-      set(this, "lockDelegateAddress", true);
-      set(this, "form", {
-        ...this.form,
-        publicAddress: this.profile.address,
-      });
-    }
   },
 });
