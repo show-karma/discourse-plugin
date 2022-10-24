@@ -30,7 +30,7 @@ export default Component.extend({
     { id: 3, name: "Governance" },
     { id: 4, name: "Identity" },
     { id: 5, name: "Social impact" },
-    { id: 6, name: "Software Engeneering" },
+    { id: 6, name: "Software Engineering" },
   ],
 
   languages: [
@@ -46,8 +46,6 @@ export default Component.extend({
   ],
 
   profile: {},
-
-  lockDelegateAddress: false,
 
   vote: {},
 
@@ -213,7 +211,7 @@ export default Component.extend({
       );
       set(this, "postId", postId);
     } catch (error) {
-      if (!this.postId) {
+      if (!this.postId && postId) {
         deletePost({
           postId,
           csrf: this.session.csrfToken,
@@ -267,7 +265,6 @@ export default Component.extend({
     this._super(...arguments);
     if (this.profile?.address) {
       this.fetchDelegatePitch();
-      set(this, "lockDelegateAddress", true);
       set(this, "form", {
         ...this.form,
         publicAddress: this.profile.address,

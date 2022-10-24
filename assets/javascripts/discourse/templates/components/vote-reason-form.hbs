@@ -26,11 +26,11 @@
                 {{d-icon "times"}}
               </div>
               <p class="modal-header">
-                Enter a Voting Reason
+                Submit vote reason
               </p>
               <div class="form-reason">
                 <label for="thread-id">
-                  Your vote reasons thread
+                  Select forum thread
                 </label>
                 <select
                   name="thread-id"
@@ -44,7 +44,7 @@
                     </option>
                   {{else if (not threads.length)}}
                     <option value="null" disabled selected={{eq threadId -1}}>
-                      Please, create a thread for your votes.
+                      We couldn't find any of your forum threads. Please, create a thread where you want your vote reasons posted
                     </option>
                   {{else}}
                     <option value="null" disabled selected={{eq threadId -1}}>
@@ -56,7 +56,7 @@
                   </option> }}
                   {{/if}}
                   {{#each threads as |thread index|}}
-                    <option value={{index}} selected={{eq threadId index}}>
+                    <option value={{index}}>
                       {{thread.name}}
                     </option>
                   {{/each}}
@@ -77,7 +77,7 @@
                     {{#if proposalLoading}}
                       Loading...
                     {{else}}
-                      Select an option
+                      Select a proposal
                     {{/if}}
                   </option>
                   {{#each proposals as |proposal index|}}
@@ -90,24 +90,24 @@
                     </option>
                   {{/each}}
                 </select>
-                <br>
+                <br />
                 <label for="reason">
-                  Summary
+                  Reason
                 </label>
-                {{d-editor value=form.summary}}
-                <br>
-                <label for="reason">
-                  Recommendation
-                </label>
-                {{d-editor value=form.recommendation}}
-                <br>
+                <div class="editor-large">
+                  {{d-editor
+                    value=form.recommendation
+                    placeholder="vote_reason_form.reason"
+                  }}
+                </div>
+                <br />
               </div>
               {{#if errors.length}}
                 {{#each errors as |error|}}
                   <span class="error" style="color:var(--danger)">
                     {{error}}
                   </span>
-                  <br>
+                  <br />
                 {{/each}}
               {{/if}}
               <div class="footer">
@@ -135,7 +135,7 @@
                     {{#if form.postId}}
                       Update
                     {{else}}
-                      Send
+                      Submit
                     {{/if}}
                   </button>
                 </div>

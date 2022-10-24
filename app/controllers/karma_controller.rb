@@ -14,7 +14,7 @@ class KarmaScore::KarmaController < ::ApplicationController
     @dao_name = SiteSetting.DAO_name
     @api_token = SiteSetting.Karma_API_Key
     @delegate_thread_id = SiteSetting.Delegate_pitch_thread_id
-    @api_url = "https://stageapi.showkarma.xyz/api/discourse"
+    @api_url = "http://192.168.123.101:3001/api/discourse"
     @headers = { "Content-Type" => "application/json", "authorization" => api_token }
   end
 
@@ -27,7 +27,6 @@ class KarmaScore::KarmaController < ::ApplicationController
   def save_vote_reason
     public_address = params.require(:publicAddress)
     proposal_id = params.require(:proposalId)
-    summary = params.require(:summary)
     recommendation = params.require(:recommendation)
     thread_id = params.require(:threadId)
     post_id = params.require(:postId)
@@ -41,7 +40,7 @@ class KarmaScore::KarmaController < ::ApplicationController
         threadId: thread_id.to_i,
         postId: post_id.to_i,
         recommendation: recommendation,
-        summary: summary,
+        summary: "-",
       }
 
       res = Net::HTTP::start(uri.host, uri.port, use_ssl: uri.scheme == "https") do |http|

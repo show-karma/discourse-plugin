@@ -8,6 +8,7 @@ import { fetchActiveOnChainProposals } from "../../lib/voting-history/gql/on-cha
 import fetchUserThreads from "../../lib/fetch-user-threads";
 import KarmaApiClient from "../../lib/karma-api-client";
 import updatePost from "../../lib/update-post";
+import getProposalLink from "../../lib/get-proposal-link";
 
 export default Component.extend({
   form: { recommendation: "", summary: "", publicAddress: "", postId: null },
@@ -42,9 +43,13 @@ export default Component.extend({
 
   proposalId: -1,
 
-  proposalTitle: computed(function () {
-    return this.proposals[this.proposalId]?.title;
-  }),
+  proposalLink: function () {
+    console.log(this.proposalId);
+
+    const proposal = this.proposals[this.proposalId];
+    const link = getProposalLink(proposal);
+    return link ? `[${proposal.title}](${link})` : proposal.title;
+  },
 
   // proposalTitle: computed(function() {
   //   return this.proposal[this.form.proposalId]?.id
@@ -57,6 +62,7 @@ export default Component.extend({
       summary: "",
       postId: null,
     });
+    set(this, "proposalId", -1);
   },
 
   @action
@@ -110,11 +116,10 @@ export default Component.extend({
       this.siteSettings.DAO_name,
       this.form.publicAddress
     );
-    const reason = `${this.proposalTitle}
+    const reason = `${this.proposalLink()}
 
-**Summary**: ${this.form.summary}
+${this.form.recommendation}`;
 
-**Recommendation**: ${this.form.recommendation}`;
     try {
       if (hasReason?.postId) {
         postId = hasReason.postId;
@@ -132,6 +137,7 @@ export default Component.extend({
         postId = id;
       }
     } catch (error) {
+      console.debug(error);
       throw new Error("We couldn't post your pitch on Discourse.");
     }
 
@@ -149,7 +155,7 @@ export default Component.extend({
       set(this, "postId", postId);
       this.setPostReason(reason);
     } catch (error) {
-      if (!hasSetReason) {
+      if (!hasSetReason && postId) {
         await deletePost({
           postId,
           csrf: this.session.csrfToken,
@@ -217,7 +223,7 @@ export default Component.extend({
           id: topic.id,
         }))
       );
-      this.setDefaultThreadId();
+      // this.setDefaultThreadId();
     } catch {}
   },
 

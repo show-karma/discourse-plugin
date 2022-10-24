@@ -1,11 +1,10 @@
 import Component from "@ember/component";
 import { action, computed, set } from "@ember/object";
+import getProposalLink from "../../lib/get-proposal-link";
 import {
   getResults,
   getVoteBreakdownByProposal,
 } from "../../lib/vote-breakdown";
-
-const { BigInt } = window;
 
 export default Component.extend({
   proposal: {},
@@ -32,15 +31,7 @@ export default Component.extend({
   },
 
   getLink() {
-    let nLink = this.link;
-    if (this.proposal.type === "Off-chain") {
-      nLink = `https://snapshot.org/#/${this.proposal.snapshotId}/proposal/${this.proposal.id}`;
-    } else {
-      const proposalId = BigInt(this.proposal.id).toString();
-      nLink = this.tokenContract
-        ? `https://tally.xyz/governance/eip155:1:${this.tokenContract}/proposal/${proposalId}`
-        : "";
-    }
+    const nLink = getProposalLink(this.proposal, this.tokenContract);
     if (nLink) {
       set(this, "pointer", "cursor:pointer");
     }
