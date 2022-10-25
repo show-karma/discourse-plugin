@@ -273,6 +273,7 @@ ${this.form.recommendation}`;
     proposals[this.proposalId].reason = {
       ...this.form,
       threadId: this.threadId,
+      postId: this.postId
     };
 
     set(this, "proposals", proposals);
