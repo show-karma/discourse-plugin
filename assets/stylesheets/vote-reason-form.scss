@@ -71,11 +71,17 @@
       border: 1px solid $color-black-alpha-2;
     }
     .modal-header {
+      display: flex;
+      flex-wrap: wrap;
+      // flex-direction: column;
+      margin-top: 0;
+      margin-bottom: 2em;
+    }
+    .modal-header > p {
       font-size: 1.5em;
       font-weight: 600;
       padding: 0;
-      margin-top: 0;
-      margin-bottom: 2em;
+      margin: 0;
       border: none;
     }
     .form-reason {

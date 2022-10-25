@@ -1,12 +1,12 @@
 import { set } from "@ember/object";
 import { shortenNumber } from "../shorten-number";
 import { htmlSafe } from "@ember/template";
-import { karmaApiUrl } from "../consts";
+import { stageApiUrl } from "../consts";
 /**
  * Karma stats fetcher
  */
 const KarmaStats = {
-  url: karmaApiUrl,
+  url: stageApiUrl,
   daoName: undefined,
   profile: {},
 
@@ -102,7 +102,7 @@ const KarmaStats = {
       daoExp: $(`${wrapperId} #__dao-exp`),
       snapshotVotingStats: $(`${wrapperId} #__snapshot-voting-stats`),
       onChainVotingStats: $(`${wrapperId} #__on-chain-voting-stats`),
-      healthScore: $(`${wrapperId} #__health-score`),
+      gitcoinHealthScore: $(`${wrapperId} #__health-score`),
     };
   },
 
@@ -150,35 +150,14 @@ const KarmaStats = {
           wrapper.style.display = "initial";
         }
 
-        const {
-          delegatedVotes,
-          daoExp,
-          snapshotVotingStats,
-          onChainVotingStats,
-          healthScore,
-        } = KarmaStats.getSlots(wrapperId);
+        const slots = KarmaStats.getSlots(wrapperId);
 
-        if (delegatedVotes) {
-          delegatedVotes.html(stats.delegatedVotes?.toLocaleString("en-US"));
-        }
-
-        if (daoExp) {
-          daoExp.html(stats.daoExp?.toLocaleString("en-US"));
-        }
-
-        if (healthScore) {
-          healthScore.html(
-            stats.gitcoinHealthScore?.toLocaleString("en-US") || 0
+        Object.keys(slots).map((key) => {
+          const isNum = typeof slots[key] === "number";
+          slots[key].html(
+            isNum ? stats[key]?.toLocaleString("en-US") : stats[key]
           );
-        }
-
-        if (snapshotVotingStats) {
-          snapshotVotingStats.html(stats.snapshotVotingStats);
-        }
-
-        if (onChainVotingStats) {
-          onChainVotingStats.html(stats.onChainVotingStats);
-        }
+        });
 
         this.toggleScore(false, wrapperId);
       } else if (!(stats && user)) {
