@@ -54,7 +54,7 @@
                     </option>
                   {{else}}
                     <option value="null" disabled selected={{eq threadId -1}}>
-                      Select a proposal
+                      Select an option
                     </option>
                     {{! TODO: needs to check what about the category }}
                     {{! <option value="-2">
@@ -87,7 +87,7 @@
                     {{/if}}
                   </option>
                   {{#each proposals as |proposal index|}}
-                    <option value={{index}}>
+                    <option value={{index}} selected={{eq proposalId index}}>
                       {{#if proposal.reason}}
                         ✔
                       {{/if}}

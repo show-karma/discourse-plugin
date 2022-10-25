@@ -48,7 +48,7 @@ export default Component.extend({
 
     const proposal = this.proposals[this.proposalId];
     const link = getProposalLink(proposal);
-    return link ? `[${proposal.title}](${link})` : proposal.title;
+    return link ? `[${proposal.title}](${link})` : `### ${proposal.title}`;
   },
 
   // proposalTitle: computed(function() {
@@ -95,11 +95,11 @@ export default Component.extend({
 
   dispatchToggleModal() {
     setTimeout(() => {
-      this.toggleModal();
+      // this.toggleModal();
       setTimeout(() => {
         set(this, "message", "");
         set(this, "errors", []);
-        this.resetForm();
+        // this.resetForm();
       }, 250);
     }, 2000);
   },
@@ -273,7 +273,7 @@ ${this.form.recommendation}`;
     proposals[this.proposalId].reason = {
       ...this.form,
       threadId: this.threadId,
-      postId: this.postId
+      postId: this.postId,
     };
 
     set(this, "proposals", proposals);
@@ -320,6 +320,11 @@ ${this.form.recommendation}`;
       set(this, "form", {
         ...this.form,
         ...reason,
+      });
+    } else {
+      set(this, "form", {
+        ...this.form,
+        postId: null,
       });
     }
     set(this, "proposalId", proposalId);
