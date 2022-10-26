@@ -9,5 +9,7 @@ en:
   js:
     discourse_plugin_name:
       placeholder: placeholder
+    delegate_actions: 
+      dropdown_none_label: Delegate Actions
     vote_reason_form: 
       reason: We are in support of this proposal for numerous reasons. The team aligns themselves greatly with DAOs mission. We have voted "Yes" on this proposal.

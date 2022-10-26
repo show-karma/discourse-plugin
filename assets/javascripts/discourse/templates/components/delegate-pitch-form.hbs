@@ -1,12 +1,13 @@
 {{#if siteSettings.Show_delegate_pitch_form}}
-  <button
-    type="button"
-    class="__karma-send-reason-btn k-btn btn-link"
-    onClick={{toggleModal}}
-  >
-    Delegate pitch
-  </button>
-
+  {{#unless hideButton}}
+    <button
+      type="button"
+      class="__karma-send-reason-btn k-btn btn-link"
+      onClick={{onClose}}
+    >
+      Delegate pitch
+    </button>
+  {{/unless}}
   <div
     id={{modalId}}
     class="__karma-vote-form-modal"
@@ -21,7 +22,7 @@
         <div class="modal-body">
           <form onSubmit={{submit}}>
             <div class="modal-content">
-              <div class="close-button" onClick={{toggleModal}}>
+              <div class="close-button" onClick={{onClose}}>
                 {{d-icon "times"}}
               </div>
               <div class="modal-header">
@@ -88,7 +89,7 @@
                   <button
                     type="button"
                     class="k-btn btn-link"
-                    onClick={{toggleModal}}
+                    onClick={{onClose}}
                   >
                     Cancel
                   </button>

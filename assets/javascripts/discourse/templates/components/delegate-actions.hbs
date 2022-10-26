@@ -1,0 +1,26 @@
+{{delegate-pitch-form profile=profile onClose=toggleDelegate}}
+{{vote-reason-form profile=profile onClose=toggleVote}}
+{{#if shouldShow}}
+  <div class="k-dropdown-wrap">
+    <div style="width:fit-content">
+      <button class="k-btn btn-info" onclick={{onClick}}>
+        Delegate Actions
+      </button>
+      {{#if isOpen}}
+        <div class="k-dropdown">
+          <div class="triangle"></div>
+          <div class="k-option">
+            <button class="k-btn btn-link" onClick={{toggleDelegate}}>
+              Delegate pitch
+            </button>
+          </div>
+          <div class="k-option">
+            <button class="k-btn btn-link" onClick={{toggleVote}}>
+              Submit vote reason
+            </button>
+          </div>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+{{/if}}

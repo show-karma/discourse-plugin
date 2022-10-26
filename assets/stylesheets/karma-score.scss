@@ -183,3 +183,61 @@
     filter: brightness(1);
   }
 }
+.__below-header-connector {
+  margin-top: 10px;
+}
+.k-dropdown-wrap {
+  display: flex;
+  justify-content: end;
+  position: relative;
+  .k-dropdown {
+    background-color: var(--secondary);
+    border: 1px solid var(--quaternary);
+    position: absolute;
+    border-radius: 8px;
+    padding: 10px 0;
+    top: calc(100% + 15px);
+    right: 0;
+    z-index: 99;
+    animation: fade forwards 200ms;
+    .triangle {
+      height: 15px;
+      width: 15px;
+      background-color: inherit;
+      border-top: inherit;
+      border-left: inherit;
+      position: absolute;
+      right: 10%;
+      transform: rotate(45deg);
+      top: -9px;
+      animation: pull-right forwards 1s;
+    }
+    .k-option {
+      cursor: pointer;
+      padding: 10px 15px;
+      &:hover {
+        background-color: var(--secondary-very-high);
+      }
+    }
+  }
+
+  @keyframes pull-right {
+    0% {
+      right: 50%;
+    }
+    100% {
+      right: 10%;
+    }
+  }
+
+  @keyframes fade {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

@@ -23,6 +23,8 @@ export default Component.extend({
 
   threads: [],
 
+  hideButton: true,
+
   message: "",
 
   loading: false,
@@ -35,16 +37,17 @@ export default Component.extend({
 
   errors: [],
 
-  modalId: computed(function () {
-    return this.vote.proposalId + "__karma-vote-form-modal";
-  }),
+  modalId: "__karma-vote-form-modal",
 
   threadId: -1,
 
   proposalId: -1,
 
+  onClose: function () {
+    set(this, "visible", false);
+  },
+
   proposalLink: function () {
-    console.log(this.proposalId);
 
     const proposal = this.proposals[this.proposalId];
     const link = getProposalLink(proposal);
@@ -63,34 +66,6 @@ export default Component.extend({
       postId: null,
     });
     set(this, "proposalId", -1);
-  },
-
-  @action
-  toggleModal() {
-    const ttl = 100;
-    const el = $(`#${this.modalId}`);
-    if (this.visible) {
-      el.animate(
-        {
-          opacity: "0",
-          transform: "translateY(20px)",
-        },
-        ttl
-      );
-
-      setTimeout(() => el.hide(), ttl * 2);
-      set(this, "visible", false);
-    } else {
-      el.show();
-      el.animate(
-        {
-          opacity: "1",
-          transform: "translateY(0)",
-        },
-        ttl
-      );
-      set(this, "visible", true);
-    }
   },
 
   dispatchToggleModal() {
@@ -137,7 +112,6 @@ ${this.form.recommendation}`;
         postId = id;
       }
     } catch (error) {
-      console.debug(error);
       throw new Error("We couldn't post your pitch on Discourse.");
     }
 

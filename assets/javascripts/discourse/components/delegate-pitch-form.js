@@ -1,6 +1,6 @@
 import Component from "@ember/component";
 import { inject as service } from "@ember/service";
-import { action, computed, set } from "@ember/object";
+import { action, computed, observer, set } from "@ember/object";
 import { throttle } from "@ember/runloop";
 import postToTopic from "../../lib/post-to-topic";
 import deletePost from "../../lib/delete-post";
@@ -14,6 +14,8 @@ export default Component.extend({
   proposalId: "",
 
   reloadTree: () => {},
+
+  hideButton: true,
 
   form: {
     description: "",
@@ -61,32 +63,8 @@ export default Component.extend({
     return +this.siteSettings.Delegate_pitch_thread_id;
   }),
 
-  @action
-  toggleModal() {
-    const ttl = 100;
-    const el = $(`#${this.modalId}`);
-    if (this.visible) {
-      el.animate(
-        {
-          opacity: "0",
-          transform: "translateY(20px)",
-        },
-        ttl
-      );
-
-      setTimeout(() => el.hide(), ttl * 2);
-      set(this, "visible", false);
-    } else {
-      el.show();
-      el.animate(
-        {
-          opacity: "1",
-          transform: "translateY(0)",
-        },
-        ttl
-      );
-      set(this, "visible", true);
-    }
+  onClose: function () {
+    set(this, "visible", false);
   },
 
   /**
@@ -121,7 +99,7 @@ export default Component.extend({
 
   dispatchToggleModal() {
     setTimeout(() => {
-      this.toggleModal();
+      this.onClose?.();
       setTimeout(() => {
         set(this, "message", "");
         set(this, "errors", []);
@@ -235,9 +213,10 @@ export default Component.extend({
         set(
           this,
           "message",
-          "Thank you! You pitch was submitted successfully."
+          "Thank you! Your pitch was submitted successfully."
         );
         this.reloadTree();
+        window?.open(`/p/${this.postId}`, "_blank");
       } catch (error) {
         set(this, "errors", [error.message]);
       } finally {

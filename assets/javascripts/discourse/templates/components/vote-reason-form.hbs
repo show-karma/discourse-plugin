@@ -1,9 +1,9 @@
 {{#if siteSettings.Show_vote_reason_form}}
-  {{#unless hasSetReason}}
+  {{#unless hideButton}}
     <button
       type="button"
       class="__karma-send-reason-btn k-btn btn-link"
-      onClick={{toggleModal}}
+      onClick={{onClose}}
     >
       Submit vote reason
     </button>
@@ -22,7 +22,7 @@
         <div class="modal-body">
           <form onSubmit={{submit}}>
             <div class="modal-content">
-              <div class="close-button" onClick={{toggleModal}}>
+              <div class="close-button" onClick={{onClose}}>
                 {{d-icon "times"}}
               </div>
               <div class="modal-header">
@@ -133,7 +133,7 @@
                   <button
                     type="button"
                     class="k-btn btn-link"
-                    onClick={{toggleModal}}
+                    onClick={{onClose}}
                   >
                     Cancel
                   </button>
