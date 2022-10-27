@@ -40,20 +40,20 @@
                 </label>
                 <select
                   name="thread-id"
-                  value={{threadId}}
+                  onchange={{setThreadId}}
                   required
                   class="k-input"
                 >
                   {{#if proposalLoading}}
-                    <option value="-1" disabled>
+                    <option value="null" disabled selected={{eq threadId -1}}>
                       Loading...
                     </option>
                   {{else if (not threads.length)}}
-                    <option value="-1" disabled>
+                    <option value="null" disabled selected={{eq threadId -1}}>
                       We couldn't find any of your forum threads. Please, create a thread where you want your vote reasons posted
                     </option>
                   {{else}}
-                    <option value="-1" disabled>
+                    <option value="null" disabled selected={{eq threadId -1}}>
                       Select an option
                     </option>
                     {{! TODO: needs to check what about the category }}
@@ -97,24 +97,16 @@
                   {{/each}}
                 </select>
                 <br />
-                {{#each fields as |field|}}
-                  <label>
-                    {{field.label}}<br />
-                  </label>
-                  {{#if (eq field.type "text")}}
-                    <div class="editor-large">
-                      {{d-editor value=field.value}}
-                    </div>
-                  {{else if (eq field.type "select")}}
-                    {{multi-select content=field.options value=field.value}}
-                  {{else}}
-                    <input
-                      type={{field.type}}
-                      value={{field.value}}
-                      class="k-input"
-                    />
-                  {{/if}}
-                {{/each}}
+                <label for="reason">
+                  Reason
+                </label>
+                <div class="editor-large">
+                  {{d-editor
+                    value=form.recommendation
+                    placeholder="vote_reason_form.reason"
+                  }}
+                </div>
+                <br />
               </div>
               {{#if errors.length}}
                 {{#each errors as |error|}}

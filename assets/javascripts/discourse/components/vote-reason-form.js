@@ -9,7 +9,6 @@ import fetchUserThreads from "../../lib/fetch-user-threads";
 import KarmaApiClient from "../../lib/karma-api-client";
 import updatePost from "../../lib/update-post";
 import getProposalLink from "../../lib/get-proposal-link";
-import parseFields from "../../lib/parse-fields";
 
 export default Component.extend({
   form: { recommendation: "", summary: "", publicAddress: "", postId: null },
@@ -23,13 +22,6 @@ export default Component.extend({
   reasons: [],
 
   threads: [],
-
-  fields: [
-    {
-      label: "Reason",
-      type: "text",
-    },
-  ],
 
   hideButton: true,
 
@@ -50,13 +42,6 @@ export default Component.extend({
   threadId: -1,
 
   proposalId: -1,
-
-  getFields() {
-    const { Vote_reason_fields: fields } = this.siteSettings;
-    if (fields) {
-      set(this, "fields", parseFields(fields));
-    }
-  },
 
   onClose: function () {
     set(this, "visible", false);
@@ -176,28 +161,28 @@ ${this.form.recommendation}`;
     set(this, "errors", errors);
     return !!errors.length;
   },
+
   async send() {
-    console.log(this.form, this.fields);
-    // const hasErrors = this.checkErrors();
-    // if (!hasErrors) {
-    //   set(this, "loading", true);
-    //   try {
-    //     if (this.threadId === -2) {
-    //       await this.createThread();
-    //     }
-    //     await this.post();
-    //     this.dispatchToggleModal();
-    //     set(
-    //       this,
-    //       "message",
-    //       "Thank you! Your recommendation was submitted successfully."
-    //     );
-    //   } catch (error) {
-    //     set(this, "errors", [error.message]);
-    //   } finally {
-    //     set(this, "loading", false);
-    //   }
-    // }
+    const hasErrors = this.checkErrors();
+    if (!hasErrors) {
+      set(this, "loading", true);
+      try {
+        if (this.threadId === -2) {
+          await this.createThread();
+        }
+        await this.post();
+        this.dispatchToggleModal();
+        set(
+          this,
+          "message",
+          "Thank you! Your recommendation was submitted successfully."
+        );
+      } catch (error) {
+        set(this, "errors", [error.message]);
+      } finally {
+        set(this, "loading", false);
+      }
+    }
   },
 
   async fetchThreads() {
@@ -278,11 +263,38 @@ ${this.form.recommendation}`;
       set(this, "threadId", threadId);
     }
   },
+  
+  async didReceiveAttrs() {
+    this._super(...arguments);
+    if (this.profile.address) {
+      set(this, "proposalLoading", true);
+      const proposals = await this.fetchProposals();
+      await this.fetchVoteReasons(proposals);
+      set(this, "proposalLoading", false);
+      set(this, "fetched", true);
+      set(this, "form", { ...this.form, publicAddress: this.profile.address });
+    }
+    this.fetchThreads();
+  },
 
   @action
   submit(e) {
     e.preventDefault();
     return throttle(this, this.send, 200);
+  },
+
+  setFormData(key, data) {
+    set(this, "form", { ...this.form, [key]: data });
+  },
+
+  @action
+  setReason(e) {
+    this.setFormData("recommendation", e.target.value);
+  },
+
+  @action
+  setSummary(e) {
+    this.setFormData("summary", e.target.value);
   },
 
   @action
@@ -304,16 +316,11 @@ ${this.form.recommendation}`;
     set(this, "proposalId", proposalId);
   },
 
-  async didReceiveAttrs() {
-    this._super(...arguments);
-    if (this.profile.address) {
-      set(this, "proposalLoading", true);
-      const proposals = await this.fetchProposals();
-      await this.fetchVoteReasons(proposals);
-      set(this, "proposalLoading", false);
-      set(this, "fetched", true);
-      set(this, "form", { ...this.form, publicAddress: this.profile.address });
+  @action
+  setThreadId(e) {
+    const idx = +e.target.value;
+    if (idx !== "null") {
+      set(this, "threadId", idx === -2 ? idx : this.threads[idx].id);
     }
-    this.fetchThreads();
   },
 });

@@ -68,7 +68,7 @@ class KarmaScore::KarmaController < ::ApplicationController
 
   def save_delegate_pitch
     body = params.require(:karma)
-    description = params.require(:description)
+    custom_fields = params.require(:customFields)
     post_id = params.require(:postId)
     public_address = params.require(:publicAddress)
     forum = params.require(:forum)
@@ -78,12 +78,10 @@ class KarmaScore::KarmaController < ::ApplicationController
       uri = URI.parse("#{api_url}/#{dao_name}/delegate-pitch/#{public_address}")
 
       body = {
-        description: description,
+        customFields: body["customFields"],
         threadId: delegate_thread_id.to_i,
         postId: post_id.to_i,
         discourseHandle: discourse_handle,
-        languages: body["languages"],
-        interests: body["interests"],
         forum: forum,
       }
 
@@ -100,7 +98,7 @@ class KarmaScore::KarmaController < ::ApplicationController
       response = JSON.parse(res.body)
 
       if (response.key?("statusCode"))
-        render json: { status: "error", error: response["error"]["message"], rawError: response }, status: response["statusCode"]
+        render json: { status: "error", error: response["error"]["message"], rawError: response, req: custom_fields }, status: response["statusCode"]
       else
         render json: { status: "ok", res: response }
       end

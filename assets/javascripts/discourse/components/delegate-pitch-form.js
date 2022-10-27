@@ -11,6 +11,7 @@ import parseFields from "../../lib/parse-fields";
 import {
   createPostTextFromFields,
   getFieldValues,
+  valuesToFields,
 } from "../../lib/get-field-values";
 
 export default Component.extend({
@@ -25,6 +26,8 @@ export default Component.extend({
   form: {
     publicAddress: "",
   },
+
+  customFields: [],
 
   fields: [
     {
@@ -86,17 +89,6 @@ export default Component.extend({
     return Array.from(unique);
   },
 
-  parseMultiselect() {
-    return {
-      interests: this.form.interests
-        .map((idx) => this.interests[idx - 1]?.name)
-        .join(","),
-      languages: this.form.languages
-        .map((idx) => this.languages[idx - 1]?.name)
-        .join(","),
-    };
-  },
-
   dispatchToggleModal() {
     setTimeout(() => {
       this.onClose?.();
@@ -110,7 +102,7 @@ export default Component.extend({
   checkErrors() {
     set(this, "errors", []);
     const errors = this.errors;
-    if (this.form.description.length < 20) {
+    if (createPostTextFromFields(this.fields) < 20) {
       errors.push("Your message should have at least 20 chars.");
     }
 
@@ -131,21 +123,18 @@ export default Component.extend({
       try {
         const { delegatePitch } = await karma.fetchDelegatePitch();
         if (delegatePitch) {
-          set(this, "form", {
-            ...this.form,
-            description: delegatePitch.description,
-            interests: this.stringToMultiselect(
-              delegatePitch.interests,
-              "interests"
-            ),
-            languages: this.stringToMultiselect(
-              delegatePitch.languages,
-              "languages"
-            ),
-          });
+          const fields = valuesToFields(
+            this.fields,
+            delegatePitch.customFields || []
+          );
+          set(this, "customFields", fields);
           set(this, "postId", delegatePitch.postId);
+        } else {
+          set(this, "customFields", this.fields);
         }
-      } catch {}
+      } catch {
+        set(this, "customFields", this.fields);
+      }
     }
   },
 
@@ -157,16 +146,17 @@ export default Component.extend({
     );
 
     try {
+      const body = createPostTextFromFields(this.customFields);
       if (postId) {
         await updatePost({
           postId: this.postId,
-          body: this.form.description,
+          body,
           csrf: this.session.csrfToken,
         });
       } else {
         const { id } = await postToTopic({
           threadId: this.threadId,
-          body: this.form.description,
+          body,
           csrf: this.session.csrfToken,
         });
         postId = id;
@@ -176,13 +166,13 @@ export default Component.extend({
     }
 
     try {
+      const customFields = getFieldValues(this.customFields);
       await karma.saveDelegatePitch(
         {
           threadId: this.threadId,
-          description: this.form.description,
+          customFields,
           discourseHandle: this.currentUser.username,
           postId,
-          ...this.parseMultiselect(),
         },
         this.session.csrfToken,
         !!this.postId
@@ -204,33 +194,27 @@ export default Component.extend({
   },
 
   async send() {
-    const post = createPostTextFromFields(this.fields);
-    const form = {
-      ...this.form,
-      customFields: getFieldValues(this.fields),
-    };
-
-    console.log(post, form);
-    // const hasErrors = this.checkErrors();
-    // if (!hasErrors) {
-    //   set(this, "loading", true);
-    //   try {
-    //     await this.post();
-    //     this.dispatchToggleModal();
-    //     set(
-    //       this,
-    //       "message",
-    //       "Thank you! Your pitch was submitted successfully."
-    //     );
-    //     this.reloadTree();
-    //     window?.open(`/p/${this.postId}`, "_blank");
-    //   } catch (error) {
-    //     set(this, "errors", [error.message]);
-    //   } finally {
-    //     set(this, "loading", false);
-    //   }
-    // }
+    const hasErrors = this.checkErrors();
+    if (!hasErrors) {
+      set(this, "loading", true);
+      try {
+        await this.post();
+        this.dispatchToggleModal();
+        set(
+          this,
+          "message",
+          "Thank you! Your pitch was submitted successfully."
+        );
+        this.reloadTree();
+        window?.open(`/p/${this.postId}`, "_blank");
+      } catch (error) {
+        set(this, "errors", [error.message]);
+      } finally {
+        set(this, "loading", false);
+      }
+    }
   },
+
   @action
   toggleModal() {
     const ttl = 100;

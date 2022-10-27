@@ -35,24 +35,24 @@
                   Your delegate address
                 </label>
                 {{input type="text" class="k-input" value=form.publicAddress}}
-                {{#each fields as |field index|}}
+                {{#each customFields as |field index|}}
                   <label>
                     {{field.label}}<br />
                   </label>
                   {{#if (eq field.type "text")}}
                     <div class="editor-large">
-                      {{d-editor value=field.value}}
+                      {{d-editor value=field.value placeholder=field.placeholder
+                      }}
                     </div>
                   {{else if (eq field.type "select")}}
                     {{multi-select content=field.options value=field.value}}
                   {{else}}
-                  {{input class="k-input" type=field.type value=field.value}}
-                    {{!-- <input
-                      type={{field.type}}
-                      value={{field.value}}
+                    {{input
                       class="k-input"
-                      onchange={{setField }}
-                    /> --}}
+                      type=field.type
+                      value=field.value
+                      placeholder=field.placeholder
+                    }}
                   {{/if}}
                 {{/each}}
               </div>

@@ -79,14 +79,14 @@ Forms:
     default: true
     client: true
   Delegate_pitch_fields:
-    default: '[{"label":"Enter your pitch here","type":"text", "placeholder": "Enter your delegate pitch here"},{"label":"Interests","type":"select","options":[{"id":"DAOs","name":"DAOs"},{"id":"Economics","name":"Economics"},{"id":"Governance","name":"Governance"},{"id":"Identity","name":"Identity"},{"id":"Social impact","name":"Social impact"},{"id":"Software Engineering","name":"Software Engineering"}]},{"label":"Languages","type":"select","options":[{"id":"English","name":"English"},{"id":"Mandarin","name":"Mandarin"},{"id":"Hindi","name":"Hindi"},{"id":"Spanish","name":"Spanish"},{"id":"French","name":"French"},{"id":"Arabic","name":"Arabic"},{"id":"Bengali","name":"Bengali"},{"id":"Portuguese","name":"Portuguese"},{"id":"Indonesian","name":"Indonesian"}]}]'
+    default: '[{"label":"Enter your pitch here", "postTitle": "Why should I be a delegate?","type":"text", "placeholder": "Enter your delegate pitch here"},{"label":"Interests","type":"select","options":[{"id":"DAOs","name":"DAOs"},{"id":"Economics","name":"Economics"},{"id":"Governance","name":"Governance"},{"id":"Identity","name":"Identity"},{"id":"Social impact","name":"Social impact"},{"id":"Software Engineering","name":"Software Engineering"}]},{"label":"Languages","type":"select","options":[{"id":"English","name":"English"},{"id":"Mandarin","name":"Mandarin"},{"id":"Hindi","name":"Hindi"},{"id":"Spanish","name":"Spanish"},{"id":"French","name":"French"},{"id":"Arabic","name":"Arabic"},{"id":"Bengali","name":"Bengali"},{"id":"Portuguese","name":"Portuguese"},{"id":"Indonesian","name":"Indonesian"}]}]'
     client: true
   Show_vote_reason_form:
     default: true
     client: true
-  Vote_reason_fields:
-    default: '[{"label":"Reason","type":"text", "placeholder": "We are in support of this proposal for numerous reasons. The team aligns themselves greatly with DAOs mission. We have voted "Yes" on this proposal."}]'
-    client: true
+  # Vote_reason_fields:
+  #   default: '[{"label":"Reason","type":"text", "placeholder": "We are in support of this proposal for numerous reasons. The team aligns themselves greatly with DAOs mission. We have voted "Yes" on this proposal."}]'
+  #   client: true
   Delegate_pitch_thread_id: 
     default: ""
     client: true

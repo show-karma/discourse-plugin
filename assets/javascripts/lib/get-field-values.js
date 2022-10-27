@@ -23,7 +23,7 @@ export function valuesToFields(fields, values) {
   values.map((v) => {
     const labelIdx = fields.findIndex((f) => f.label === v.label);
     if (labelIdx >= 0) {
-      fields[labelIdx].value = v;
+      fields[labelIdx].value = v.value;
     }
   });
 
@@ -36,8 +36,8 @@ export function valuesToFields(fields, values) {
  */
 export function createPostTextFromFields(fields) {
   let post = "";
-  fields.map((field) => {
-    post += `*${field.postTitle || field.label}*:\n${[field.value]
+  fields.forEach((field) => {
+    post += `**${field.postTitle || field.label}**: ${[field.value]
       .flat()
       .join(", ")}\n`;
   });
