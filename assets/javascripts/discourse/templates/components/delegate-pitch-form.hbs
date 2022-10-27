@@ -1,12 +1,13 @@
 {{#if siteSettings.Show_delegate_pitch_form}}
-  <button
-    type="button"
-    class="__karma-send-reason-btn k-btn btn-link"
-    onClick={{toggleModal}}
-  >
-    Delegate pitch
-  </button>
-
+  {{#unless hideButton}}
+    <button
+      type="button"
+      class="__karma-send-reason-btn k-btn btn-link"
+      onClick={{onClose}}
+    >
+      Delegate pitch
+    </button>
+  {{/unless}}
   <div
     id={{modalId}}
     class="__karma-vote-form-modal"
@@ -21,24 +22,20 @@
         <div class="modal-body">
           <form onSubmit={{submit}}>
             <div class="modal-content">
-              <div class="close-button" onClick={{toggleModal}}>
+              <div class="close-button" onClick={{onClose}}>
                 {{d-icon "times"}}
               </div>
-              <p class="modal-header">
-                Submit your Delegate Pitch
-              </p>
+              <div class="modal-header">
+                <p>
+                  Submit your Delegate Pitch
+                </p>
+              </div>
               <div class="form-reason">
                 <label for="reason">
                   Your delegate address
                 </label>
-                <input
-                  type="text"
-                  class="k-input"
-                  value={{form.publicAddress}}
-                  onchange={{setPublicAddress}}
-                  disabled={{lockDelegateAddress}}
-                />
-                {{#each fields as |field|}}
+                {{input type="text" class="k-input" value=form.publicAddress}}
+                {{#each fields as |field index|}}
                   <label>
                     {{field.label}}<br />
                   </label>
@@ -49,7 +46,13 @@
                   {{else if (eq field.type "select")}}
                     {{multi-select content=field.options value=field.value}}
                   {{else}}
-                    <input type={{field.type}} value={{field.value}} />
+                  {{input class="k-input" type=field.type value=field.value}}
+                    {{!-- <input
+                      type={{field.type}}
+                      value={{field.value}}
+                      class="k-input"
+                      onchange={{setField }}
+                    /> --}}
                   {{/if}}
                 {{/each}}
               </div>
@@ -78,7 +81,7 @@
                   <button
                     type="button"
                     class="k-btn btn-link"
-                    onClick={{toggleModal}}
+                    onClick={{onClose}}
                   >
                     Cancel
                   </button>
@@ -86,7 +89,7 @@
                     {{#if postId}}
                       Update
                     {{else}}
-                      Send
+                      Submit
                     {{/if}}
                   </button>
                 </div>

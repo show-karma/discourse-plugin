@@ -5,8 +5,13 @@ function validate({ threadId, body, csrf }) {
   isTypeof(csrf, "string");
   isTypeof(threadId, "number");
 
-  if (!(threadId && body && csrf)) {
-    throw new Error("Something is missing from params.");
+  const errors = [];
+  ["threadId", "body", "csrf"].forEach(
+    (arg) => typeof arguments[0][arg] === "undefined" && errors.push(arg)
+  );
+
+  if (errors.length) {
+    throw new Error(`Something is missing from params: ${errors.join(",")}`);
   }
 
   if (body.length < 20) {

@@ -1,6 +1,6 @@
 import Component from "@ember/component";
 import { inject as service } from "@ember/service";
-import { action, computed, set } from "@ember/object";
+import { action, computed, observer, set } from "@ember/object";
 import { throttle } from "@ember/runloop";
 import postToTopic from "../../lib/post-to-topic";
 import deletePost from "../../lib/delete-post";
@@ -8,6 +8,10 @@ import { isEthAddress } from "../../lib/is-eth-address";
 import KarmaApiClient from "../../lib/karma-api-client";
 import updatePost from "../../lib/update-post";
 import parseFields from "../../lib/parse-fields";
+import {
+  createPostTextFromFields,
+  getFieldValues,
+} from "../../lib/get-field-values";
 
 export default Component.extend({
   router: service(),
@@ -16,11 +20,10 @@ export default Component.extend({
 
   reloadTree: () => {},
 
+  hideButton: true,
+
   form: {
-    description: "",
     publicAddress: "",
-    interests: [],
-    languages: [],
   },
 
   fields: [
@@ -31,31 +34,8 @@ export default Component.extend({
   ],
 
   postId: null,
-  // { id: 1, name: "Orange" },
-  interests: [
-    { id: 1, name: "DAOs" },
-    { id: 2, name: "Economics" },
-    { id: 3, name: "Governance" },
-    { id: 4, name: "Identity" },
-    { id: 5, name: "Social impact" },
-    { id: 6, name: "Software Engeneering" },
-  ],
-
-  languages: [
-    { id: 1, name: "English" },
-    { id: 2, name: "Mandarin" },
-    { id: 3, name: "Hindi" },
-    { id: 4, name: "Spanish" },
-    { id: 5, name: "French" },
-    { id: 6, name: "Arabic" },
-    { id: 7, name: "Bengali" },
-    { id: 8, name: "Portuguese" },
-    { id: 9, name: "Indonesian" },
-  ],
 
   profile: {},
-
-  lockDelegateAddress: false,
 
   vote: {},
 
@@ -83,16 +63,8 @@ export default Component.extend({
     this.getFields();
   },
 
-  didReceiveAttrs() {
-    this._super(...arguments);
-    if (this.profile?.address) {
-      this.fetchDelegatePitch();
-      set(this, "lockDelegateAddress", true);
-      set(this, "form", {
-        ...this.form,
-        publicAddress: this.profile.address,
-      });
-    }
+  onClose: function () {
+    set(this, "visible", false);
   },
 
   /**
@@ -127,7 +99,7 @@ export default Component.extend({
 
   dispatchToggleModal() {
     setTimeout(() => {
-      this.toggleModal();
+      this.onClose?.();
       setTimeout(() => {
         set(this, "message", "");
         set(this, "errors", []);
@@ -217,7 +189,7 @@ export default Component.extend({
       );
       set(this, "postId", postId);
     } catch (error) {
-      if (!this.postId) {
+      if (!this.postId && postId) {
         deletePost({
           postId,
           csrf: this.session.csrfToken,
@@ -232,24 +204,32 @@ export default Component.extend({
   },
 
   async send() {
-    const hasErrors = this.checkErrors();
-    if (!hasErrors) {
-      set(this, "loading", true);
-      try {
-        await this.post();
-        this.dispatchToggleModal();
-        set(
-          this,
-          "message",
-          "Thank you! You pitch was submitted successfully."
-        );
-        this.reloadTree();
-      } catch (error) {
-        set(this, "errors", [error.message]);
-      } finally {
-        set(this, "loading", false);
-      }
-    }
+    const post = createPostTextFromFields(this.fields);
+    const form = {
+      ...this.form,
+      customFields: getFieldValues(this.fields),
+    };
+
+    console.log(post, form);
+    // const hasErrors = this.checkErrors();
+    // if (!hasErrors) {
+    //   set(this, "loading", true);
+    //   try {
+    //     await this.post();
+    //     this.dispatchToggleModal();
+    //     set(
+    //       this,
+    //       "message",
+    //       "Thank you! Your pitch was submitted successfully."
+    //     );
+    //     this.reloadTree();
+    //     window?.open(`/p/${this.postId}`, "_blank");
+    //   } catch (error) {
+    //     set(this, "errors", [error.message]);
+    //   } finally {
+    //     set(this, "loading", false);
+    //   }
+    // }
   },
   @action
   toggleModal() {
@@ -284,12 +264,14 @@ export default Component.extend({
     return throttle(this, this.send, 200);
   },
 
-  @action
-  setReason(e) {
-    set(this, "form", { ...this.form, reason: e.target.value });
-  },
-  @action
-  setPublicAddress(e) {
-    set(this, "form", { ...this.form, publicAddress: e.target.value });
+  didReceiveAttrs() {
+    this._super(...arguments);
+    if (this.profile?.address) {
+      this.fetchDelegatePitch();
+      set(this, "form", {
+        ...this.form,
+        publicAddress: this.profile.address,
+      });
+    }
   },
 });

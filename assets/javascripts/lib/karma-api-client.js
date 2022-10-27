@@ -89,6 +89,13 @@ class KarmaApiClient {
     return request(this.pitchUrl, null, "GET");
   }
 
+  fetchUser(username) {
+    isTypeof(username, "string");
+
+    const url = `${karmaUrl}/user/${username}/${this.daoName}`;
+    return request(url, null, "GET");
+  }
+
   isApiAllowed(csrfToken) {
     return request(`${localApi}/allowance.json`, null, "GET", {
       "X-CSRF-Token": csrfToken,

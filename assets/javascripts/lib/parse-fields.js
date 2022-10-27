@@ -19,31 +19,17 @@ function getFieldType(type, optionsType = "select:") {
   return String(match[0]);
 }
 
-/**
- * Parses a string of defined fields into a field definition array.
- *
- * @param {string} fieldStr the field string
- * @param {{
- *  field: string,
- *  type: string,
- *  options: {
- *    self: string,
- *    values: string
- *  }
- * }} delimiter Object with delimiters
- * @returns
- */
-export default function parseFields(
-  fieldStr,
-  delimiter = {
-    field: ";",
-    type: "|",
-    options: {
-      self: "select:",
-      values: "o:",
-    },
+function tryJson(str) {
+  try {
+    return JSON.parse(str);
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(e);
+    return null;
   }
-) {
+}
+
+function parseScheme(fieldStr, delimiter) {
   const fields = [];
   const parts = fieldStr.split(delimiter.field);
   parts.forEach((p) => {
@@ -72,4 +58,37 @@ export default function parseFields(
     }
   });
   return fields;
+}
+
+/**
+ * Parses a string of defined fields into a field definition array.
+ *
+ * @param {string} fieldStr the field string
+ * @param {{
+ *  field: string,
+ *  type: string,
+ *  options: {
+ *    self: string,
+ *    values: string
+ *  }
+ * }} delimiter Object with delimiters
+ * @returns
+ */
+export default function parseFields(
+  fieldStr,
+  delimiter = {
+    field: ";",
+    type: "|",
+    options: {
+      self: "select:",
+      values: "o:",
+    },
+  }
+) {
+  const isJson = tryJson(fieldStr);
+  if (isJson) {
+    return isJson;
+  }
+
+  return parseScheme(fieldStr, delimiter);
 }

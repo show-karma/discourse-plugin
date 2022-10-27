@@ -19,7 +19,7 @@ function parseVotes(votes = []) {
   votes.forEach((vote) => {
     const { proposal } = vote;
     array.push({
-      title: proposal?.description?.split(/\n/)[0],
+      title: proposal?.description?.split(/\n/)[0]?.replace(/\#+/gim, ""),
       proposalId: proposal.id,
       voteMethod: "On-chain",
       proposal: parseMdLink(proposal?.description),
@@ -62,7 +62,7 @@ const getProposalTitle = (proposal) => {
   if (parts) {
     for (const title of parts) {
       if (title.replace(/\s+/, "").length) {
-        return title;
+        return title?.replace(/\#+/gim, "");
       }
     }
   }

@@ -37,17 +37,6 @@ export default Component.extend({
     );
   },
 
-  async init() {
-    this._super(...arguments);
-    const cli = new KarmaApiClient(this.siteSettings.DAO_name, "");
-    if (this.session) {
-      try {
-        const { allowance } = await cli.isApiAllowed(this.session.csrfToken);
-        set(this, "hasSetApiKey", !!allowance);
-      } catch {}
-    }
-  },
-
   async didReceiveAttrs() {
     this._super(...arguments);
     await this.fetchProfile();

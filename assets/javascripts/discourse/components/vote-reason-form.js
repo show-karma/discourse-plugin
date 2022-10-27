@@ -8,6 +8,8 @@ import { fetchActiveOnChainProposals } from "../../lib/voting-history/gql/on-cha
 import fetchUserThreads from "../../lib/fetch-user-threads";
 import KarmaApiClient from "../../lib/karma-api-client";
 import updatePost from "../../lib/update-post";
+import getProposalLink from "../../lib/get-proposal-link";
+import parseFields from "../../lib/parse-fields";
 
 export default Component.extend({
   form: { recommendation: "", summary: "", publicAddress: "", postId: null },
@@ -22,6 +24,15 @@ export default Component.extend({
 
   threads: [],
 
+  fields: [
+    {
+      label: "Reason",
+      type: "text",
+    },
+  ],
+
+  hideButton: true,
+
   message: "",
 
   loading: false,
@@ -34,17 +45,28 @@ export default Component.extend({
 
   errors: [],
 
-  modalId: computed(function () {
-    return this.vote.proposalId + "__karma-vote-form-modal";
-  }),
+  modalId: "__karma-vote-form-modal",
 
   threadId: -1,
 
   proposalId: -1,
 
-  proposalTitle: computed(function () {
-    return this.proposals[this.proposalId]?.title;
-  }),
+  getFields() {
+    const { Vote_reason_fields: fields } = this.siteSettings;
+    if (fields) {
+      set(this, "fields", parseFields(fields));
+    }
+  },
+
+  onClose: function () {
+    set(this, "visible", false);
+  },
+
+  proposalLink: function () {
+    const proposal = this.proposals[this.proposalId];
+    const link = getProposalLink(proposal);
+    return link ? `[${proposal.title}](${link})` : `### ${proposal.title}`;
+  },
 
   // proposalTitle: computed(function() {
   //   return this.proposal[this.form.proposalId]?.id
@@ -57,43 +79,16 @@ export default Component.extend({
       summary: "",
       postId: null,
     });
-  },
-
-  @action
-  toggleModal() {
-    const ttl = 100;
-    const el = $(`#${this.modalId}`);
-    if (this.visible) {
-      el.animate(
-        {
-          opacity: "0",
-          transform: "translateY(20px)",
-        },
-        ttl
-      );
-
-      setTimeout(() => el.hide(), ttl * 2);
-      set(this, "visible", false);
-    } else {
-      el.show();
-      el.animate(
-        {
-          opacity: "1",
-          transform: "translateY(0)",
-        },
-        ttl
-      );
-      set(this, "visible", true);
-    }
+    set(this, "proposalId", -1);
   },
 
   dispatchToggleModal() {
     setTimeout(() => {
-      this.toggleModal();
+      // this.toggleModal();
       setTimeout(() => {
         set(this, "message", "");
         set(this, "errors", []);
-        this.resetForm();
+        // this.resetForm();
       }, 250);
     }, 2000);
   },
@@ -110,11 +105,10 @@ export default Component.extend({
       this.siteSettings.DAO_name,
       this.form.publicAddress
     );
-    const reason = `${this.proposalTitle}
+    const reason = `${this.proposalLink()}
 
-**Summary**: ${this.form.summary}
+${this.form.recommendation}`;
 
-**Recommendation**: ${this.form.recommendation}`;
     try {
       if (hasReason?.postId) {
         postId = hasReason.postId;
@@ -149,7 +143,7 @@ export default Component.extend({
       set(this, "postId", postId);
       this.setPostReason(reason);
     } catch (error) {
-      if (!hasSetReason) {
+      if (!hasSetReason && postId) {
         await deletePost({
           postId,
           csrf: this.session.csrfToken,
@@ -182,33 +176,33 @@ export default Component.extend({
     set(this, "errors", errors);
     return !!errors.length;
   },
-
   async send() {
-    const hasErrors = this.checkErrors();
-    if (!hasErrors) {
-      set(this, "loading", true);
-      try {
-        if (this.threadId === -2) {
-          await this.createThread();
-        }
-        await this.post();
-        this.dispatchToggleModal();
-        set(
-          this,
-          "message",
-          "Thank you! Your recommendation was submitted successfully."
-        );
-      } catch (error) {
-        set(this, "errors", [error.message]);
-      } finally {
-        set(this, "loading", false);
-      }
-    }
+    console.log(this.form, this.fields);
+    // const hasErrors = this.checkErrors();
+    // if (!hasErrors) {
+    //   set(this, "loading", true);
+    //   try {
+    //     if (this.threadId === -2) {
+    //       await this.createThread();
+    //     }
+    //     await this.post();
+    //     this.dispatchToggleModal();
+    //     set(
+    //       this,
+    //       "message",
+    //       "Thank you! Your recommendation was submitted successfully."
+    //     );
+    //   } catch (error) {
+    //     set(this, "errors", [error.message]);
+    //   } finally {
+    //     set(this, "loading", false);
+    //   }
+    // }
   },
 
   async fetchThreads() {
     try {
-      const threads = await fetchUserThreads(this.currentUser.username);
+      const threads = await fetchUserThreads(this.currentUser?.username);
       set(
         this,
         "threads",
@@ -217,7 +211,7 @@ export default Component.extend({
           id: topic.id,
         }))
       );
-      this.setDefaultThreadId();
+      // this.setDefaultThreadId();
     } catch {}
   },
 
@@ -267,6 +261,7 @@ export default Component.extend({
     proposals[this.proposalId].reason = {
       ...this.form,
       threadId: this.threadId,
+      postId: this.postId,
     };
 
     set(this, "proposals", proposals);
@@ -290,20 +285,6 @@ export default Component.extend({
     return throttle(this, this.send, 200);
   },
 
-  setFormData(key, data) {
-    set(this, "form", { ...this.form, [key]: data });
-  },
-
-  @action
-  setReason(e) {
-    this.setFormData("recommendation", e.target.value);
-  },
-
-  @action
-  setSummary(e) {
-    this.setFormData("summary", e.target.value);
-  },
-
   @action
   setProposal(e) {
     const proposalId = +e.target.value;
@@ -314,16 +295,13 @@ export default Component.extend({
         ...this.form,
         ...reason,
       });
+    } else {
+      set(this, "form", {
+        ...this.form,
+        postId: null,
+      });
     }
     set(this, "proposalId", proposalId);
-  },
-
-  @action
-  setThreadId(e) {
-    const idx = +e.target.value;
-    if (idx !== "null") {
-      set(this, "threadId", idx === -2 ? idx : this.threads[idx].id);
-    }
   },
 
   async didReceiveAttrs() {

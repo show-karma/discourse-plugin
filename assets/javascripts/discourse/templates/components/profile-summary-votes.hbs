@@ -12,16 +12,12 @@
             src="https://www.showkarma.xyz/icons/karma-logo.svg"
             height="28"
             width="28"
-          >
+          />
         </a>
       {{/if}}
       <b>
         Voting History
       </b>
-      {{#if (and hasSetApiKey shouldShowActionButtons)}}
-        {{vote-reason-form profile=this.profile}}
-      {{/if}}
-      <br>
     </div>
     <small class="text-disabled">
       Showing latest {{profile.ensName}}'s

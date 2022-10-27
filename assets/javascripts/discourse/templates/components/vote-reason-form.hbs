@@ -1,9 +1,9 @@
 {{#if siteSettings.Show_vote_reason_form}}
-  {{#unless hasSetReason}}
+  {{#unless hideButton}}
     <button
       type="button"
       class="__karma-send-reason-btn k-btn btn-link"
-      onClick={{toggleModal}}
+      onClick={{onClose}}
     >
       Submit vote reason
     </button>
@@ -22,32 +22,38 @@
         <div class="modal-body">
           <form onSubmit={{submit}}>
             <div class="modal-content">
-              <div class="close-button" onClick={{toggleModal}}>
+              <div class="close-button" onClick={{onClose}}>
                 {{d-icon "times"}}
               </div>
-              <p class="modal-header">
-                Enter a Voting Reason
-              </p>
+              <div class="modal-header">
+                <p>
+                  Submit vote reason
+                </p>
+                <small>
+                  When you sumit your voting reason, a link to the proposal along with your reason will be posted to your thread.
+                  The reason will be displayed in the delegate dashboard in your voting history secion.
+                </small>
+              </div>
               <div class="form-reason">
                 <label for="thread-id">
-                  Your vote reasons thread
+                  Select forum thread
                 </label>
                 <select
                   name="thread-id"
-                  onchange={{setThreadId}}
+                  value={{threadId}}
                   required
                   class="k-input"
                 >
                   {{#if proposalLoading}}
-                    <option value="null" disabled selected={{eq threadId -1}}>
+                    <option value="-1" disabled>
                       Loading...
                     </option>
                   {{else if (not threads.length)}}
-                    <option value="null" disabled selected={{eq threadId -1}}>
-                      Please, create a thread for your votes.
+                    <option value="-1" disabled>
+                      We couldn't find any of your forum threads. Please, create a thread where you want your vote reasons posted
                     </option>
                   {{else}}
-                    <option value="null" disabled selected={{eq threadId -1}}>
+                    <option value="-1" disabled>
                       Select an option
                     </option>
                     {{! TODO: needs to check what about the category }}
@@ -56,7 +62,7 @@
                   </option> }}
                   {{/if}}
                   {{#each threads as |thread index|}}
-                    <option value={{index}} selected={{eq threadId index}}>
+                    <option value={{index}}>
                       {{thread.name}}
                     </option>
                   {{/each}}
@@ -77,11 +83,11 @@
                     {{#if proposalLoading}}
                       Loading...
                     {{else}}
-                      Select an option
+                      Select a proposal
                     {{/if}}
                   </option>
                   {{#each proposals as |proposal index|}}
-                    <option value={{index}}>
+                    <option value={{index}} selected={{eq proposalId index}}>
                       {{#if proposal.reason}}
                         ✔
                       {{/if}}
@@ -90,24 +96,32 @@
                     </option>
                   {{/each}}
                 </select>
-                <br>
-                <label for="reason">
-                  Summary
-                </label>
-                {{d-editor value=form.summary}}
-                <br>
-                <label for="reason">
-                  Recommendation
-                </label>
-                {{d-editor value=form.recommendation}}
-                <br>
+                <br />
+                {{#each fields as |field|}}
+                  <label>
+                    {{field.label}}<br />
+                  </label>
+                  {{#if (eq field.type "text")}}
+                    <div class="editor-large">
+                      {{d-editor value=field.value}}
+                    </div>
+                  {{else if (eq field.type "select")}}
+                    {{multi-select content=field.options value=field.value}}
+                  {{else}}
+                    <input
+                      type={{field.type}}
+                      value={{field.value}}
+                      class="k-input"
+                    />
+                  {{/if}}
+                {{/each}}
               </div>
               {{#if errors.length}}
                 {{#each errors as |error|}}
                   <span class="error" style="color:var(--danger)">
                     {{error}}
                   </span>
-                  <br>
+                  <br />
                 {{/each}}
               {{/if}}
               <div class="footer">
@@ -127,7 +141,7 @@
                   <button
                     type="button"
                     class="k-btn btn-link"
-                    onClick={{toggleModal}}
+                    onClick={{onClose}}
                   >
                     Cancel
                   </button>
@@ -135,7 +149,7 @@
                     {{#if form.postId}}
                       Update
                     {{else}}
-                      Send
+                      Submit
                     {{/if}}
                   </button>
                 </div>
