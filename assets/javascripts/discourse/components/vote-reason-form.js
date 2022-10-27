@@ -188,7 +188,7 @@ ${this.form.recommendation}`;
 
   async fetchThreads() {
     try {
-      const threads = await fetchUserThreads(this.currentUser.username);
+      const threads = await fetchUserThreads(this.currentUser?.username);
       set(
         this,
         "threads",

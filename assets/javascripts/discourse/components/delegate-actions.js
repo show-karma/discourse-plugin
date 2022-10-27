@@ -14,7 +14,7 @@ export default Component.extend({
 
   shouldShow: computed(function () {
     return (
-      this.currentUser.username &&
+      this.currentUser?.username &&
       ((this.siteSettings.Show_delegate_pitch_form &&
         this.siteSettings.Delegate_pitch_thread_id) ||
         this.siteSettings.Show_vote_reason_form)
@@ -23,7 +23,7 @@ export default Component.extend({
 
   async fetchProfile() {
     const cli = new KarmaApiClient(this.siteSettings.DAO_name);
-    const profile = await cli.fetchUser(this.currentUser.username);
+    const profile = await cli.fetchUser(this.currentUser?.username);
     set(this, "profile", profile);
   },
 
