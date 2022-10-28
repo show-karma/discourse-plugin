@@ -114,7 +114,15 @@ export default Component.extend({
     return !!errors.length;
   },
 
+  @action
+  isOutside(e) {
+    if (!$(e.target).closest(".modal-content").length) {
+      this.onClose();
+    }
+  },
+
   async fetchDelegatePitch() {
+    let isDefaultFields = true;
     if (this.profile.address) {
       const karma = new KarmaApiClient(
         this.siteSettings.DAO_name,
@@ -123,18 +131,18 @@ export default Component.extend({
       try {
         const { delegatePitch } = await karma.fetchDelegatePitch();
         if (delegatePitch) {
+          isDefaultFields = false;
           const fields = valuesToFields(
             this.fields,
             delegatePitch.customFields || []
           );
           set(this, "customFields", fields);
           set(this, "postId", delegatePitch.postId);
-        } else {
-          set(this, "customFields", this.fields);
         }
-      } catch {
-        set(this, "customFields", this.fields);
-      }
+      } catch {}
+    }
+    if (isDefaultFields) {
+      set(this, "customFields", this.fields);
     }
   },
 
@@ -256,6 +264,8 @@ export default Component.extend({
         ...this.form,
         publicAddress: this.profile.address,
       });
+    } else {
+      set(this, "customFields", this.fields);
     }
   },
 });

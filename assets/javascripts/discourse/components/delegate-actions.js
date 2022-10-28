@@ -22,9 +22,11 @@ export default Component.extend({
   }),
 
   async fetchProfile() {
-    const cli = new KarmaApiClient(this.siteSettings.DAO_name);
-    const profile = await cli.fetchUser(this.currentUser?.username);
-    set(this, "profile", profile);
+    try {
+      const cli = new KarmaApiClient(this.siteSettings.DAO_name);
+      const profile = await cli.fetchUser(this.currentUser?.username);
+      set(this, "profile", profile);
+    } catch (error) {}
   },
 
   async init() {
@@ -34,9 +36,12 @@ export default Component.extend({
     const cli = new KarmaApiClient(this.siteSettings.DAO_name, "");
     if (this.session) {
       try {
+        await cli.checkHealth();
         const { allowance } = await cli.isApiAllowed(this.session.csrfToken);
         set(this, "hasSetApiKey", !!allowance);
-      } catch {}
+      } catch {
+        set(this, "hasSetApiKey", false);
+      }
     }
   },
 

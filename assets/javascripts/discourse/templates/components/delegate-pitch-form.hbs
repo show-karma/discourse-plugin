@@ -13,15 +13,15 @@
     class="__karma-vote-form-modal"
     style="display:none;opacity:0;transform:translateY(20px)"
   >
-    <div class="backdrop">
-    </div>
     {{#if loading}}
       {{karma-loading message="Submitting data, please wait."}}
     {{else}}
       {{#unless message.length}}
-        <div class="modal-body">
+        <div class="modal-body" onClick={{isOutside}}>
           <form onSubmit={{submit}}>
             <div class="modal-content">
+              <div class="backdrop" >
+              </div>
               <div class="close-button" onClick={{onClose}}>
                 {{d-icon "times"}}
               </div>

@@ -263,7 +263,7 @@ ${this.form.recommendation}`;
       set(this, "threadId", threadId);
     }
   },
-  
+
   async didReceiveAttrs() {
     this._super(...arguments);
     if (this.profile.address) {
@@ -276,7 +276,12 @@ ${this.form.recommendation}`;
     }
     this.fetchThreads();
   },
-
+  @action
+  isOutside(e) {
+    if (!$(e.target).closest(".modal-content").length) {
+      this.onClose();
+    }
+  },
   @action
   submit(e) {
     e.preventDefault();

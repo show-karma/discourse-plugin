@@ -1,6 +1,6 @@
-{{delegate-pitch-form profile=profile onClose=toggleDelegate}}
-{{vote-reason-form profile=profile onClose=toggleVote}}
-{{#if shouldShow}}
+{{#if (and hasSetApiKey shouldShow)}}
+  {{delegate-pitch-form profile=profile onClose=toggleDelegate}}
+  {{vote-reason-form profile=profile onClose=toggleVote}}
   <div class="k-dropdown-wrap">
     <div style="width:fit-content">
       <button class="k-btn btn-info" onclick={{onClick}}>

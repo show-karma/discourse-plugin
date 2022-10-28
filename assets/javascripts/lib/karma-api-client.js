@@ -22,6 +22,10 @@ class KarmaApiClient {
     this.pitchUrl = `${karmaUrl}/forum-user/${daoName}/delegate-pitch/${publicAddress}`;
   }
 
+  checkHealth() {
+    return request(`${karmaUrl}/app/env`, null, "GET");
+  }
+
   saveVoteReason(proposalId, reason, csrfToken, isUpdate = false) {
     isTypeof(csrfToken, "string");
     if (

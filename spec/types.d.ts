@@ -3,6 +3,7 @@ declare module "karma-score" {
   declare interface FormFieldValue {
     label: string;
     type: FieldType;
+    placeholder?: string;
     postTitle?: string;
     value?: string | string[];
   }
@@ -10,6 +11,6 @@ declare module "karma-score" {
     options?: {
       id: string | number;
       value: string;
-    };
+    }[];
   }
 }
