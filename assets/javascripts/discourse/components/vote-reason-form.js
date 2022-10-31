@@ -48,7 +48,6 @@ export default Component.extend({
   },
 
   proposalLink: function () {
-
     const proposal = this.proposals[this.proposalId];
     const link = getProposalLink(proposal);
     return link ? `[${proposal.title}](${link})` : `### ${proposal.title}`;
@@ -265,6 +264,24 @@ ${this.form.recommendation}`;
     }
   },
 
+  async didReceiveAttrs() {
+    this._super(...arguments);
+    if (this.profile.address) {
+      set(this, "proposalLoading", true);
+      const proposals = await this.fetchProposals();
+      await this.fetchVoteReasons(proposals);
+      set(this, "proposalLoading", false);
+      set(this, "fetched", true);
+      set(this, "form", { ...this.form, publicAddress: this.profile.address });
+    }
+    this.fetchThreads();
+  },
+  @action
+  isOutside(e) {
+    if (!$(e.target).closest(".modal-content").length) {
+      this.onClose();
+    }
+  },
   @action
   submit(e) {
     e.preventDefault();
@@ -310,18 +327,5 @@ ${this.form.recommendation}`;
     if (idx !== "null") {
       set(this, "threadId", idx === -2 ? idx : this.threads[idx].id);
     }
-  },
-
-  async didReceiveAttrs() {
-    this._super(...arguments);
-    if (this.profile.address) {
-      set(this, "proposalLoading", true);
-      const proposals = await this.fetchProposals();
-      await this.fetchVoteReasons(proposals);
-      set(this, "proposalLoading", false);
-      set(this, "fetched", true);
-      set(this, "form", { ...this.form, publicAddress: this.profile.address });
-    }
-    this.fetchThreads();
   },
 });

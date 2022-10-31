@@ -32,7 +32,7 @@ const KarmaStats = {
       gitcoinHealthScore: 0,
     };
 
-    const url = `${KarmaStats.url}/user/${userAddress}/${daoName}`;
+    const url = `${KarmaStats.url}/forum-user/${userAddress}/${daoName}`;
     try {
       const { data } = await fetch(url).then((res) => res.json());
       this.profile = data ?? {};

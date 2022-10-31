@@ -7,6 +7,12 @@ import deletePost from "../../lib/delete-post";
 import { isEthAddress } from "../../lib/is-eth-address";
 import KarmaApiClient from "../../lib/karma-api-client";
 import updatePost from "../../lib/update-post";
+import parseFields from "../../lib/parse-fields";
+import {
+  createPostTextFromFields,
+  getFieldValues,
+  valuesToFields,
+} from "../../lib/get-field-values";
 
 export default Component.extend({
   router: service(),
@@ -18,34 +24,19 @@ export default Component.extend({
   hideButton: true,
 
   form: {
-    description: "",
     publicAddress: "",
-    interests: [],
-    languages: [],
   },
 
-  postId: null,
-  // { id: 1, name: "Orange" },
-  interests: [
-    { id: 1, name: "DAOs" },
-    { id: 2, name: "Economics" },
-    { id: 3, name: "Governance" },
-    { id: 4, name: "Identity" },
-    { id: 5, name: "Social impact" },
-    { id: 6, name: "Software Engineering" },
+  customFields: [],
+
+  fields: [
+    {
+      label: "Enter your pitch here",
+      type: "text",
+    },
   ],
 
-  languages: [
-    { id: 1, name: "English" },
-    { id: 2, name: "Mandarin" },
-    { id: 3, name: "Hindi" },
-    { id: 4, name: "Spanish" },
-    { id: 5, name: "French" },
-    { id: 6, name: "Arabic" },
-    { id: 7, name: "Bengali" },
-    { id: 8, name: "Portuguese" },
-    { id: 9, name: "Indonesian" },
-  ],
+  postId: null,
 
   profile: {},
 
@@ -62,6 +53,18 @@ export default Component.extend({
   threadId: computed(function () {
     return +this.siteSettings.Delegate_pitch_thread_id;
   }),
+
+  getFields() {
+    const { Delegate_pitch_fields: fields } = this.siteSettings;
+    if (fields) {
+      set(this, "fields", parseFields(fields));
+    }
+  },
+
+  init() {
+    this._super(...arguments);
+    this.getFields();
+  },
 
   onClose: function () {
     set(this, "visible", false);
@@ -86,17 +89,6 @@ export default Component.extend({
     return Array.from(unique);
   },
 
-  parseMultiselect() {
-    return {
-      interests: this.form.interests
-        .map((idx) => this.interests[idx - 1]?.name)
-        .join(","),
-      languages: this.form.languages
-        .map((idx) => this.languages[idx - 1]?.name)
-        .join(","),
-    };
-  },
-
   dispatchToggleModal() {
     setTimeout(() => {
       this.onClose?.();
@@ -110,7 +102,7 @@ export default Component.extend({
   checkErrors() {
     set(this, "errors", []);
     const errors = this.errors;
-    if (this.form.description.length < 20) {
+    if (createPostTextFromFields(this.fields) < 20) {
       errors.push("Your message should have at least 20 chars.");
     }
 
@@ -122,7 +114,15 @@ export default Component.extend({
     return !!errors.length;
   },
 
+  @action
+  isOutside(e) {
+    if (!$(e.target).closest(".modal-content").length) {
+      this.onClose();
+    }
+  },
+
   async fetchDelegatePitch() {
+    let isDefaultFields = true;
     if (this.profile.address) {
       const karma = new KarmaApiClient(
         this.siteSettings.DAO_name,
@@ -131,21 +131,18 @@ export default Component.extend({
       try {
         const { delegatePitch } = await karma.fetchDelegatePitch();
         if (delegatePitch) {
-          set(this, "form", {
-            ...this.form,
-            description: delegatePitch.description,
-            interests: this.stringToMultiselect(
-              delegatePitch.interests,
-              "interests"
-            ),
-            languages: this.stringToMultiselect(
-              delegatePitch.languages,
-              "languages"
-            ),
-          });
+          isDefaultFields = false;
+          const fields = valuesToFields(
+            this.fields,
+            delegatePitch.customFields || []
+          );
+          set(this, "customFields", fields);
           set(this, "postId", delegatePitch.postId);
         }
       } catch {}
+    }
+    if (isDefaultFields) {
+      set(this, "customFields", this.fields);
     }
   },
 
@@ -157,16 +154,17 @@ export default Component.extend({
     );
 
     try {
+      const body = createPostTextFromFields(this.customFields);
       if (postId) {
         await updatePost({
           postId: this.postId,
-          body: this.form.description,
+          body,
           csrf: this.session.csrfToken,
         });
       } else {
         const { id } = await postToTopic({
           threadId: this.threadId,
-          body: this.form.description,
+          body,
           csrf: this.session.csrfToken,
         });
         postId = id;
@@ -176,13 +174,13 @@ export default Component.extend({
     }
 
     try {
+      const customFields = getFieldValues(this.customFields);
       await karma.saveDelegatePitch(
         {
           threadId: this.threadId,
-          description: this.form.description,
+          customFields,
           discourseHandle: this.currentUser.username,
           postId,
-          ...this.parseMultiselect(),
         },
         this.session.csrfToken,
         !!this.postId
@@ -226,18 +224,36 @@ export default Component.extend({
   },
 
   @action
+  toggleModal() {
+    const ttl = 100;
+    const el = $(`#${this.modalId}`);
+    if (this.visible) {
+      el.animate(
+        {
+          opacity: "0",
+          transform: "translateY(20px)",
+        },
+        ttl
+      );
+
+      setTimeout(() => el.hide(), ttl * 2);
+      set(this, "visible", false);
+    } else {
+      el.show();
+      el.animate(
+        {
+          opacity: "1",
+          transform: "translateY(0)",
+        },
+        ttl
+      );
+      set(this, "visible", true);
+    }
+  },
+  @action
   submit(e) {
     e.preventDefault();
     return throttle(this, this.send, 200);
-  },
-
-  @action
-  setReason(e) {
-    set(this, "form", { ...this.form, reason: e.target.value });
-  },
-  @action
-  setPublicAddress(e) {
-    set(this, "form", { ...this.form, publicAddress: e.target.value });
   },
 
   didReceiveAttrs() {
@@ -248,6 +264,8 @@ export default Component.extend({
         ...this.form,
         publicAddress: this.profile.address,
       });
+    } else {
+      set(this, "customFields", this.fields);
     }
   },
 });

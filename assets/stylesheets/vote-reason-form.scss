@@ -22,9 +22,9 @@
 
   .backdrop {
     background-color: $color-black-alpha-1;
-    min-height: 100%;
-    width: 100%;
-    position: absolute;
+    min-height: 1100vh;
+    width: 100vw;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: -1;
