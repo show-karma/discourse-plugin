@@ -39,7 +39,7 @@ export function createPostTextFromFields(fields) {
   fields.forEach((field) => {
     post += `**${field.postTitle || field.label}**: ${[field.value]
       .flat()
-      .join(", ")}\n`;
+      .join(", ")}\n\n`;
   });
   return post;
 }
