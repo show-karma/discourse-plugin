@@ -96,7 +96,7 @@ class KarmaApiClient {
   fetchUser(username) {
     isTypeof(username, "string");
 
-    const url = `${karmaUrl}/user/${username}/${this.daoName}`;
+    const url = `${karmaUrl}/forum-user/${username}/${this.daoName}`;
     return request(url, null, "GET");
   }
 
