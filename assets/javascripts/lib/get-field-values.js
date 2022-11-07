@@ -9,6 +9,7 @@ export function getFieldValues(fields) {
   return fields.map((field) => ({
     label: field.label,
     value: field.value,
+    displayAs: field.displayAs,
   }));
 }
 

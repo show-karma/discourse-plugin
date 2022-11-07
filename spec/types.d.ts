@@ -6,6 +6,7 @@ declare module "karma-score" {
     placeholder?: string;
     postTitle?: string;
     value?: string | string[];
+    displayAs?: "headline" | "tag" | "title" | "none";
   }
   declare interface CustomField extends FormFieldValue {
     options?: {
