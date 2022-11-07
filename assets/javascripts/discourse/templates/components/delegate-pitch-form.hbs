@@ -36,7 +36,7 @@
                 </label>
                 {{input type="text" class="k-input" value=form.publicAddress}}
                 {{#each customFields as |field index|}}
-                  <label>
+                  <label class="mt-2">
                     {{field.label}}<br />
                   </label>
                   {{#if (eq field.type "text")}}
