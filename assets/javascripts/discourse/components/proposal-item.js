@@ -32,9 +32,7 @@ export default Component.extend({
 
   getLink() {
     const nLink = getProposalLink(this.proposal, this.tokenContract);
-    if (nLink) {
-      set(this, "pointer", "cursor:pointer");
-    }
+
     set(this, "link", nLink);
   },
 

@@ -1,3 +1,5 @@
+@import url("https://fonts.cdnfonts.com/css/satoshi");
+
 $breakpoint-sm: 550px !default;
 $breakpoint-md: 932px !default;
 $breakpoint-xs: 348px !default;
@@ -33,6 +35,14 @@ $color-brand-gray-1: var(--header_primary-medium);
 $color-brand-blue-0: $color-gray;
 $color-brand-blue-1: $color-info;
 $color-brand-blue-alpha-1: $color-info-alpha-1;
+
+$color-brand-light: #f6f6f6;
+
+$color-brand-gradient: linear-gradient(
+  323.31deg,
+  #de82ff -15.56%,
+  #7f6aff 108.43%
+);
 
 $border-radius-sm: 5px;
 $border-radius-md: 8px;

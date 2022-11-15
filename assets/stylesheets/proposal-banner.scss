@@ -1,45 +1,47 @@
 @import url("./variables");
 
 .below-site-header-outlet.banner-connector {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Satoshi", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
   .vote-breakdown {
     width: 100%;
+    max-width: 550px;
     border-radius: $border-radius-sm;
     margin-top: 1em;
     // overflow: hidden;
     .ember-view {
       display: flex;
+      flex-direction: column;
+      gap: 5px;
       width: 100%;
-      height: 30px;
       .breakdown {
+        // display: flex;
         position: relative;
-        max-width: 70%;
-        min-width: 16%;
-        text-align: center;
+        // text-align: center;
         color: $color-primary;
-        padding: 5px 0;
+        .breakdown-progress {
+          width: 100%;
+          background-color: $color-brand-light;
+          border-radius: 8px;
+          overflow: hidden;
+          height: 8px;
+        }
+        .breakdown-progress-fill {
+          background-image: $color-brand-gradient;
+          height: inherit;
+        }
         &:hover {
-          .ember-view {
-            width: max-content;
+          .breakdown-progress {
+            .ember-view {
+              width: max-content;
+            }
+            .ember-view .__karma-tooltip {
+              opacity: 1;
+              z-index: 1;
+            }
           }
-          .ember-view .__karma-tooltip {
-            opacity: 1;
-            z-index: 1;
-          }
         }
-        &:not(:last-of-type) {
-          border-right: 1px dashed $color-secondary;
-        }
-        &:first-of-type {
-          border-top-left-radius: 5px;
-          border-bottom-left-radius: 5px;
-        }
-        &:last-of-type {
-          border-top-right-radius: 5px;
-          border-bottom-right-radius: 5px;
-        }
-        > .ember-view {
+        .breakdown-progress > .ember-view {
           position: absolute;
           right: 0;
           top: -35px;
@@ -74,6 +76,7 @@
     background-color: $color-secondary;
     border: 1px solid $color-brand-gray-1;
     border-radius: $border-radius-xl;
+
     .__banner-content-wrapper {
       box-sizing: border-box;
       display: flex;
@@ -125,16 +128,14 @@
           .redirect-text {
             visibility: visible !important;
           }
-          background-color: $color-black-alpha-0;
+          // background-color: $color-black-alpha-0;
         }
         &:not(:last-of-type) {
           border-bottom: 1px solid $color-black-alpha-1;
         }
         .proposal {
           padding: 0.5rem 1rem;
-          display: flex;
-          justify-content: space-between;
-          flex-wrap: wrap;
+          // flex-wrap: wrap;
           user-select: none;
           &-title {
             width: 100%;
@@ -142,18 +143,33 @@
           }
           &-description {
             width: 100%;
+            font-size: 22px;
           }
           &-due-date {
-            margin-top: 1em;
+            // margin-top: 1em;
             display: flex;
-            align-items: flex-end;
-            justify-content: flex-end;
+            // width: 100%;
+            flex-wrap: wrap;
+            // align-items: flex-end;
+            // justify-content: flex-end;
             font-size: 1em;
-            color: $color-primary-high;
+            // color: $color-primary-high;
             .redirect-text {
               visibility: hidden;
               margin-left: 1ch;
             }
+          }
+          &-actions {
+            min-width: 350px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+          }
+          &-details {
+            gap: 20px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap-reverse;
           }
         }
       }
@@ -315,10 +331,4 @@
       margin: 0;
     }
   }
-}
-
-.t-ellipsis {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
 }
