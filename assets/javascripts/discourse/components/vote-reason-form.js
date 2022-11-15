@@ -1,5 +1,5 @@
 import Component from "@ember/component";
-import { action, computed, set } from "@ember/object";
+import { action, set } from "@ember/object";
 import { throttle } from "@ember/runloop";
 import postToTopic from "../../lib/post-to-topic";
 import deletePost from "../../lib/delete-post";

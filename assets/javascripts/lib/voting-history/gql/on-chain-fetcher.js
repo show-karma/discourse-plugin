@@ -77,7 +77,7 @@ const parseProposals = (proposals = []) =>
     shortname: proposal.title.slice(0, 40) + "...",
     voteCount: proposal.votes.length,
     voteBreakdown: getVoteBreakdown(proposal.votes),
-    endsAt: moment.unix(proposal.endsAt).format("MMMM D, YYYY"),
+    endsAt: moment.unix(proposal.endsAt).format("MMM D, YYYY"),
     dateDescription: dateDiff(proposal.endsAt),
     snapshotId: proposal.organization.id,
   }));

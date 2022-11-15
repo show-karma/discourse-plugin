@@ -1,24 +1,24 @@
-<div class="proposal" onclick={{redirect}} style={{pointer}} role="button">
+<div class="proposal" style={{pointer}}>
   <div class="proposal-title">
     <div class="proposal-description t-ellipsis">
       {{html-safe proposal.title}}
     </div>
   </div>
-  <div class="vote-breakdown">
-    {{vote-breakdown loading=loading breakdown=proposal.voteBreakdown}}
-  </div>
-  <div class="proposal-due-date">
-    {{proposal.type}}
-    |
-    {{proposal.voteCount}}
-    voters | End date:
-    {{proposal.endsAt}}
-    {{#if proposal.dateDescription}}
-      -
-      {{proposal.dateDescription}}
-    {{/if}}
-    <span class="redirect-text">
-      {{d-icon "link"}} {{text}}
-    </span>
+  <div class="proposal-details">
+    <div class="proposal-actions">
+      <button type="button" class="k-btn btn-info pt-2 pb-2" onclick={{redirect}}>
+        View proposal
+        {{d-icon "link"}}
+      </button>
+      <div class="proposal-due-date t-light">
+        Ends:
+        {{proposal.endsAt}}
+        {{! <span class="redirect-text">
+      </span> }}
+      </div>
+    </div>
+    <div class="vote-breakdown">
+      {{vote-breakdown loading=loading breakdown=proposal.voteBreakdown}}
+    </div>
   </div>
 </div>

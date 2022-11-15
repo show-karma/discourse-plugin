@@ -20,7 +20,7 @@
         <div class="modal-body" onClick={{isOutside}}>
           <form onSubmit={{submit}}>
             <div class="modal-content">
-              <div class="backdrop" >
+              <div class="backdrop">
               </div>
               <div class="close-button" onClick={{onClose}}>
                 {{d-icon "times"}}
@@ -35,9 +35,9 @@
                   Your delegate address
                 </label>
                 {{input type="text" class="k-input" value=form.publicAddress}}
-                {{#each customFields as |field index|}}
+                {{#each customFields as |field|}}
                   <label class="mt-2">
-                    {{field.label}}<br />
+                    {{field.label}}<br>
                   </label>
                   {{#if (eq field.type "text")}}
                     <div class="editor-large">
@@ -61,7 +61,7 @@
                   <span class="error" style="color:var(--danger)">
                     {{error}}
                   </span>
-                  <br />
+                  <br>
                 {{/each}}
               {{/if}}
               <div class="footer">
