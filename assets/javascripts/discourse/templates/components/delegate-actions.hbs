@@ -3,19 +3,23 @@
   {{vote-reason-form profile=profile onClose=toggleVote}}
   <div class="k-dropdown-wrap">
     <div style="width:fit-content">
-      <button class="k-btn btn-info" onclick={{onClick}}>
+      <button type="button" class="k-btn btn-info" onclick={{onClick}}>
         Delegate Actions
       </button>
       {{#if isOpen}}
         <div class="k-dropdown">
           <div class="triangle"></div>
           <div class="k-option">
-            <button class="k-btn btn-link" onClick={{toggleDelegate}}>
+            <button
+              type="button"
+              class="k-btn btn-link"
+              onClick={{toggleDelegate}}
+            >
               Delegate pitch
             </button>
           </div>
           <div class="k-option">
-            <button class="k-btn btn-link" onClick={{toggleVote}}>
+            <button type="button" class="k-btn btn-link" onClick={{toggleVote}}>
               Submit vote reason
             </button>
           </div>

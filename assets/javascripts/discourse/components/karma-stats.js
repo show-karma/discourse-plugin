@@ -2,7 +2,6 @@ import Component from "@ember/component";
 import { inject as service } from "@ember/service";
 import { action, set } from "@ember/object";
 import KarmaStats from "../../lib/stats/index";
-import KarmaApiClient from "../../lib/karma-api-client";
 
 export default Component.extend({
   router: service(),

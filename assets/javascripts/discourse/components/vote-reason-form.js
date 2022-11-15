@@ -1,6 +1,5 @@
 import Component from "@ember/component";
-import { action, computed, set } from "@ember/object";
-import { throttle } from "@ember/runloop";
+import { set } from "@ember/object";
 import postToTopic from "../../lib/post-to-topic";
 import deletePost from "../../lib/delete-post";
 import { fetchActiveOffChainProposals } from "../../lib/voting-history/gql/off-chain-fetcher";

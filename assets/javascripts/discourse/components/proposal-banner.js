@@ -60,7 +60,6 @@ export default Component.extend({
 
     if (el.length) {
       if (this.openClass !== "opened") {
-        console.debug(el[0].clientHeight);
         bannerHeight = el[0]?.clientHeight
           ? el[0]?.clientHeight > 223
             ? 223

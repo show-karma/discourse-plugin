@@ -1,4 +1,4 @@
-<div class="proposal" style={{pointer}} role="button">
+<div class="proposal" style={{pointer}}>
   <div class="proposal-title">
     <div class="proposal-description t-ellipsis">
       {{html-safe proposal.title}}
@@ -6,7 +6,7 @@
   </div>
   <div class="proposal-details">
     <div class="proposal-actions">
-      <button class="k-btn btn-info pt-2 pb-2" onclick={{redirect}}>
+      <button type="button" class="k-btn btn-info pt-2 pb-2" onclick={{redirect}}>
         View proposal
         {{d-icon "link"}}
       </button>
