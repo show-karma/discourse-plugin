@@ -5,6 +5,7 @@
 
   .vote-breakdown {
     width: 100%;
+    min-height: 100px;
     max-width: 550px;
     border-radius: $border-radius-sm;
     margin-top: 1em;
@@ -160,7 +161,7 @@
             }
           }
           &-actions {
-            min-width: 350px;
+            min-width: 355px;
             display: flex;
             align-items: center;
             gap: 20px;
@@ -192,6 +193,7 @@
       background: none;
       font-size: 1.1em;
       svg {
+        color: $color-tertiary;
         transform: rotateZ(180deg);
       }
       height: fit-content;
@@ -203,8 +205,8 @@
         padding: 10px;
       }
       .available-to-show {
-        font-size: 0.8em;
-        color: $color-quaternary;
+        font-size: 1em;
+        color: $color-tertiary;
       }
     }
 
