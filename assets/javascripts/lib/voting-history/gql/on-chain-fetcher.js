@@ -19,6 +19,7 @@ function parseVotes(votes = []) {
   votes.forEach((vote) => {
     const { proposal } = vote;
     array.push({
+      title: proposal?.description?.split(/\n/)[0]?.replace(/\#+/gim, ""),
       proposalId: proposal.id,
       voteMethod: "On-chain",
       proposal: parseMdLink(proposal?.description),
@@ -56,14 +57,27 @@ export async function fetchOnChainProposalVotes(
   }
 }
 
+const getProposalTitle = (proposal) => {
+  const parts = proposal?.title?.split(/\n/);
+  if (parts) {
+    for (const title of parts) {
+      if (title.replace(/\s+/, "").length) {
+        return title?.replace(/\#+/gim, "");
+      }
+    }
+  }
+  return "No title";
+};
+
 const parseProposals = (proposals = []) =>
   proposals.map((proposal) => ({
     id: proposal.id.split("-")[1],
     type: "On-chain",
-    title: parseMdLink(proposal.title),
+    title: getProposalTitle(proposal),
+    shortname: proposal.title.slice(0, 40) + "...",
     voteCount: proposal.votes.length,
     voteBreakdown: getVoteBreakdown(proposal.votes),
-    endsAt: moment.unix(proposal.endsAt).format("MMMM D, YYYY"),
+    endsAt: moment.unix(proposal.endsAt).format("MMM D, YYYY"),
     dateDescription: dateDiff(proposal.endsAt),
     snapshotId: proposal.organization.id,
   }));

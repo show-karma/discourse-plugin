@@ -7,18 +7,34 @@
 {{else}}
   {{#if values.length}}
     {{#each values as |value|}}
-      <div
-        class="breakdown against"
-        style={{
-          html-safe (concat "width:" value.pct ";background-color:" value.color)
-        }}
-      >
-        {{karma-tooltip label=value.name}}
-        <div style="max-height:100%;overflow:hidden">
-          <b>
-            {{value.shortname}}
-          </b>
-          {{value.count}} votes
+      <div class="breakdown">
+        <div style="display:flex;justify-content:space-between">
+          <div>
+            <b>
+              {{value.shortname}}
+            </b>
+            <span class="t-light">
+              {{value.count}} votes
+            </span>
+          </div>
+          <div>
+            <b>
+              {{value.pct}}
+            </b>
+          </div>
+        </div>
+        <div
+          class="breakdown-progress"
+          style="max-height:100%;width:100%;overflow:hidden"
+        >
+          {{#if (eq value.shortname "Others")}}
+            {{karma-tooltip label=value.name}}
+          {{/if}}
+          <div
+            class="breakdown-progress-fill"
+            style={{html-safe (concat "width:" value.fillPct)}}
+          >
+          </div>
         </div>
       </div>
     {{/each}}

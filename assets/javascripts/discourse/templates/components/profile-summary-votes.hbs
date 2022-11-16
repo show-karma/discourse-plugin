@@ -4,9 +4,7 @@
       {{#if siteSettings.Show_Karma_logo}}
         <a
           alt="Show Karma App"
-          href={{
-            concat "https://showkarma.xyz/profile/" this.currentUser.username
-          }}
+          href={{concat "https://showkarma.xyz/profile/" profile.address}}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -20,7 +18,6 @@
       <b>
         Voting History
       </b>
-      <br>
     </div>
     <small class="text-disabled">
       Showing latest {{profile.ensName}}'s
@@ -33,9 +30,15 @@
           {{vote-item vote=vote profile=profile}}
         {{/each}}
       {{else}}
-        <div class="loading">
-          Loading voting history
-        </div>
+        {{#unless fetched}}
+          <div class="loading">
+            Loading voting history
+          </div>
+        {{else}}
+          <div class="loading">
+            No voting history found
+          </div>
+        {{/unless}}
       {{/if}}
     </div>
   </div>

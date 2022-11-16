@@ -1,12 +1,12 @@
 import { set } from "@ember/object";
 import { shortenNumber } from "../shorten-number";
 import { htmlSafe } from "@ember/template";
-
+import { karmaApiUrl } from "../consts";
 /**
  * Karma stats fetcher
  */
 const KarmaStats = {
-  url: "https://api.showkarma.xyz/api",
+  url: karmaApiUrl,
   daoName: undefined,
   profile: {},
 
@@ -32,11 +32,12 @@ const KarmaStats = {
       gitcoinHealthScore: 0,
     };
 
-    const url = `${KarmaStats.url}/user/${userAddress}/${daoName}`;
+    const url = `${KarmaStats.url}/forum-user/${userAddress}/${daoName}`;
     try {
       const { data } = await fetch(url).then((res) => res.json());
-      this.profile = data;
+      this.profile = data ?? {};
       const { delegates } = data;
+
       if (delegates) {
         const { stats } = delegates;
 
@@ -45,7 +46,7 @@ const KarmaStats = {
           (stats?.[0]?.offChainVotesPct || 0) + "%";
         userStats.onChainVotingStats = (stats?.[0]?.onChainVotesPct || 0) + "%";
         userStats.daoExp = stats?.[0]?.karmaScore || 0;
-        userStats.gitcoinHealthScore = stats?.[0].gitcoinHealthScore || 0;
+        userStats.gitcoinHealthScore = stats?.[0]?.gitcoinHealthScore || 0;
       }
       return userStats;
     } catch (error) {
@@ -101,7 +102,7 @@ const KarmaStats = {
       daoExp: $(`${wrapperId} #__dao-exp`),
       snapshotVotingStats: $(`${wrapperId} #__snapshot-voting-stats`),
       onChainVotingStats: $(`${wrapperId} #__on-chain-voting-stats`),
-      healthScore: $(`${wrapperId} #__health-score`),
+      gitcoinHealthScore: $(`${wrapperId} #__health-score`),
     };
   },
 
@@ -141,6 +142,7 @@ const KarmaStats = {
 
       this.toggleLoading(false, wrapperId);
       const stats = await KarmaStats.fetchUser(user, daoName);
+
       if (stats) {
         const wrapper = $(`${wrapperId} .__wrapper`)[0];
 
@@ -148,43 +150,23 @@ const KarmaStats = {
           wrapper.style.display = "initial";
         }
 
-        const {
-          delegatedVotes,
-          daoExp,
-          snapshotVotingStats,
-          onChainVotingStats,
-          healthScore,
-        } = KarmaStats.getSlots(wrapperId);
+        const slots = KarmaStats.getSlots(wrapperId);
 
-        if (delegatedVotes) {
-          delegatedVotes.html(stats.delegatedVotes?.toLocaleString("en-US"));
-        }
-
-        if (daoExp) {
-          daoExp.html(stats.daoExp?.toLocaleString("en-US"));
-        }
-
-        if (healthScore) {
-          healthScore.html(
-            stats.gitcoinHealthScore?.toLocaleString("en-US") || 0
+        Object.keys(slots).map((key) => {
+          const isNum = typeof slots[key] === "number";
+          slots[key].html(
+            isNum ? stats[key]?.toLocaleString("en-US") : stats[key]
           );
-        }
-
-        if (snapshotVotingStats) {
-          snapshotVotingStats.html(stats.snapshotVotingStats);
-        }
-
-        if (onChainVotingStats) {
-          onChainVotingStats.html(stats.onChainVotingStats);
-        }
+        });
 
         this.toggleScore(false, wrapperId);
-      } else {
+      } else if (!(stats && user)) {
         this.toggleErrorMessage(false, wrapperId);
       }
     } else if (totalTries < 30) {
       setTimeout(() => KarmaStats.start(++totalTries, ctx), 250);
     }
+    this.profile.username = user;
     return this.profile;
   },
 };

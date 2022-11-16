@@ -14,7 +14,7 @@
               src="https://www.showkarma.xyz/icons/karma-logo.svg"
               height="28"
               width="28"
-           >
+            >
           </a>
         {{/if}}
         <b>
@@ -24,7 +24,7 @@
       <div class="__loading" style="display:none;">
         Loading governance stats from Karma
       </div>
-      {{#if siteSettings.User_not_found_message}}
+      {{#if (and (not profile.address) siteSettings.User_not_found_message)}}
         <div class="__has-error" style="display:none;">
           {{html-safe siteSettings.User_not_found_message}}
         </div>

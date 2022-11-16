@@ -1,53 +1,154 @@
 {{#if siteSettings.Show_vote_reason_form}}
-  {{#unless hasSetReason}}
+  {{#unless hideButton}}
     <button
       type="button"
-      class="__karma-send-reason-btn k-btn btn-info"
-      onClick={{toggleModal}}
+      class="__karma-send-reason-btn k-btn btn-link"
+      onClick={{onClose}}
     >
-      Submit a reason
+      Submit vote reason
     </button>
   {{/unless}}
-
   <div
     id={{modalId}}
     class="__karma-vote-form-modal"
     style="display:none;opacity:0;transform:translateY(20px)"
   >
-    <div class="backdrop" onClick={{toggleModal}}>
-    </div>
     {{#if loading}}
       {{karma-loading message="Submitting data, please wait."}}
     {{else}}
       {{#unless message.length}}
-        <form onSubmit={{submit}}>
+        <div class="modal-body" onClick={{isOutside}}>
           <div class="modal-content">
-            <div class="form-reason">
-              <label for="reason">
-                Submit a reason:
-              </label>
-              <textarea
-                name="reason"
-                placeholder="I voted FOR, because I believe this is a good proposal."
-                value={{form.reason}}
-                onkeyup={{setReason}}
-              ></textarea>
-              <br>
+            <div class="backdrop" onClick={{onClose}}>
             </div>
-            <div class="footer">
-              <button
-                type="button"
-                class="k-btn btn-danger"
-                onClick={{toggleModal}}
-              >
-                Cancel
-              </button>
-              <button type="submit" class="k-btn btn-success">
-                Send
-              </button>
-            </div>
+            <form onSubmit={{submit}}>
+              <div class="close-button" onClick={{onClose}}>
+                {{d-icon "times"}}
+              </div>
+              <div class="modal-header">
+                <p>
+                  Submit vote reason
+                </p>
+                <small>
+                  When you sumit your voting reason, a link to the proposal along with your reason will be posted to your thread.
+                  The reason will be displayed in the delegate dashboard in your voting history secion.
+                </small>
+              </div>
+              <div class="form-reason">
+                <label for="thread-id">
+                  Select forum thread
+                </label>
+                <select
+                  name="thread-id"
+                  onchange={{setThreadId}}
+                  required
+                  class="k-input"
+                >
+                  {{#if proposalLoading}}
+                    <option value="null" disabled selected={{eq threadId -1}}>
+                      Loading...
+                    </option>
+                  {{else if (not threads.length)}}
+                    <option value="null" disabled selected={{eq threadId -1}}>
+                      We couldn't find any of your forum threads. Please, create a thread where you want your vote reasons posted
+                    </option>
+                  {{else}}
+                    <option value="null" disabled selected={{eq threadId -1}}>
+                      Select an option
+                    </option>
+                    {{! TODO: needs to check what about the category }}
+                    {{! <option value="-2">
+                    Create a topic
+                  </option> }}
+                  {{/if}}
+                  {{#each threads as |thread index|}}
+                    <option value={{index}}>
+                      {{thread.name}}
+                    </option>
+                  {{/each}}
+                </select>
+
+                <label for="reason">
+                  Proposal
+                </label>
+                <select
+                  name="reason"
+                  class="k-input"
+                  placeholder="I voted FOR, because I believe this is a good proposal."
+                  value={{proposalId}}
+                  onchange={{setProposal}}
+                  required
+                >
+                  <option value="null" disabled selected>
+                    {{#if proposalLoading}}
+                      Loading...
+                    {{else}}
+                      Select a proposal
+                    {{/if}}
+                  </option>
+                  {{#each proposals as |proposal index|}}
+                    <option value={{index}} selected={{eq proposalId index}}>
+                      {{#if proposal.reason}}
+                        ✔
+                      {{/if}}
+                      ({{proposal.type}})
+                      {{proposal.title}}
+                    </option>
+                  {{/each}}
+                </select>
+                <br>
+                <label for="reason">
+                  Reason
+                </label>
+                <div class="editor-large">
+                  {{d-editor
+                    value=form.recommendation
+                    placeholder="vote_reason_form.reason"
+                  }}
+                </div>
+                <br>
+              </div>
+              {{#if errors.length}}
+                {{#each errors as |error|}}
+                  <span class="error" style="color:var(--danger)">
+                    {{error}}
+                  </span>
+                  <br>
+                {{/each}}
+              {{/if}}
+              <div class="footer">
+                <div>
+                  {{#if form.postId}}
+                    You have already submitted a
+                    <a
+                      rel="noreferrer noopener"
+                      target="_blank"
+                      href={{html-safe (concat "/p/" form.postId)}}
+                    >
+                      vote reason
+                    </a>
+                  {{/if}}
+                </div>
+                <div>
+                  <button
+                    type="button"
+                    class="k-btn btn-link"
+                    onClick={{onClose}}
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" class="k-btn btn-info">
+                    {{#if form.postId}}
+                      Update
+                    {{else}}
+                      Submit
+                    {{/if}}
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       {{else}}
         <div class="karma-form-submitted-message">
           <p>

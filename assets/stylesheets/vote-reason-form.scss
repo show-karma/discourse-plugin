@@ -2,51 +2,127 @@
 
 .karma-form-submitted-message {
   padding: 0 2em;
-  border-radius: 8px;
-  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: $border-radius-xl;
+  background-color: $color-secondary;
+  color: $color-primary;
   font-size: 1.3em;
 }
 
 .__karma-vote-form-modal {
+  min-height: 100vh;
+  width: 100vw;
   transition: 200ms ease-in-out;
   position: fixed;
-  top: 0;
+  top: -20px;
   left: 0;
-  z-index: 9;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  width: 100vw;
+
   .backdrop {
     background-color: $color-black-alpha-1;
-    height: 100%;
-    width: 100%;
-    position: absolute;
+    min-height: 1100vh;
+    width: 100vw;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: -1;
   }
+  .modal-body {
+    padding-top: 3vh;
+    height: 100vh;
+    width: 100vw;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  form {
+    max-height: 100%;
+  }
   .modal-content {
-    background-color: white;
-    border-radius: 8px;
+    position: relative;
+    margin: 0 auto;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: $color-secondary;
+    border-radius: $border-radius-xl;
     border: 1px solid $color-black-alpha-2;
     box-shadow: 0 0 1em $color-black-alpha-1;
-    min-width: 500px;
+    max-width: 500px;
+    @media screen and(min-width: $breakpoint-sm) {
+      width: 100%;
+    }
+
+    @media screen and(max-width: $breakpoint-sm) {
+      min-width: 340px;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: $color-primary;
+      cursor: pointer;
+    }
     padding: 2em 1.5em;
+    .k-input {
+      padding: 15px 10px;
+      width: 100%;
+      border-radius: $border-radius-xl;
+      border: 1px solid $color-black-alpha-2;
+    }
+    .modal-header {
+      display: flex;
+      flex-wrap: wrap;
+      // flex-direction: column;
+      margin-left: 0;
+      padding-left: 0;
+      margin-top: 0;
+      margin-bottom: 2em;
+      border: none;
+    }
+    .modal-header > p {
+      font-size: 1.5em;
+      font-weight: 600;
+      padding: 0;
+      margin: 0;
+    }
     .form-reason {
-      textarea,
-      input {
-        border: 1px solid $color-black-alpha-2;
-        border-radius: 5px;
-        width: 100%;
+      .editor-large {
+        .d-editor-container {
+          height: 300px;
+        }
+      }
+      .interests {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .d-editor-container {
+        height: 150px;
+        .d-editor-textarea-wrapper {
+          border: 1px solid $color-black-alpha-2;
+          border-radius: $border-radius-xl;
+          .d-editor-button-bar {
+            border: none;
+          }
+          .d-editor-input {
+            border: none;
+            border-top: 1px solid $color-black-alpha-2;
+            border-radius: 0;
+          }
+        }
+      }
+      .d-editor-preview-wrapper {
+        display: none;
       }
     }
     .footer {
       text-align: right;
       width: 100%;
-      border-top: 1px solid $color-black-alpha-1;
       padding-top: 1em;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
     }
   }
 }

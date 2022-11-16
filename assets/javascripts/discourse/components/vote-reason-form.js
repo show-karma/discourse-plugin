@@ -1,89 +1,331 @@
 import Component from "@ember/component";
-import { inject as service } from "@ember/service";
-import { action, computed, set } from "@ember/object";
+import { action, set } from "@ember/object";
 import { throttle } from "@ember/runloop";
+import postToTopic from "../../lib/post-to-topic";
+import deletePost from "../../lib/delete-post";
+import { fetchActiveOffChainProposals } from "../../lib/voting-history/gql/off-chain-fetcher";
+import { fetchActiveOnChainProposals } from "../../lib/voting-history/gql/on-chain-fetcher";
+import fetchUserThreads from "../../lib/fetch-user-threads";
+import KarmaApiClient from "../../lib/karma-api-client";
+import updatePost from "../../lib/update-post";
+import getProposalLink from "../../lib/get-proposal-link";
 
 export default Component.extend({
-  router: service(),
-
-  proposalId: "",
-
-  form: { reason: "", user: "" },
-
-  profile: {},
+  form: { recommendation: "", summary: "", publicAddress: "", postId: null },
 
   vote: {},
 
-  message: "",
+  submittedVotes: [],
 
-  hasSetReason: false,
+  proposals: [],
+
+  reasons: [],
+
+  threads: [],
+
+  hideButton: true,
+
+  message: "",
 
   loading: false,
 
+  proposalLoading: false,
+
+  fetched: false,
+
   visible: false,
 
-  modalId: computed(function () {
-    return this.vote.proposalId + "__karma-vote-form-modal";
-  }),
+  errors: [],
 
-  @action
-  toggleModal() {
-    const ttl = 100;
-    const el = $(`#${this.modalId}`);
-    if (this.visible) {
-      el.animate(
-        {
-          opacity: "0",
-          transform: "translateY(20px)",
-        },
-        ttl
-      );
+  modalId: "__karma-vote-form-modal",
 
-      setTimeout(() => el.hide(), ttl * 2);
-      set(this, "visible", false);
-    } else {
-      el.show();
-      el.animate(
+  threadId: -1,
+
+  proposalId: -1,
+
+  onClose: function () {
+    set(this, "visible", false);
+  },
+
+  proposalLink: function () {
+    const proposal = this.proposals[this.proposalId];
+    const link = getProposalLink(proposal);
+    return link ? `[${proposal.title}](${link})` : `### ${proposal.title}`;
+  },
+
+  // proposalTitle: computed(function() {
+  //   return this.proposal[this.form.proposalId]?.id
+  // })
+
+  resetForm() {
+    set(this, "form", {
+      ...this.form,
+      recommendation: "",
+      summary: "",
+      postId: null,
+    });
+    set(this, "proposalId", -1);
+  },
+
+  dispatchToggleModal() {
+    setTimeout(() => {
+      // this.toggleModal();
+      setTimeout(() => {
+        set(this, "message", "");
+        set(this, "errors", []);
+        // this.resetForm();
+      }, 250);
+    }, 2000);
+  },
+
+  async createThread() {
+    return false;
+  },
+
+  async post() {
+    let postId;
+    const { reason: hasReason } = this.proposals[this.proposalId];
+    const hasSetReason = !!hasReason;
+    const karma = new KarmaApiClient(
+      this.siteSettings.DAO_name,
+      this.form.publicAddress
+    );
+    const reason = `${this.proposalLink()}
+
+${this.form.recommendation}`;
+
+    try {
+      if (hasReason?.postId) {
+        postId = hasReason.postId;
+        await updatePost({
+          postId,
+          body: reason,
+          csrf: this.session.csrfToken,
+        });
+      } else {
+        const { id } = await postToTopic({
+          threadId: +this.threadId,
+          body: reason,
+          csrf: this.session.csrfToken,
+        });
+        postId = id;
+      }
+    } catch (error) {
+      throw new Error("We couldn't post your pitch on Discourse.");
+    }
+
+    try {
+      await karma.saveVoteReason(
+        this.proposals[this.proposalId].id,
         {
-          opacity: "1",
-          transform: "translateY(0)",
+          ...this.form,
+          postId,
+          threadId: this.threadId,
         },
-        ttl
+        this.session.csrfToken,
+        hasSetReason
       );
-      set(this, "visible", true);
+      set(this, "postId", postId);
+      this.setPostReason(reason);
+    } catch (error) {
+      if (!hasSetReason && postId) {
+        await deletePost({
+          postId,
+          csrf: this.session.csrfToken,
+        });
+      }
+      throw new Error(
+        `We couldn't send your vote to Karma. ${
+          error.message ? "Rason: " + error.message : ""
+        }`
+      );
     }
   },
 
-  async send() {
-    set(this, "loading", true);
-    // eslint-disable-next-line no-restricted-globals
-    await new Promise((r) =>
-      setTimeout(() => {
-        r(true);
-      }, 2000)
-    );
-    set(this, "loading", false);
+  checkErrors() {
+    set(this, "errors", []);
+    const raw = this.form.recommendation + this.form.summary;
+    const errors = this.errors;
 
-    setTimeout(() => {
-      this.toggleModal();
-    }, 2000);
-    set(this, "message", "Thank you! You reason was submitted successfully.");
-    set(this, "hasSetReason", true);
+    if (this.threadId === -1) {
+      errors.push("Reason thread is required.");
+    }
+
+    if (this.proposalId === -1) {
+      errors.push("Proposal is required.");
+    }
+
+    if (raw.length < 20) {
+      errors.push("Your messages should have at least 20 chars.");
+    }
+    set(this, "errors", errors);
+    return !!errors.length;
   },
 
+  async send() {
+    const hasErrors = this.checkErrors();
+    if (!hasErrors) {
+      set(this, "loading", true);
+      try {
+        if (this.threadId === -2) {
+          await this.createThread();
+        }
+        await this.post();
+        this.dispatchToggleModal();
+        set(
+          this,
+          "message",
+          "Thank you! Your recommendation was submitted successfully."
+        );
+      } catch (error) {
+        set(this, "errors", [error.message]);
+      } finally {
+        set(this, "loading", false);
+      }
+    }
+  },
+
+  async fetchThreads() {
+    try {
+      const threads = await fetchUserThreads(this.currentUser?.username);
+      set(
+        this,
+        "threads",
+        threads.topic_list.topics.map((topic) => ({
+          name: topic.fancy_title,
+          id: topic.id,
+        }))
+      );
+      // this.setDefaultThreadId();
+    } catch {}
+  },
+
+  async fetchProposals() {
+    const daoNames = [this.siteSettings.DAO_name];
+
+    if (!/\.eth$/g.test(daoNames[0])) {
+      daoNames.push(`${daoNames[0]}.eth`);
+    }
+
+    const onChain = await fetchActiveOnChainProposals(daoNames, 500);
+    const offChain = await fetchActiveOffChainProposals(daoNames, 500);
+
+    const proposals = onChain
+      .concat(offChain)
+      .sort((a, b) => (moment(a.endsAt).isBefore(moment(b.endsAt)) ? 1 : -1));
+
+    return proposals;
+  },
+
+  async fetchVoteReasons(proposals = []) {
+    const karma = new KarmaApiClient(
+      this.siteSettings.DAO_name,
+      this.profile.address
+    );
+    try {
+      const { reasons } = await karma.fetchVoteReasons();
+      if (reasons && Array.isArray(reasons)) {
+        proposals = proposals.map((proposal) => {
+          const hasReason = reasons.find(
+            (reason) => reason.proposalId === proposal.id
+          );
+          if (hasReason) {
+            proposal.reason = hasReason;
+            proposal.disabled = true;
+          }
+          return proposal;
+        });
+        set(this, "reasons", reasons);
+      }
+    } catch {}
+    set(this, "proposals", proposals);
+  },
+
+  setPostReason() {
+    const proposals = this.proposals.map((p) => ({ ...p }));
+    proposals[this.proposalId].reason = {
+      ...this.form,
+      threadId: this.threadId,
+      postId: this.postId,
+    };
+
+    set(this, "proposals", proposals);
+  },
+
+  setDefaultThreadId() {
+    let threadId = this.threadId;
+    if (this.reasons.length && this.threads.length) {
+      if (this.reasons?.[0].threadId) {
+        threadId = this.threads.findIndex(
+          (t) => t.id === this.reasons[0].threadId
+        );
+      }
+      set(this, "threadId", threadId);
+    }
+  },
+
+  async didReceiveAttrs() {
+    this._super(...arguments);
+    if (this.profile.address) {
+      set(this, "proposalLoading", true);
+      const proposals = await this.fetchProposals();
+      await this.fetchVoteReasons(proposals);
+      set(this, "proposalLoading", false);
+      set(this, "fetched", true);
+      set(this, "form", { ...this.form, publicAddress: this.profile.address });
+    }
+    this.fetchThreads();
+  },
+  @action
+  isOutside(e) {
+    if (!$(e.target).closest(".modal-content").length) {
+      this.onClose();
+    }
+  },
   @action
   submit(e) {
     e.preventDefault();
     return throttle(this, this.send, 200);
   },
 
-  @action
-  setReason(e) {
-    set(this, "form", { ...this.form, reason: e.target.value });
+  setFormData(key, data) {
+    set(this, "form", { ...this.form, [key]: data });
   },
 
-  didReceiveAttrs() {
-    this._super(...arguments);
-    this.form.user = this.currentUser.username;
+  @action
+  setReason(e) {
+    this.setFormData("recommendation", e.target.value);
+  },
+
+  @action
+  setSummary(e) {
+    this.setFormData("summary", e.target.value);
+  },
+
+  @action
+  setProposal(e) {
+    const proposalId = +e.target.value;
+    const { reason } = this.proposals[proposalId];
+
+    if (reason) {
+      set(this, "form", {
+        ...this.form,
+        ...reason,
+      });
+    } else {
+      set(this, "form", {
+        ...this.form,
+        postId: null,
+      });
+    }
+    set(this, "proposalId", proposalId);
+  },
+
+  @action
+  setThreadId(e) {
+    const idx = +e.target.value;
+    if (idx !== "null") {
+      set(this, "threadId", idx === -2 ? idx : this.threads[idx].id);
+    }
   },
 });

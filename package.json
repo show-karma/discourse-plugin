@@ -1,8 +1,8 @@
 {
   "name": "karma-stats",
-  "version": "1.3.5",
-  "repository": "TODO",
-  "author": "Show Karma",
+  "version": "1.3.7-beta1",
+  "repository": "https://github.com/show-karma/discourse-plugin",
+  "author": "Karma",
   "license": "MIT",
   "devDependencies": {
     "eslint-config-discourse": "^3.1.0"

@@ -1,7 +1,8 @@
 import Component from "@ember/component";
 import { inject as service } from "@ember/service";
-import { set } from "@ember/object";
+import { computed, set } from "@ember/object";
 import VotingHistory from "../../lib/voting-history/index";
+import KarmaApiClient from "../../lib/karma-api-client";
 
 export default Component.extend({
   router: service(),
@@ -10,15 +11,46 @@ export default Component.extend({
 
   votes: [],
 
+  fetched: false,
+
+  hasSetApiKey: false,
+
+  count: 0,
+
+  shouldShowActionButtons: computed(function () {
+    return (
+      this.session &&
+      this.profile.username &&
+      this.currentUser &&
+      this.profile?.username === this.currentUser?.username
+    );
+  }),
+
+  async fetchVotes() {
+    set(this, "fetched", false);
+    const votes = await VotingHistory.start(this.profile, {
+      SiteSettings: this.siteSettings,
+    });
+    set(this, "fetched", true);
+    set(this, "votes", votes);
+  },
+
+  async init() {
+    this._super(...arguments);
+    if (this.session) {
+      const cli = new KarmaApiClient(this.siteSettings.DAO_name, "");
+      try {
+        const { allowance } = await cli.isApiAllowed(this.session.csrfToken);
+        set(this, "hasSetApiKey", !!allowance);
+      } catch {}
+    }
+  },
+
   async didReceiveAttrs() {
-    if (!this.votes.length) {
-      this._super(...arguments);
-      const votes = await VotingHistory.start(this.profile, {
-        SiteSettings: this.siteSettings,
-      });
-      if (!this.votes.length && votes.length) {
-        set(this, "votes", votes);
-      }
+    this._super(...arguments);
+
+    if (this.profile.address && !this.fetched) {
+      this.fetchVotes();
     }
   },
 });

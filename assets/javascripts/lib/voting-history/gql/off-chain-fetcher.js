@@ -17,6 +17,7 @@ function parseVotes(votes = []) {
   votes.forEach((vote) => {
     const { proposal } = vote;
     array.push({
+      title: proposal?.title,
       proposalId: proposal.id,
       voteMethod: "Off-chain",
       proposal: parseMdLink(proposal?.title),
@@ -87,9 +88,10 @@ const parseProposals = (proposals = []) =>
     id: proposal.id,
     type: "Off-chain",
     title: parseMdLink(proposal.title),
+    shortname: proposal.title.slice(0, 40) + "...",
     voteCount: proposal.votes,
     voteBreakdown: { For: 0, Abstain: 0, Against: 0, total: 0 },
-    endsAt: moment.unix(proposal.endsAt).format("MMMM D, YYYY"),
+    endsAt: moment.unix(proposal.endsAt).format("MMM D, YYYY"),
     dateDescription: dateDiff(proposal.endsAt),
     snapshotId: proposal.space.id,
     choices: proposal.choices,

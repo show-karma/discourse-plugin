@@ -1,0 +1,109 @@
+{{#if siteSettings.Show_delegate_pitch_form}}
+  {{#unless hideButton}}
+    <button
+      type="button"
+      class="__karma-send-reason-btn k-btn btn-link"
+      onClick={{onClose}}
+    >
+      Delegate pitch
+    </button>
+  {{/unless}}
+  <div
+    id={{modalId}}
+    class="__karma-vote-form-modal"
+    style="display:none;opacity:0;transform:translateY(20px)"
+  >
+    {{#if loading}}
+      {{karma-loading message="Submitting data, please wait."}}
+    {{else}}
+      {{#unless message.length}}
+        <div class="modal-body" onClick={{isOutside}}>
+          <form onSubmit={{submit}}>
+            <div class="modal-content">
+              <div class="backdrop">
+              </div>
+              <div class="close-button" onClick={{onClose}}>
+                {{d-icon "times"}}
+              </div>
+              <div class="modal-header">
+                <p>
+                  Submit your Delegate Pitch
+                </p>
+              </div>
+              <div class="form-reason">
+                <label for="reason">
+                  Your delegate address
+                </label>
+                {{input type="text" class="k-input" value=form.publicAddress}}
+                {{#each customFields as |field|}}
+                  <label class="mt-2">
+                    {{field.label}}<br>
+                  </label>
+                  {{#if (eq field.type "text")}}
+                    <div class="editor-large">
+                      {{d-editor value=field.value placeholder=field.placeholder
+                      }}
+                    </div>
+                  {{else if (eq field.type "select")}}
+                    {{multi-select content=field.options value=field.value}}
+                  {{else}}
+                    {{input
+                      class="k-input"
+                      type=field.type
+                      value=field.value
+                      placeholder=field.placeholder
+                    }}
+                  {{/if}}
+                {{/each}}
+              </div>
+              {{#if errors.length}}
+                {{#each errors as |error|}}
+                  <span class="error" style="color:var(--danger)">
+                    {{error}}
+                  </span>
+                  <br>
+                {{/each}}
+              {{/if}}
+              <div class="footer">
+                <div>
+                  {{#if postId}}
+                    You have already submitted a
+                    <a
+                      rel="noreferrer noopener"
+                      target="_blank"
+                      href={{html-safe (concat "/p/" postId)}}
+                    >
+                      delegate pitch
+                    </a>
+                  {{/if}}
+                </div>
+                <div>
+                  <button
+                    type="button"
+                    class="k-btn btn-link"
+                    onClick={{onClose}}
+                  >
+                    Cancel
+                  </button>
+                  <button type="submit" class="k-btn btn-info">
+                    {{#if postId}}
+                      Update
+                    {{else}}
+                      Submit
+                    {{/if}}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      {{else}}
+        <div class="karma-form-submitted-message">
+          <p>
+            {{message}}
+          </p>
+        </div>
+      {{/unless}}
+    {{/if}}
+  </div>
+{{/if}}
