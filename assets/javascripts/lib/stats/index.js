@@ -1,12 +1,12 @@
 import { set } from "@ember/object";
 import { shortenNumber } from "../shorten-number";
 import { htmlSafe } from "@ember/template";
-import { stageApiUrl } from "../consts";
+import { karmaApiUrl } from "../consts";
 /**
  * Karma stats fetcher
  */
 const KarmaStats = {
-  url: stageApiUrl,
+  url: karmaApiUrl,
   daoName: undefined,
   profile: {},
 
