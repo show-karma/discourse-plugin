@@ -6,9 +6,8 @@
   .vote-breakdown {
     width: 100%;
     min-height: 100px;
-    max-width: 550px;
+    max-width: 50%;
     border-radius: $border-radius-sm;
-    margin-top: 1em;
     // overflow: hidden;
     .ember-view {
       display: flex;
@@ -139,6 +138,16 @@
           // flex-wrap: wrap;
           user-select: none;
           &-title {
+            &.d-md-none {
+              @media screen and (min-width: $breakpoint-md) {
+                display: none;
+              }
+            }
+            &.d-md-rev-none {
+              @media screen and (max-width: $breakpoint-md) {
+                display: none;
+              }
+            }
             width: 100%;
             font-weight: 600;
           }
@@ -162,15 +171,16 @@
           }
           &-actions {
             min-width: 355px;
+            max-width: 50%;
             display: flex;
             align-items: center;
+            flex-direction: column;
             gap: 20px;
           }
           &-details {
             gap: 20px;
             display: flex;
             justify-content: space-between;
-            flex-wrap: wrap-reverse;
           }
         }
       }

@@ -18,11 +18,17 @@ export default Component.extend({
   loading: false,
 
   text: computed(function () {
-    return this.getText();
+    return this.getText(this.proposal);
   }),
 
-  getText() {
-    return "View details";
+  /**
+   * @param {import("karma-score").OffChainProposal} proposal
+   */
+  getText(proposal) {
+    return proposal.type === "Off-chain" &&
+      moment(proposal.voteStarts).isAfter(moment())
+      ? `Voting begins ${proposal.voteStarts}`
+      : `Ends: ${proposal.endsAt}`;
   },
 
   @action
