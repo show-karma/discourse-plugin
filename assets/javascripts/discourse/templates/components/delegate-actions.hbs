@@ -9,20 +9,28 @@
       {{#if isOpen}}
         <div class="k-dropdown">
           <div class="triangle"></div>
-          <div class="k-option">
-            <button
-              type="button"
-              class="k-btn btn-link"
-              onClick={{toggleDelegate}}
-            >
-              Delegate pitch
-            </button>
-          </div>
-          <div class="k-option">
-            <button type="button" class="k-btn btn-link" onClick={{toggleVote}}>
-              Submit vote reason
-            </button>
-          </div>
+          {{#if siteSettings.Show_delegate_pitch_form}}
+            <div class="k-option">
+              <button
+                type="button"
+                class="k-btn btn-link"
+                onClick={{toggleDelegate}}
+              >
+                Delegate pitch
+              </button>
+            </div>
+          {{/if}}
+          {{#if siteSettings.Show_vote_reason_form}}
+            <div class="k-option">
+              <button
+                type="button"
+                class="k-btn btn-link"
+                onClick={{toggleVote}}
+              >
+                Submit vote reason
+              </button>
+            </div>
+          {{/if}}
         </div>
       {{/if}}
     </div>
