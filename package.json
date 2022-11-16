@@ -1,6 +1,8 @@
 {
   "name": "karma-stats",
+
   "version": "1.3.7-beta3",
+
   "repository": "https://github.com/show-karma/discourse-plugin",
   "author": "Karma",
   "license": "MIT",
