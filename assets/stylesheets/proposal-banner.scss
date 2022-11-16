@@ -6,7 +6,9 @@
   .vote-breakdown {
     width: 100%;
     min-height: 100px;
-    max-width: 50%;
+    @media screen and(min-width: $breakpoint-sm) {
+      max-width: 50%;
+    }
     border-radius: $border-radius-sm;
     // overflow: hidden;
     .ember-view {
@@ -71,10 +73,10 @@
   }
 
   .__banner-wrapper {
-    padding: 1em 0.5em 1em;
+    padding: 1em 0 0;
     margin: 1em 0 0;
     background-color: $color-secondary;
-    border: 1px solid $color-brand-gray-1;
+    border: 1px solid $color-gray;
     border-radius: $border-radius-xl;
 
     .__banner-content-wrapper {
@@ -131,7 +133,7 @@
           // background-color: $color-black-alpha-0;
         }
         &:not(:last-of-type) {
-          border-bottom: 1px solid $color-black-alpha-1;
+          border-bottom: 1px solid $color-gray;
         }
         .proposal {
           padding: 0.5rem 1rem;
@@ -158,6 +160,8 @@
           &-due-date {
             // margin-top: 1em;
             display: flex;
+            align-items: center;
+            gap: 10px;
             // width: 100%;
             flex-wrap: wrap;
             // align-items: flex-end;
@@ -171,9 +175,11 @@
           }
           &-actions {
             min-width: 355px;
-            max-width: 50%;
+            @media screen and(min-width: $breakpoint-md) {
+              max-width: 50%;
+            }
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             flex-direction: column;
             gap: 20px;
           }
@@ -181,6 +187,9 @@
             gap: 20px;
             display: flex;
             justify-content: space-between;
+            @media screen and(max-width: $breakpoint-md) {
+              flex-wrap: wrap-reverse;
+            }
           }
         }
       }
@@ -190,6 +199,9 @@
       width: 100%;
       display: flex;
       justify-content: center;
+      border-top: 1px solid $color-gray;
+      padding: 0.5em 0;
+      margin-top: 1em;
     }
 
     .reveal-more-button {
