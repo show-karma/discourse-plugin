@@ -1,20 +1,15 @@
 {{#if (and siteSettings.Show_proposal_banner shouldShow)}}
   {{#if fetched}}
     {{#if proposals.length}}
-      <div class="__banner-wrapper">
-        <div class="__banner-content-wrapper">
-          <div class="__banner-content">
-            <div>
-              <h2>
-                {{siteSettings.Banner_title}}
-              </h2>
-              <p>
-                {{siteSettings.Banner_description}}
-              </p>
-            </div>
-          </div>
+      <div class="karma-banner-title pl-2.5 mt-1">
+        <div>
+          {{siteSettings.Banner_title}}
+        </div>
+        <div class="banner-links">
           {{banner-links links=bannerLinks}}
         </div>
+      </div>
+      <div class="__banner-wrapper">
         <div class="banner-body">
           <div
             class={{
