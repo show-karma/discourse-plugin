@@ -42,6 +42,7 @@ export const proposal = {
         space {id}
         choices
         network
+        start
         snapshot
         type
         strategies {
