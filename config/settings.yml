@@ -46,6 +46,9 @@ Proposal_Banner:
   Banner_past_proposal_days:
     default: 0
     client: true
+  Show_values_on_proposals:
+    default: false
+    client: true
   Banner_forum_rules_link:
     default: "/"
     client: true

@@ -15,6 +15,7 @@ en:
     Banner_links: ""
     Banner_title: "Main banner title"
     Banner_description: "Banner description shown below the title"
+    Show_values_on_proposals: "Show breakdown values for vote results on the banner. If false, it will only show vote options."
     Banner_forum_rules_link: "Link to the foum rules button (will be hidden if no text; If external link, include https://)"
     Banner_forum_rules_icon: "Icon to display"
     Banner_forum_rules_text: "Text to display"
