@@ -14,15 +14,19 @@
               {{value.shortname}}
             </b>
             <span class="t-light">
-              <b>
-                {{!-- {{value.count}} votes --}}
-              </b>
+              {{#if siteSettings.Show_values_on_proposals}}
+                <b>
+                  {{value.count}} votes
+                </b>
+              {{/if}}
             </span>
           </div>
           <div>
-            <b>
-              {{!-- {{value.pct}} --}}
-            </b>
+            {{#if siteSettings.Show_values_on_proposals}}
+              <b>
+                {{value.pct}}
+              </b>
+            {{/if}}
           </div>
         </div>
         <div
@@ -32,11 +36,13 @@
           {{#if (eq value.shortname "Others")}}
             {{karma-tooltip label=value.name}}
           {{/if}}
-          {{!-- <div
-            class="breakdown-progress-fill"
-            style={{html-safe (concat "width:" '100%')}}
-          >
-          </div> --}}
+          {{#if siteSettings.Show_values_on_proposals}}
+            <div
+              class="breakdown-progress-fill"
+              style={{html-safe (concat "width:" value.fillPct)}}
+            >
+            </div>
+          {{/if}}
         </div>
       </div>
     {{/each}}
