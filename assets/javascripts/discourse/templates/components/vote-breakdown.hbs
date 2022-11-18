@@ -14,7 +14,7 @@
               {{value.shortname}}
             </b>
             <span class="t-light">
-              {{#if siteSettings.Show_values_on_proposals}}
+              {{#if siteSettings.Show_results}}
                 <b>
                   {{value.count}} votes
                 </b>
@@ -22,7 +22,7 @@
             </span>
           </div>
           <div>
-            {{#if siteSettings.Show_values_on_proposals}}
+            {{#if siteSettings.Show_results}}
               <b>
                 {{value.pct}}
               </b>
@@ -36,7 +36,7 @@
           {{#if (eq value.shortname "Others")}}
             {{karma-tooltip label=value.name}}
           {{/if}}
-          {{#if siteSettings.Show_values_on_proposals}}
+          {{#if siteSettings.Show_results}}
             <div
               class="breakdown-progress-fill"
               style={{html-safe (concat "width:" value.fillPct)}}
