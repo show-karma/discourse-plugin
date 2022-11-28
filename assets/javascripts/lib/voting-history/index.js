@@ -34,6 +34,10 @@ const VotingHistory = {
       daoNames.push(`${daoName}.eth`);
     }
 
+    if (daoName === "optimism") {
+      daoNames.push("opcollective.eth");
+    }
+
     const onChain = await fetchOnChainProposalVotes(
       daoNames,
       profile.address,

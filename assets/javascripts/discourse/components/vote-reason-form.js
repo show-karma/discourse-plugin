@@ -207,6 +207,10 @@ ${this.form.recommendation}`;
       daoNames.push(`${daoNames[0]}.eth`);
     }
 
+    if (this.siteSettings.DAO_name === "optimism") {
+      daoNames.push("opcollective.eth");
+    }
+
     const onChain = await fetchActiveOnChainProposals(daoNames, 500);
     const offChain = await fetchActiveOffChainProposals(daoNames, 500);
 
