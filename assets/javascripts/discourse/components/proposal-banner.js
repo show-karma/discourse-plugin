@@ -43,6 +43,11 @@ export default Component.extend({
     if (!/\.eth$/g.test(daoNames[0])) {
       daoNames.push(`${daoNames[0]}.eth`);
     }
+    // TODO: REMOVE THIS AFTER API HAS THE ENDPOINT
+    // TO FETCH DAO DATA
+    if (this.siteSettings.DAO_name === "optimism") {
+      daoNames.push("opcollective.eth");
+    }
 
     const onChain = await fetchActiveOnChainProposals(daoNames, daysAgo);
     const offChain = await fetchActiveOffChainProposals(daoNames, daysAgo);
