@@ -17,7 +17,6 @@ function bootstrap(_, ctx) {
       }
       showing = !!elTrg.length;
     };
-
     setInterval(karmaStats, 100);
   }
 
@@ -33,7 +32,7 @@ function bootstrap(_, ctx) {
 export default {
   name: "karma-stats",
 
-  initialize(container) {
+  async initialize(container) {
     // eslint-disable-next-line no-console
     console.info("Karma Score (v1.3.7-beta4)");
     const SiteSettings = container.lookup("site-settings:main");
