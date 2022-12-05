@@ -1,10 +1,11 @@
 import Component from "@ember/component";
-import discourseComputed from "discourse-common/utils/decorators";
 import { inject as service } from "@ember/service";
+import discourseComputed from "discourse-common/utils/decorators";
 import { action, computed, set } from "@ember/object";
 import { fetchActiveOnChainProposals } from "../../lib/voting-history/gql/on-chain-fetcher";
 import { fetchActiveOffChainProposals } from "../../lib/voting-history/gql/off-chain-fetcher";
 import { getGovAddrFromYml } from "../../lib/get-gov-addr-from-yml";
+import { fetchDaoSnapshotAndOnChainIds } from "../../lib/fetch-snapshot-onchain-ids";
 
 export default Component.extend({
   router: service(),
@@ -37,15 +38,34 @@ export default Component.extend({
   },
 
   async fetchDataProposals() {
-    const daoNames = [this.siteSettings.DAO_name];
-    const { Banner_past_proposal_days: daysAgo } = this.siteSettings;
+    const {
+      Banner_past_proposal_days: daysAgo,
+      daoIds,
+      DAO_name,
+    } = this.siteSettings;
 
-    if (!/\.eth$/g.test(daoNames[0])) {
-      daoNames.push(`${daoNames[0]}.eth`);
+    // Fix this workaround when voting history is refactored into components
+    const graphqlIds = (window.daoIds =
+      window.daoIds ??
+      daoIds ??
+      (await fetchDaoSnapshotAndOnChainIds(DAO_name)));
+
+    let onChain = [];
+    if (graphqlIds.onChainId?.length) {
+      onChain = await fetchActiveOnChainProposals(
+        [graphqlIds.onChainId].flat(),
+        daysAgo
+      );
     }
 
-    const onChain = await fetchActiveOnChainProposals(daoNames, daysAgo);
-    const offChain = await fetchActiveOffChainProposals(daoNames, daysAgo);
+    let offChain = [];
+    if (graphqlIds.snapshotIds?.length) {
+      offChain = await fetchActiveOffChainProposals(
+        [graphqlIds.snapshotIds].flat(),
+        daysAgo
+      );
+    }
+
     const proposals = onChain
       .concat(offChain)
       .sort((a, b) => (moment(a.endsAt).isBefore(moment(b.endsAt)) ? 1 : -1));

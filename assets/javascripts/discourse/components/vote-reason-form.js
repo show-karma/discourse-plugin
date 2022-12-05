@@ -9,6 +9,7 @@ import fetchUserThreads from "../../lib/fetch-user-threads";
 import KarmaApiClient from "../../lib/karma-api-client";
 import updatePost from "../../lib/update-post";
 import getProposalLink from "../../lib/get-proposal-link";
+import { fetchDaoSnapshotAndOnChainIds } from "../../lib/fetch-snapshot-onchain-ids";
 
 export default Component.extend({
   form: { recommendation: "", summary: "", publicAddress: "", postId: null },
@@ -201,14 +202,28 @@ ${this.form.recommendation}`;
   },
 
   async fetchProposals() {
-    const daoNames = [this.siteSettings.DAO_name];
+    const { daoIds, DAO_name } = this.siteSettings;
 
-    if (!/\.eth$/g.test(daoNames[0])) {
-      daoNames.push(`${daoNames[0]}.eth`);
+    const graphqlIds = (window.daoIds =
+      window.daoIds ??
+      daoIds ??
+      (await fetchDaoSnapshotAndOnChainIds(DAO_name)));
+
+    let onChain = [];
+    if (graphqlIds.onChainId?.length) {
+      onChain = await fetchActiveOnChainProposals(
+        [graphqlIds.onChainId].flat(),
+        500
+      );
     }
 
-    const onChain = await fetchActiveOnChainProposals(daoNames, 500);
-    const offChain = await fetchActiveOffChainProposals(daoNames, 500);
+    let offChain = [];
+    if (graphqlIds.snapshotIds?.length) {
+      offChain = await fetchActiveOffChainProposals(
+        [graphqlIds.snapshotIds].flat(),
+        500
+      );
+    }
 
     const proposals = onChain
       .concat(offChain)

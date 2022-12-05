@@ -1,3 +1,4 @@
+import { fetchDaoSnapshotAndOnChainIds } from "../fetch-snapshot-onchain-ids";
 import { fetchOffChainProposalVotes } from "./gql/off-chain-fetcher";
 import { fetchOnChainProposalVotes } from "./gql/on-chain-fetcher";
 import template from "./template";
@@ -26,25 +27,32 @@ const VotingHistory = {
       );
     }
 
-    const { DAO_name: daoName } = ctx.SiteSettings;
+    const { DAO_name: daoName, daoIds } = ctx.SiteSettings;
     const amount = this.shouldShowVotingHistory(ctx);
-    const daoNames = [daoName];
 
-    if (!/\.eth$/g.test(daoName)) {
-      daoNames.push(`${daoName}.eth`);
+    // TODO fix this workaround by refactoring this code into components
+    this.daoIds = window.daoIds =
+      window.daoIds ??
+      daoIds ??
+      (await fetchDaoSnapshotAndOnChainIds(daoName));
+
+    let onChain = [];
+    if (this.daoIds.onChain?.length) {
+      onChain = await fetchOnChainProposalVotes(
+        [this.daoIds.onChain].flat(),
+        profile.address,
+        amount
+      );
     }
 
-    const onChain = await fetchOnChainProposalVotes(
-      daoNames,
-      profile.address,
-      amount
-    );
-
-    const offChain = await fetchOffChainProposalVotes(
-      daoNames,
-      profile.address,
-      amount
-    );
+    let offChain = [];
+    if (this.daoIds.snapshotIds?.length) {
+      offChain = await fetchOffChainProposalVotes(
+        [this.daoIds.snapshotIds].flat(),
+        profile.address,
+        amount
+      );
+    }
 
     const votes = onChain.concat(offChain);
     votes.sort((a, b) =>
