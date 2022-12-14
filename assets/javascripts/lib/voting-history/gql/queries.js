@@ -53,7 +53,7 @@ export const proposal = {
       }
     }`,
     votes: (proposalIds = []) => `query Votes {
-      votes(first:4000,where: {proposal_in: ${inStatement(proposalIds)}}){
+      votes(first:1000,where: {proposal_in: ${inStatement(proposalIds)}}){
         choice
         vp
         vp_by_strategy
