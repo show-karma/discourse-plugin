@@ -55,12 +55,27 @@ export async function fetchOffChainProposalVotes(
   }
 }
 
-const withVoteBreakdown = async (proposals = []) => {
-  if (proposals.length) {
+const paginateVote = async (proposals = []) => {
+  const loop = async (acc = [], page = 0) => {
     const voteBreakdownQuery = proposalQuery.offChain.votes(
-      proposals.map((p) => p.id)
+      proposals.map((p) => p.id),
+      page
     );
     const { votes } = await gql.query(subgraphUrl, voteBreakdownQuery);
+    acc.push(...votes);
+    if (votes.length === 1000) {
+      await loop(acc, page + 1);
+    }
+    return acc;
+  };
+
+  const result = await loop();
+  return result;
+};
+
+const withVoteBreakdown = async (proposals = []) => {
+  if (proposals.length) {
+    const votes = await paginateVote(proposals);
     const { spaces } = await gql.query(
       subgraphUrl,
       proposalQuery.offChain.strategies([proposals[0].snapshotId])
@@ -92,7 +107,7 @@ const parseProposals = (proposals = []) =>
     voteCount: proposal.votes,
     voteBreakdown: { For: 0, Abstain: 0, Against: 0, total: 0 },
     endsAt: moment.unix(proposal.endsAt).format("MMM D, YYYY"),
-    voteStarts: moment.unix(proposal.start).format('MMM D, YYYY'),
+    voteStarts: moment.unix(proposal.start).format("MMM D, YYYY"),
     dateDescription: dateDiff(proposal.endsAt),
     snapshotId: proposal.space.id,
     choices: proposal.choices,
