@@ -1,6 +1,7 @@
 import Component from "@ember/component";
 import { action, computed, set } from "@ember/object";
 import getProposalLink from "../../lib/get-proposal-link";
+import { Mixpanel } from "../../lib/mixpanel";
 import {
   getResults,
   getVoteBreakdownByProposal,
@@ -33,6 +34,14 @@ export default Component.extend({
 
   @action
   redirect() {
+    Mixpanel.reportEvent({
+      event: "bannerClick",
+      properties: {
+        target: this.proposal.type === "Off-chain" ? "Snapshot" : "Tally",
+        url: this.link,
+        handler: this.currentUser?.username,
+      },
+    });
     window.open(this.link, "_blank");
   },
 

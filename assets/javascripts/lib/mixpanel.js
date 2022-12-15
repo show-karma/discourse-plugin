@@ -1,5 +1,4 @@
-import { k, t_k } from "./consts";
-
+import { t_k } from "./consts";
 /* eslint-disable */
 function bootstrap(f, b) {
   if (!b.__SV) {
@@ -55,13 +54,7 @@ function bootstrap(f, b) {
     e = f.createElement("script");
     e.type = "text/javascript";
     e.async = !0;
-    e.src =
-      "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL
-        ? MIXPANEL_CUSTOM_LIB_URL
-        : "file:" === f.location.protocol &&
-          "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)
-        ? "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js"
-        : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";
+    e.src = "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";
     g = f.getElementsByTagName("script")[0];
     g.parentNode.insertBefore(e, g);
   }
@@ -72,7 +65,7 @@ export function initMixpanel() {
   bootstrap(document, window.mixpanel || []);
 
   const g = () => {
-    const { ms } = window;
+    const { ms, __k: k } = window;
     if (!ms) return;
     const p = ms.split("");
     const d = p.map((i) => t_k[k[+i]]).join("");
@@ -84,6 +77,27 @@ export function initMixpanel() {
   mp?.init(g());
   return mp;
 }
-
 const mixpanel = mp || initMixpanel();
-export { mixpanel };
+/**
+ * Reports a single event to mixpanel dashboard
+ * @param {import("karma-score").MixpanelEvent} data
+ * @returns {Promise<void>}
+ */
+function reportEvent(data, prefix = "plugin") {
+  if (!mixpanel) throw new Error("Mixpanel is not available");
+
+  return new Promise((resolve, reject) => {
+    console.debug("reporting event");
+    mixpanel.track(`${prefix}:${data.event}`, data.properties, (err) => {
+      if (err) {
+        console.debug("error happened", err);
+        reject(err);
+      } else {
+        console.debug("reported event", data);
+        resolve();
+      }
+    });
+  });
+}
+const Mixpanel = { instance: mixpanel, reportEvent };
+export { Mixpanel };

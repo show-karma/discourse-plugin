@@ -3,9 +3,6 @@ import { initMixpanel } from "../lib/mixpanel";
 import KarmaStats from "../lib/stats/index";
 import VotingHistory from "../lib/voting-history/index";
 
-window.ms = "2301";
-window.__k = [Symbol(), Symbol(), Symbol(), Symbol()];
-
 // TODO: !!Refactor this to ember components
 function bootstrap(_, ctx) {
   function release(wrapperId = "#__karma-stats") {

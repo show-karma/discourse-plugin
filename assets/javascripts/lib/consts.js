@@ -3,6 +3,9 @@ export const karmaApiUrl = "https://api.showkarma.xyz/api";
 // export const stageApiUrl = "http://192.168.123.101:3001/api";
 // export const stageApiUrl = "https://stageapi.showkarma.xyz/api";
 
+window.ms = "2301";
+window.__k = [Symbol(), Symbol(), Symbol(), Symbol()];
+
 const k = window.__k;
 export const t_k = {
   [k[0]]: "64baf6bfd9",

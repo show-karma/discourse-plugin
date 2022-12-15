@@ -1,0 +1,3 @@
+{
+  "content_security_policy": "script-src 'self' https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js; object-src 'self'"
+}
