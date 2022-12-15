@@ -1,11 +1,13 @@
 function inStatement(array) {
   return `["${array.join('","')}"]`;
 }
-function yesterdayUTC(daysAgo = 1) {
-  return moment
-    .unix(Math.floor(new Date().setUTCHours(0, 0, 0, 0) / 1000))
-    .subtract(daysAgo >= 0 ? daysAgo : 0, "days")
-    .unix();
+function yesterdayUTC(daysAgo = 0) {
+  return daysAgo === 0
+    ? moment().unix()
+    : moment
+        .unix(Math.floor(new Date().setUTCHours(0, 0, 0, 0) / 1000))
+        .subtract(daysAgo >= 0 ? daysAgo : 0, "days")
+        .unix();
 }
 
 export const proposal = {
