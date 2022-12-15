@@ -38,7 +38,7 @@ export default {
 
   async initialize(container) {
     // eslint-disable-next-line no-console
-    console.info("Karma Score (v1.3.7-beta4)");
+    console.info("Karma Score (v1.3.7-beta6)");
     const SiteSettings = container.lookup("site-settings:main");
     if (SiteSettings.Enable_Karma_plugin) {
       initMixpanel();
