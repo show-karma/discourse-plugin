@@ -75,10 +75,14 @@ export function initMixpanel() {
   };
   // Enabling the debug mode flag is useful during implementation,
   // but it's recommended you remove it for production
-  window.mixpanel?.init(g());
+  window.mixpanel?.init(g(), {
+    debug: true,
+    api_host: "https://api.mixpanel.com",
+  });
   mp = window.mixpanel;
   return mp;
 }
+
 const mixpanel = mp || initMixpanel();
 /**
  * Reports a single event to mixpanel dashboard
@@ -89,13 +93,11 @@ function reportEvent(data, prefix = "discoursePlugin") {
   if (!mixpanel) throw new Error("Mixpanel is not available");
   console.log(mixpanel);
   return new Promise((resolve, reject) => {
-    console.debug("reporting event");
     mixpanel.track(`${prefix}:${data.event}`, data.properties, (err) => {
       if (err) {
-        console.debug("error happened", err);
+        console.error(err);
         reject(err);
       } else {
-        console.debug("reported event", data);
         resolve();
       }
     });
