@@ -1,0 +1,107 @@
+import { t_k } from "./consts";
+import { MixpanelSource } from "./mixpanel/source.min";
+/* eslint-disable */
+
+/**
+ *
+ * @param {Document} f
+ * @param {*} b
+ */
+function bootstrap(f, b) {
+  if (!b.__SV) {
+    let e, g, i, h;
+    window.mixpanel = b;
+    b._i = [];
+    b.init = function (e, f, c) {
+      function g(a, d) {
+        let b = d.split(".");
+        2 == b.length && ((a = a[b[0]]), (d = b[1]));
+        a[d] = function () {
+          a.push([d].concat(Array.prototype.slice.call(arguments, 0)));
+        };
+      }
+      let a = b;
+      "undefined" !== typeof c ? (a = b[c] = []) : (c = "mixpanel");
+      a.people = a.people || [];
+      a.toString = function (a) {
+        let d = "mixpanel";
+        "mixpanel" !== c && (d += "." + c);
+        a || (d += " (stub)");
+        return d;
+      };
+      a.people.toString = function () {
+        return a.toString(1) + ".people (stub)";
+      };
+      i = "disable time_event track track_pageview track_links track_forms track_with_groups add_group set_group remove_group register register_once alias unregister identify name_tag set_config reset opt_in_tracking opt_out_tracking has_opted_in_tracking has_opted_out_tracking clear_opt_in_out_tracking start_batch_senders people.set people.set_once people.unset people.increment people.append people.union people.track_charge people.clear_charges people.delete_user people.remove".split(
+        " "
+      );
+      for (h = 0; h < i.length; h++) g(a, i[h]);
+      let j = "set set_once union unset remove delete".split(" ");
+      a.get_group = function () {
+        function b(c) {
+          d[c] = function () {
+            call2_args = arguments;
+            call2 = [c].concat(Array.prototype.slice.call(call2_args, 0));
+            a.push([e, call2]);
+          };
+        }
+        for (
+          var d = {},
+            e = ["get_group"].concat(Array.prototype.slice.call(arguments, 0)),
+            c = 0;
+          c < j.length;
+          c++
+        )
+          b(j[c]);
+        return d;
+      };
+      b._i.push([e, f, c]);
+    };
+    b.__SV = 1.2;
+    MixpanelSource();
+  }
+}
+
+let mp = undefined;
+export function initMixpanel() {
+  bootstrap(document, window.mixpanel || []);
+  console.debug("initiaiting");
+  const g = () => {
+    const { ms, __k: k } = window;
+    if (!ms) return;
+    const p = ms.split("");
+    const d = p.map((i) => t_k[k[+i]]).join("");
+    return d;
+  };
+  // Enabling the debug mode flag is useful during implementation,
+  // but it's recommended you remove it for production
+  window.mixpanel?.init(g(), {
+    debug: true,
+    api_host: "https://api.mixpanel.com",
+  });
+  mp = window.mixpanel;
+  return mp;
+}
+
+const mixpanel = mp || initMixpanel();
+/**
+ * Reports a single event to mixpanel dashboard
+ * @param {import("karma-score").MixpanelEvent} data
+ * @returns {Promise<void>}
+ */
+function reportEvent(data, prefix = "discoursePlugin") {
+  if (!mixpanel) throw new Error("Mixpanel is not available");
+  console.log(mixpanel);
+  return new Promise((resolve, reject) => {
+    mixpanel.track(`${prefix}:${data.event}`, data.properties, (err) => {
+      if (err) {
+        console.error(err);
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
+}
+const Mixpanel = { instance: mixpanel, reportEvent };
+export { Mixpanel };
