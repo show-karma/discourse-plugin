@@ -37,4 +37,9 @@ declare module "karma-score" {
     snapshot: string;
     proposalType: string;
   }
+
+  declare interface MixpanelEvent {
+    event: string;
+    properties: Record<string, unknown>;
+  }
 }
