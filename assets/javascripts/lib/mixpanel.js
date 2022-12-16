@@ -1,5 +1,12 @@
 import { t_k } from "./consts";
+import { MixpanelSource } from "./mixpanel/source.min";
 /* eslint-disable */
+
+/**
+ *
+ * @param {Document} f
+ * @param {*} b
+ */
 function bootstrap(f, b) {
   if (!b.__SV) {
     let e, g, i, h;
@@ -51,19 +58,14 @@ function bootstrap(f, b) {
       b._i.push([e, f, c]);
     };
     b.__SV = 1.2;
-    e = f.createElement("script");
-    e.type = "text/javascript";
-    e.async = !0;
-    e.src = "https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";
-    g = f.getElementsByTagName("script")[0];
-    g.parentNode.insertBefore(e, g);
+    MixpanelSource();
   }
 }
 
 let mp = undefined;
 export function initMixpanel() {
   bootstrap(document, window.mixpanel || []);
-
+  console.debug("initiaiting");
   const g = () => {
     const { ms, __k: k } = window;
     if (!ms) return;
@@ -71,10 +73,10 @@ export function initMixpanel() {
     const d = p.map((i) => t_k[k[+i]]).join("");
     return d;
   };
-  mp = window.mixpanel;
   // Enabling the debug mode flag is useful during implementation,
   // but it's recommended you remove it for production
-  mp?.init(g());
+  window.mixpanel?.init(g());
+  mp = window.mixpanel;
   return mp;
 }
 const mixpanel = mp || initMixpanel();
@@ -83,9 +85,9 @@ const mixpanel = mp || initMixpanel();
  * @param {import("karma-score").MixpanelEvent} data
  * @returns {Promise<void>}
  */
-function reportEvent(data, prefix = "plugin") {
+function reportEvent(data, prefix = "discoursePlugin") {
   if (!mixpanel) throw new Error("Mixpanel is not available");
-
+  console.log(mixpanel);
   return new Promise((resolve, reject) => {
     console.debug("reporting event");
     mixpanel.track(`${prefix}:${data.event}`, data.properties, (err) => {
