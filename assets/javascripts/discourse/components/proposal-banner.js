@@ -43,7 +43,7 @@ export default Component.extend({
       daoIds,
       DAO_name,
     } = this.siteSettings;
-
+    console.debug('days agor', daysAgo)
     // Fix this workaround when voting history is refactored into components
     const graphqlIds = (window.daoIds =
       window.daoIds ??
