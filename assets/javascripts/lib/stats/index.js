@@ -2,6 +2,7 @@ import { set } from "@ember/object";
 import { shortenNumber } from "../shorten-number";
 import { htmlSafe } from "@ember/template";
 import { karmaApiUrl } from "../consts";
+import { Mixpanel } from "../mixpanel";
 /**
  * Karma stats fetcher
  */
@@ -167,6 +168,12 @@ const KarmaStats = {
       setTimeout(() => KarmaStats.start(++totalTries, ctx), 250);
     }
     this.profile.username = user;
+    Mixpanel.reportEvent({
+      event: 'stats',
+      properties: {
+        address: this.profile.address,
+      }
+    })
     return this.profile;
   },
 };
