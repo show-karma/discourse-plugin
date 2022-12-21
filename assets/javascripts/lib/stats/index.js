@@ -169,7 +169,7 @@ const KarmaStats = {
     }
     this.profile.username = user;
     Mixpanel.reportEvent({
-      event: 'stats',
+      event: 'profileStats',
       properties: {
         address: this.profile.address,
       }
