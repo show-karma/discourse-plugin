@@ -43,7 +43,7 @@ export default Component.extend({
       daoIds,
       DAO_name,
     } = this.siteSettings;
-    console.debug('days agor', daysAgo)
+    console.debug("days agor", daysAgo);
     // Fix this workaround when voting history is refactored into components
     const graphqlIds = (window.daoIds =
       window.daoIds ??
@@ -51,7 +51,10 @@ export default Component.extend({
       (await fetchDaoSnapshotAndOnChainIds(DAO_name)));
 
     let onChain = [];
-    if (graphqlIds.onChainId?.length) {
+    if (
+      this.siteSettings.Show_on_chain_proposals &&
+      graphqlIds.onChainId?.length
+    ) {
       onChain = await fetchActiveOnChainProposals(
         [graphqlIds.onChainId].flat(),
         daysAgo
@@ -59,7 +62,10 @@ export default Component.extend({
     }
 
     let offChain = [];
-    if (graphqlIds.snapshotIds?.length) {
+    if (
+      this.siteSettings.Show_off_chain_proposals &&
+      graphqlIds.snapshotIds?.length
+    ) {
       offChain = await fetchActiveOffChainProposals(
         [graphqlIds.snapshotIds].flat(),
         daysAgo

@@ -13,14 +13,16 @@
       </div>
 
       <div class="proposal-due-date t-light">
-        <button
-          type="button"
-          class="k-btn btn-info pt-2 pb-2"
-          onclick={{redirect}}
-        >
-          View proposal
-          {{d-icon "link"}}
-        </button>
+        {{#if showRedirectButton}}
+          <button
+            type="button"
+            class="k-btn btn-info pt-2 pb-2"
+            onclick={{redirect}}
+          >
+            View proposal
+            {{d-icon "link"}}
+          </button>
+        {{/if}}
         <div class="date">
           {{text}}
         </div>

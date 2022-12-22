@@ -22,6 +22,15 @@ export default Component.extend({
     return this.getText(this.proposal);
   }),
 
+  showRedirectButton: computed(function () {
+    return (
+      (this.proposal.type === "Off-chain" &&
+        this.siteSettings.See_on_Snapshot_button) ||
+      (this.proposal.type === "On-chain" &&
+        this.siteSettings.See_on_Tally_button)
+    );
+  }),
+
   /**
    * @param {import("karma-score").OffChainProposal} proposal
    */
