@@ -125,10 +125,8 @@ const KarmaStats = {
 
   async start(totalTries = 0, ctx, wrapperId = ".__karma-stats") {
     const { SiteSettings } = ctx;
-    const {
-      User_not_found_message: errMessage,
-      DAO_name: daoName,
-    } = SiteSettings;
+    const { User_not_found_message: errMessage, DAO_name: daoName } =
+      SiteSettings;
 
     const user = this.getUsername(wrapperId);
 
@@ -169,11 +167,11 @@ const KarmaStats = {
     }
     this.profile.username = user;
     Mixpanel.reportEvent({
-      event: 'profileStats',
+      event: "profileStats",
       properties: {
         address: this.profile.address,
-      }
-    })
+      },
+    });
     return this.profile;
   },
 };
