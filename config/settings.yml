@@ -40,6 +40,18 @@ Proposal_Banner:
   Banner_title:
     default: "Active Proposals"
     client: true
+  Show_on_chain_proposals:
+    default: true
+    client: true
+  Show_off_chain_proposals:
+    default: true
+    client: true
+  See_on_Tally_button:
+    default: true
+    client: true
+  See_on_Snapshot_button:
+    default: true
+    client: true
   Banner_description:
     default: "See the latest active proposals"
     client: true

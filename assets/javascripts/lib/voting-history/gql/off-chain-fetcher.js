@@ -62,8 +62,11 @@ const paginateVote = async (proposals = []) => {
       page
     );
     const { votes } = await gql.query(subgraphUrl, voteBreakdownQuery);
-    acc.push(...votes);
-    if (votes.length === 1000) {
+    if (Array.isArray(votes)) {
+      acc.push(...votes);
+    }
+
+    if (votes?.length === 1000) {
       await loop(acc, page + 1);
     }
     return acc;
