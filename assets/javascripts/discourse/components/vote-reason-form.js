@@ -1,5 +1,5 @@
 import Component from "@ember/component";
-import { action, set } from "@ember/object";
+import { action, computed, set } from "@ember/object";
 import { throttle } from "@ember/runloop";
 import postToTopic from "../../lib/post-to-topic";
 import deletePost from "../../lib/delete-post";
@@ -291,6 +291,11 @@ ${this.form.recommendation}`;
     }
     this.fetchThreads();
   },
+
+  hasPostId: computed(function () {
+    return this.form.postId && +this.form.postId !== 0;
+  }),
+
   @action
   isOutside(e) {
     if (!$(e.target).closest(".modal-content").length) {

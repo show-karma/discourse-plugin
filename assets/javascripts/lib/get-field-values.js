@@ -22,7 +22,9 @@ export function valuesToFields(fields, values) {
   isTypeof(fields, "array");
   isTypeof(values, "array");
   values.map((v) => {
-    const labelIdx = fields.findIndex((f) => f.label === v.label);
+    const labelIdx = fields.findIndex(
+      (f) => f.label.toLowerCase() === v.label.toLowerCase()
+    );
     if (labelIdx >= 0) {
       fields[labelIdx].value = v.value;
     }
