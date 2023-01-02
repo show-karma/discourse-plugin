@@ -72,7 +72,11 @@ export default Component.extend({
     }
 
     const proposals = onChain
-      .concat(offChain)
+      .concat(
+        offChain.filter((proposal) =>
+          moment(proposal.voteStarts).isBefore(moment())
+        )
+      )
       .sort((a, b) => (moment(a.endsAt).isBefore(moment(b.endsAt)) ? 1 : -1));
     set(this, "proposals", proposals);
     set(this, "fetched", true);
