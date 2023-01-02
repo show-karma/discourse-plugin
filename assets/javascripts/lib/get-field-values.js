@@ -29,7 +29,6 @@ export function valuesToFields(fields, values) {
       fields[labelIdx].value = v.value;
     }
   });
-
   return fields;
 }
 
