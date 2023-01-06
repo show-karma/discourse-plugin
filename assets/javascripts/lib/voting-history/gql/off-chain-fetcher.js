@@ -21,9 +21,10 @@ function parseVotes(votes = []) {
       proposalId: proposal.id,
       voteMethod: "Off-chain",
       proposal: parseMdLink(proposal?.title),
-      choice: Array.isArray(vote.choice)
-        ? "Multiple"
-        : proposal.choices[vote.choice - 1],
+      choice:
+        Array.isArray(vote.choice) || Object.keys(vote.choice || {}).length
+          ? "Multiple"
+          : proposal.choices[vote.choice - 1]?.toUpperCase(),
       executed: moment.unix(proposal.end).format("MMMM D, YYYY"),
     });
   });
