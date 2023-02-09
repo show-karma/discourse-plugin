@@ -48,11 +48,11 @@
     border: 1px solid $color-black-alpha-2;
     box-shadow: 0 0 1em $color-black-alpha-1;
     max-width: 500px;
-    @media screen and(min-width: $breakpoint-sm) {
+    @media screen and (min-width: $breakpoint-sm) {
       width: 100%;
     }
 
-    @media screen and(max-width: $breakpoint-sm) {
+    @media screen and (max-width: $breakpoint-sm) {
       min-width: 340px;
     }
 
