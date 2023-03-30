@@ -11,18 +11,29 @@ function yesterdayUTC(daysAgo = 0) {
 }
 
 export const proposal = {
+  /* where: { organization_in: ${inStatement(daoNames)}, status: "Active" } }*/
   onChain: {
     proposal: (daoNames = [], amount = 100, daysAgo = 0) => `query Proposals {
       proposals(
         first: ${amount},
-        where: { organization_in: ${inStatement(
-          daoNames
-        )}, status: "Active" } }
+        where: {
+          and: [
+            {
+              or: [
+                {timestamp_gt: ${yesterdayUTC(daysAgo)}},
+                {status: "Active", endDate: null}
+              ]
+            },
+            {id_not_in: ["ens.eth-0x3d92e95f813c9e79938934d81310dd40f0f444356b21c1bb23f26394236c36c7"]},
+            {organization_in: ${inStatement(daoNames)}}
+          ]
+        }
+
       ) {
         id
         status
         title: description
-        endsAt: timestamp
+        endsAt: endDate
         votes {
           choice: support,
           weight
