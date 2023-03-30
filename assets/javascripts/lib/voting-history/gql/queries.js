@@ -17,9 +17,10 @@ export const proposal = {
         first: ${amount},
         where: { organization_in: ${inStatement(
           daoNames
-        )}, timestamp_gt: ${yesterdayUTC(daysAgo)} }
+        )}, status: "Active" } }
       ) {
         id
+        status
         title: description
         endsAt: timestamp
         votes {
@@ -34,11 +35,10 @@ export const proposal = {
     proposal: (daoNames = [], amount = 100, daysAgo = 0) => `query Proposals {
       proposals(
         first: ${amount},
-        where: { space_in: ${inStatement(daoNames)}, end_gt: ${yesterdayUTC(
-      daysAgo
-    )} }) {
+        where: { space_in: ${inStatement(daoNames)}, state:"Active" }) {
         id
         title
+        state
         endsAt: end
         votes
         space {id}
