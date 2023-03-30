@@ -38,8 +38,10 @@ export default Component.extend({
     return proposal.type === "Off-chain" &&
       moment(proposal.voteStarts).isAfter(moment())
       ? `Voting begins ${proposal.voteStarts}`
-      : (moment(proposal.endsAt).isBefore(moment()) ? "Ended " : "Ends: ") +
-          proposal.endsAt;
+      : proposal.endsAt !== null
+      ? (moment(proposal.endsAt).isBefore(moment()) ? "Ended " : "Ends: ") +
+        proposal.endsAt
+      : "";
   },
 
   @action
