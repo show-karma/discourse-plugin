@@ -1,6 +1,6 @@
 import Component from "@ember/component";
 import { inject as service } from "@ember/service";
-import { action, set } from "@ember/object";
+import { action, computed, set } from "@ember/object";
 import KarmaStats from "../../lib/stats/index";
 
 export default Component.extend({
@@ -13,6 +13,10 @@ export default Component.extend({
   hasSetApiKey: false,
 
   shouldShowActionButtons: false,
+
+  karmaDelegatorsUrl: computed(function () {
+    return `https://karmahq.xyz/dao/${this.siteSettings.DAO_name}/delegators/${this.profile.username}`;
+  }),
 
   setProfile(profile) {
     set(this, "profile", profile);
