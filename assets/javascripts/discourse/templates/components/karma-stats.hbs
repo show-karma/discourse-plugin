@@ -60,9 +60,15 @@
           {{#if siteSettings.Show_delegated_votes}}
             <li>
               <span class="value">
-                <span id="__delegated-votes" class="number">
-                  0
-                </span>
+                <a
+                  href={{karmaDelegatorsUrl}}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span id="__delegated-votes" class="number">
+                    0
+                  </span>
+                </a>
               </span>
 
               <span class="label">

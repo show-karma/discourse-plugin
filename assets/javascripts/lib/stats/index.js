@@ -41,8 +41,11 @@ const KarmaStats = {
 
       if (delegates) {
         const { stats } = delegates;
+        userStats.delegatedVotes = `
+        <a href="https://karmahq.xyz/dao/${daoName}/delegators/${
+          data.ensName || data.address
+        }" target="_blank">${shortenNumber(delegates.delegatedVotes || 0)}</a>`;
 
-        userStats.delegatedVotes = shortenNumber(delegates.delegatedVotes || 0);
         userStats.snapshotVotingStats =
           (stats?.[0]?.offChainVotesPct || 0) + "%";
         userStats.onChainVotingStats = (stats?.[0]?.onChainVotesPct || 0) + "%";
