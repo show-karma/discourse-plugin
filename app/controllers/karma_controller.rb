@@ -7,14 +7,14 @@ class KarmaScore::KarmaController < ::ApplicationController
 
   before_action :ensure_logged_in
 
-  # api_url = "https://api.showkarma.xyz/api/discourse"
+  # api_url = "https://api.karmahq.xyz/api/discourse"
   attr_accessor :api_url, :api_token, :delegate_thread_id, :dao_name, :headers
 
   def initialize()
     @dao_name = SiteSetting.DAO_name
     @api_token = SiteSetting.Karma_API_Key
     @delegate_thread_id = SiteSetting.Delegate_pitch_thread_id
-    @api_url = "https://api.showkarma.xyz/api/forum-user"
+    @api_url = "https://api.karmahq.xyz/api/forum-user"
     # @api_url = "http://192.168.123.101:3001/api/forum-user"
     @headers = { "Content-Type" => "application/json", "authorization" => api_token }
   end
