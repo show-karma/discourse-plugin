@@ -5,15 +5,15 @@ function yesterdayUTC(daysAgo = 0) {
   return daysAgo === 0
     ? moment().unix()
     : moment
-        .unix(Math.floor(new Date().setUTCHours(0, 0, 0, 0) / 1000))
-        .subtract(daysAgo >= 0 ? daysAgo : 0, "days")
-        .unix();
+      .unix(Math.floor(new Date().setUTCHours(0, 0, 0, 0) / 1000))
+      .subtract(daysAgo >= 0 ? daysAgo : 0, "days")
+      .unix();
 }
 
 export const proposal = {
   /* where: { organization_in: ${inStatement(daoNames)}, status: "Active" } }*/
   onChain: {
-    proposal: (daoNames = [], amount = 100, daysAgo = 0) => `query Proposals {
+    proposal: (daoNames = [], amount = 100, daysAgo = 0, voteAmount = 1000) => `query Proposals {
       proposals(
         first: ${amount},
         where: {
@@ -34,9 +34,14 @@ export const proposal = {
         status
         title: description
         endsAt: endDate
-        votes {
+        votes(
+          first:${voteAmount},
+          orderBy:timestamp,
+          orderDirection:desc
+        ) {
           choice: support,
-          weight
+          weight,
+          timestamp
         }
         organization {id}
       }
@@ -100,7 +105,7 @@ export const history = {
           first: ${amount},
           where: {
             space_in: ${inStatement(daoNames)},
-            voter: "${address}" 
+            voter: "${address}"
           }
         ) {
           choice
@@ -117,12 +122,25 @@ export const history = {
     `,
   },
   onChain: {
-    votes: (address = "", daoNames = [], amount = 3) => `query Votes {
+    proposalVotes: (proposalId, amount = 3, timestampLt = (Date.now() / 1000).toFixed(0)) => `query ProposalVotes {
       votes(
         first: ${amount}
 				orderBy: timestamp
 				orderDirection: desc
-				where: { user: "${address}", organization_in: ${inStatement(daoNames)} }
+				where: {proposal: "${proposalId}", timestamp_lt: ${timestampLt} }
+			) {
+				id
+				solution
+				timestamp
+				support
+			}
+    }`,
+    votes: (address = "", daoNames = [], amount = 3, timestampLt = (Date.now() / 1000).toFixed(0)) => `query Votes {
+      votes(
+        first: ${amount}
+				orderBy: timestamp
+				orderDirection: desc
+				where: { user: "${address}", organization_in: ${inStatement(daoNames)}, timestamp_lt: ${timestampLt} }
 			) {
 				id
 				proposal {

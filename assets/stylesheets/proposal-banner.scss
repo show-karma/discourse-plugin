@@ -6,7 +6,7 @@
   .vote-breakdown {
     width: 100%;
     min-height: 100px;
-    @media screen and(min-width: $breakpoint-sm) {
+    @media screen and (min-width: $breakpoint-sm) {
       max-width: 50%;
     }
     border-radius: $border-radius-sm;
@@ -171,12 +171,12 @@
             font-size: 22px;
           }
           &-due-date {
-            @media screen and(max-width: $breakpoint-sm) {
+            @media screen and (max-width: $breakpoint-sm) {
               .date {
                 font-size: 13px !important;
               }
             }
-            @media screen and(max-width: $breakpoint-xs) {
+            @media screen and (max-width: $breakpoint-xs) {
               .date {
                 font-size: 12px !important;
               }
@@ -198,7 +198,7 @@
           }
           &-actions {
             min-width: 355px;
-            @media screen and(min-width: $breakpoint-md) {
+            @media screen and (min-width: $breakpoint-md) {
               max-width: 50%;
             }
             display: flex;
@@ -210,7 +210,7 @@
             gap: 20px;
             display: flex;
             justify-content: space-between;
-            @media screen and(max-width: $breakpoint-md) {
+            @media screen and (max-width: $breakpoint-md) {
               flex-wrap: wrap-reverse;
             }
           }
