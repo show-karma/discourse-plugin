@@ -110,7 +110,7 @@ export async function fetchActiveOnChainProposals(daoNames, daysAgo) {
             }
           }
         });
-      await Promise.all(promises)
+      await Promise.all(promises);
 
       return parseProposals(proposals);
     }
