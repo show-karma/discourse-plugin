@@ -1,5 +1,5 @@
 import gql from "./fetcher";
-import { history, proposal as proposalQuery } from "./queries";
+import { history, proposal, proposal as proposalQuery } from "./queries";
 import { parseMdLink } from "../../parse-md-link";
 import { dateDiff } from "../../date-diff";
 import { getVoteBreakdown } from "../../vote-breakdown";
@@ -87,16 +87,35 @@ const parseProposals = (proposals = []) =>
 
 export async function fetchActiveOnChainProposals(daoNames, daysAgo) {
   try {
+    const perPage = 1000;
     const proposalsQuery = proposalQuery.onChain.proposal(
       daoNames,
       undefined,
-      daysAgo
+      daysAgo,
+      perPage
     );
     const { proposals } = await gql.query(subgraphUrl, proposalsQuery);
     if (proposals && Array.isArray(proposals)) {
+
+      const promises = proposals.filter(proposal => proposal.votes && proposal.votes.length >= perPage)
+        .map(async (proposal) => {
+          while (true) {
+            console.log(proposal.votes.at(-1).timestamp);
+            const votesQuery = history.onChain.proposalVotes(proposal.id, perPage, proposal.votes.at(-1).timestamp);
+            const { votes } = await gql.query(subgraphUrl, votesQuery);
+            proposal.votes.push(...votes);
+
+            if (votes.length < perPage) break;
+          }
+        })
+      await Promise.all(promises)
+
       return parseProposals(proposals);
     }
-    return [];
+
+
+    console.log({ proposalList })
+    return proposalList;
   } catch (error) {
     throw error;
     //
