@@ -42,9 +42,8 @@ const KarmaStats = {
       if (delegates) {
         const { stats } = delegates;
         userStats.delegatedVotes = `
-        <a href="https://karmahq.xyz/dao/${daoName}/delegators/${
-          data.ensName || data.address
-        }" target="_blank">${shortenNumber(delegates.delegatedVotes || 0)}</a>`;
+        <a href="https://karmahq.xyz/dao/${daoName}/delegators/${data.ensName || data.address
+          }" target="_blank">${shortenNumber(delegates.delegatedVotes || 0)}</a>`;
 
         userStats.snapshotVotingStats =
           (stats?.[0]?.offChainVotesPct || 0) + "%";
@@ -91,12 +90,14 @@ const KarmaStats = {
 
   getUsername(wrapperId) {
     const el = $(`${wrapperId} #__dao-username`);
+    console.log("el", el);
     let username = el?.val()?.trim();
     // TODO: find another way to get the user in the page
     if (!username) {
       const url = location.pathname.split("/");
       username = url[2];
     }
+    console.log("username", username);
     return username;
   },
 
@@ -126,12 +127,14 @@ const KarmaStats = {
     );
   },
 
-  async start(totalTries = 0, ctx, wrapperId = ".__karma-stats") {
+  async start(totalTries = 0, ctx, wrapperId = ".__karma-stats", username = null) {
     const { SiteSettings } = ctx;
-    const { User_not_found_message: errMessage, DAO_name: daoName } =
+    const daoName = this.daoName = window.selectedDao;
+
+    const { User_not_found_message: errMessage } =
       SiteSettings;
 
-    const user = this.getUsername(wrapperId);
+    const user = username || this.getUsername(wrapperId);
 
     if (user && daoName) {
       if (errMessage && errMessage?.includes?.("[[KarmaDaoUrl]]")) {
@@ -165,16 +168,16 @@ const KarmaStats = {
       } else if (!(stats && user)) {
         this.toggleErrorMessage(false, wrapperId);
       }
+      Mixpanel.reportEvent({
+        event: "profileStats",
+        properties: {
+          address: this.profile.address,
+        },
+      });
     } else if (totalTries < 30) {
       setTimeout(() => KarmaStats.start(++totalTries, ctx), 250);
     }
     this.profile.username = user;
-    Mixpanel.reportEvent({
-      event: "profileStats",
-      properties: {
-        address: this.profile.address,
-      },
-    });
     return this.profile;
   },
 };

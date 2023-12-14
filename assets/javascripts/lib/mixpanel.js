@@ -65,7 +65,6 @@ function bootstrap(f, b) {
 let mp = undefined;
 export function initMixpanel() {
   bootstrap(document, window.mixpanel || []);
-  console.debug("initiaiting");
   const g = () => {
     const { ms, __k: k } = window;
     if (!ms) return;

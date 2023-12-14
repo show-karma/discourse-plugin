@@ -17,6 +17,8 @@ export default Component.extend({
 
   count: 0,
 
+  daoName: "",
+
   shouldShowActionButtons: computed(function () {
     return (
       this.session &&
@@ -37,8 +39,9 @@ export default Component.extend({
 
   async init() {
     this._super(...arguments);
+    this.daoName = window.selectedDao;
     if (this.session) {
-      const cli = new KarmaApiClient(this.siteSettings.DAO_name, "");
+      const cli = new KarmaApiClient(this.daoName, "");
       try {
         const { allowance } = await cli.isApiAllowed(this.session.csrfToken);
         set(this, "hasSetApiKey", !!allowance);

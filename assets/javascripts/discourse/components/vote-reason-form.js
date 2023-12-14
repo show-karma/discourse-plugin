@@ -44,6 +44,8 @@ export default Component.extend({
 
   proposalId: -1,
 
+  daoName: "",
+
   onClose: function () {
     set(this, "visible", false);
   },
@@ -57,6 +59,11 @@ export default Component.extend({
   // proposalTitle: computed(function() {
   //   return this.proposal[this.form.proposalId]?.id
   // })
+
+  init() {
+    this._super(...arguments);
+    this.daoName = window.selectedDao;
+  },
 
   resetForm() {
     set(this, "form", {
@@ -88,7 +95,7 @@ export default Component.extend({
     const { reason: hasReason } = this.proposals[this.proposalId];
     const hasSetReason = !!hasReason;
     const karma = new KarmaApiClient(
-      this.siteSettings.DAO_name,
+      this.siteSettings.DAO_names,
       this.form.publicAddress
     );
     const reason = `${this.proposalLink()}
@@ -202,12 +209,12 @@ ${this.form.recommendation}`;
   },
 
   async fetchProposals() {
-    const { daoIds, DAO_name } = this.siteSettings;
+    const { daoIds } = this.siteSettings;
 
     const graphqlIds = (window.daoIds =
       window.daoIds ??
       daoIds ??
-      (await fetchDaoSnapshotAndOnChainIds(DAO_name)));
+      (await fetchDaoSnapshotAndOnChainIds(this.daoName)));
 
     let onChain = [];
     if (graphqlIds.onChainId?.length) {
@@ -234,7 +241,7 @@ ${this.form.recommendation}`;
 
   async fetchVoteReasons(proposals = []) {
     const karma = new KarmaApiClient(
-      this.siteSettings.DAO_name,
+      this.daoName,
       this.profile.address
     );
     try {

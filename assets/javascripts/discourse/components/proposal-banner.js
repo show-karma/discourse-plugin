@@ -22,6 +22,8 @@ export default Component.extend({
 
   tokenContract: "",
 
+  daoName: "",
+
   logo: computed(function () {
     return this.siteSettings.Custom_banner_icon_url || this.siteSettings.logo;
   }),
@@ -33,7 +35,7 @@ export default Component.extend({
   },
 
   async getGovContractAddr() {
-    const tokenAddress = await getGovAddrFromYml(this.siteSettings.DAO_name);
+    const tokenAddress = await getGovAddrFromYml(this.daoName);
     set(this, "tokenContract", tokenAddress);
   },
 
@@ -41,13 +43,12 @@ export default Component.extend({
     const {
       Banner_past_proposal_days: daysAgo,
       daoIds,
-      DAO_name,
     } = this.siteSettings;
     // Fix this workaround when voting history is refactored into components
     const graphqlIds = (window.daoIds =
       window.daoIds ??
       daoIds ??
-      (await fetchDaoSnapshotAndOnChainIds(DAO_name)));
+      (await fetchDaoSnapshotAndOnChainIds(this.daoName)));
 
     let onChain = [];
     if (

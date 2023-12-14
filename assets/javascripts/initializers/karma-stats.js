@@ -4,6 +4,14 @@ import VotingHistory from "../lib/voting-history/index";
 
 // TODO: !!Refactor this to ember components
 function bootstrap(_, ctx) {
+  const { DAO_names } = ctx.SiteSettings;
+  if (!DAO_names || !DAO_names.length) { return; }
+
+  window.selectedDao = DAO_names.split(',')?.[0]?.toLowerCase();
+
+  console.info("DAO_names", DAO_names);
+  console.info("selected", window.selectedDao);
+
   function release(wrapperId = "#__karma-stats") {
     let showing = false;
     const karmaStats = () => {

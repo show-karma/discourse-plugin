@@ -16,6 +16,8 @@ const VotingHistory = {
   },
 
   async start(profile, ctx, wrapperId = ".__karma-stats") {
+    console.log("VotingHistory.start");
+    console.log(profile, window.selectedDao);
     if (!ctx || !ctx.SiteSettings || !profile) {
       return;
     }
@@ -27,7 +29,8 @@ const VotingHistory = {
       );
     }
 
-    const { DAO_name: daoName, daoIds } = ctx.SiteSettings;
+    const { daoIds } = ctx.SiteSettings;
+    const daoName = window.selectedDao;
     const amount = this.shouldShowVotingHistory(ctx);
 
     // TODO fix this workaround by refactoring this code into components

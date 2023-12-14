@@ -7,6 +7,7 @@ export default Component.extend({
   profile: {},
   isOpen: false,
   noneLabel: "delegate_actions.dropdown_none_label",
+  daoName: "",
 
   delegateVisible: false,
 
@@ -23,17 +24,19 @@ export default Component.extend({
 
   async fetchProfile() {
     try {
-      const cli = new KarmaApiClient(this.siteSettings.DAO_name);
+      const cli = new KarmaApiClient(this.daoName);
       const profile = await cli.fetchUser(this.currentUser?.username);
       set(this, "profile", profile);
-    } catch (error) {}
+    } catch (error) { }
   },
 
   async init() {
     this._super(...arguments);
     this.fetchProfile();
     this._super(...arguments);
-    const cli = new KarmaApiClient(this.siteSettings.DAO_name, "");
+    this.daoName = window.selectedDao;
+
+    const cli = new KarmaApiClient(this.daoName, "");
     if (this.session) {
       try {
         await cli.checkHealth();
