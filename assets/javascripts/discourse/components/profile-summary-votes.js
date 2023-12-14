@@ -1,6 +1,6 @@
 import Component from "@ember/component";
 import { inject as service } from "@ember/service";
-import { computed, set } from "@ember/object";
+import { computed, set, observer } from "@ember/object";
 import VotingHistory from "../../lib/voting-history/index";
 import KarmaApiClient from "../../lib/karma-api-client";
 
@@ -18,6 +18,8 @@ export default Component.extend({
   count: 0,
 
   daoName: "",
+
+  oldDaoName: "",
 
   shouldShowActionButtons: computed(function () {
     return (
@@ -39,13 +41,13 @@ export default Component.extend({
 
   async init() {
     this._super(...arguments);
-    this.daoName = window.selectedDao;
+    this.daoName = this.oldDaoName = window.selectedDao;
     if (this.session) {
       const cli = new KarmaApiClient(this.daoName, "");
       try {
         const { allowance } = await cli.isApiAllowed(this.session.csrfToken);
         set(this, "hasSetApiKey", !!allowance);
-      } catch {}
+      } catch { }
     }
   },
 
@@ -56,4 +58,11 @@ export default Component.extend({
       this.fetchVotes();
     }
   },
+
+  didUpdate() {
+    if (this.profile.address && this.oldDaoName.toLowerCase() !== this.daoName.toLowerCase()) {
+      set(this, 'oldDaoName', this.daoName)
+      this.fetchVotes();
+    }
+  }
 });

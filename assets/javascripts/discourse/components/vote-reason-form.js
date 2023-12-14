@@ -143,8 +143,7 @@ ${this.form.recommendation}`;
         });
       }
       throw new Error(
-        `We couldn't send your vote to Karma. ${
-          error.message ? "Rason: " + error.message : ""
+        `We couldn't send your vote to Karma. ${error.message ? "Rason: " + error.message : ""
         }`
       );
     }
@@ -205,12 +204,11 @@ ${this.form.recommendation}`;
         }))
       );
       // this.setDefaultThreadId();
-    } catch {}
+    } catch { }
   },
 
   async fetchProposals() {
     const { daoIds } = this.siteSettings;
-
     const graphqlIds = (window.daoIds =
       window.daoIds ??
       daoIds ??
@@ -259,7 +257,7 @@ ${this.form.recommendation}`;
         });
         set(this, "reasons", reasons);
       }
-    } catch {}
+    } catch { }
     set(this, "proposals", proposals);
   },
 
@@ -305,54 +303,54 @@ ${this.form.recommendation}`;
 
   @action
   isOutside(e) {
-    if (!$(e.target).closest(".modal-content").length) {
-      this.onClose();
-    }
+  if(!$(e.target).closest(".modal-content").length) {
+  this.onClose();
+}
   },
-  @action
-  submit(e) {
-    e.preventDefault();
-    return throttle(this, this.send, 200);
-  },
+@action
+submit(e) {
+  e.preventDefault();
+  return throttle(this, this.send, 200);
+},
 
-  setFormData(key, data) {
-    set(this, "form", { ...this.form, [key]: data });
-  },
+setFormData(key, data) {
+  set(this, "form", { ...this.form, [key]: data });
+},
 
-  @action
-  setReason(e) {
-    this.setFormData("recommendation", e.target.value);
-  },
+@action
+setReason(e) {
+  this.setFormData("recommendation", e.target.value);
+},
 
-  @action
-  setSummary(e) {
-    this.setFormData("summary", e.target.value);
-  },
+@action
+setSummary(e) {
+  this.setFormData("summary", e.target.value);
+},
 
-  @action
-  setProposal(e) {
-    const proposalId = +e.target.value;
-    const { reason } = this.proposals[proposalId];
+@action
+setProposal(e) {
+  const proposalId = +e.target.value;
+  const { reason } = this.proposals[proposalId];
 
-    if (reason) {
-      set(this, "form", {
-        ...this.form,
-        ...reason,
-      });
-    } else {
-      set(this, "form", {
-        ...this.form,
-        postId: null,
-      });
-    }
-    set(this, "proposalId", proposalId);
-  },
+  if (reason) {
+    set(this, "form", {
+      ...this.form,
+      ...reason,
+    });
+  } else {
+    set(this, "form", {
+      ...this.form,
+      postId: null,
+    });
+  }
+  set(this, "proposalId", proposalId);
+},
 
-  @action
-  setThreadId(e) {
-    const idx = +e.target.value;
-    if (idx !== "null") {
-      set(this, "threadId", idx === -2 ? idx : this.threads[idx].id);
-    }
-  },
+@action
+setThreadId(e) {
+  const idx = +e.target.value;
+  if (idx !== "null") {
+    set(this, "threadId", idx === -2 ? idx : this.threads[idx].id);
+  }
+},
 });

@@ -28,6 +28,11 @@ export default Component.extend({
     return this.siteSettings.Custom_banner_icon_url || this.siteSettings.logo;
   }),
 
+  init() {
+    this._super(...arguments);
+    this.daoName = window.selectedDao;
+  },
+
   @action
   toggleBanner() {
     set(this, "openClass", this.openClass === "opened" ? "" : "opened");
