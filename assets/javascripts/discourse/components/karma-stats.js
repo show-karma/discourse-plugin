@@ -44,7 +44,6 @@ export default Component.extend({
     if (!this.availableDaos.find(d => d.name === daoName)) { return };
     set(this, 'daoName', daoName);
     window.selectedDao = daoName?.toLowerCase();
-    console.log(this.daoName)
     this.fetchProfile();
   },
 
@@ -57,7 +56,6 @@ export default Component.extend({
       this.username
     );
     this.setProfile(profile);
-
     set(
       this,
       "shouldShowActionButtons",

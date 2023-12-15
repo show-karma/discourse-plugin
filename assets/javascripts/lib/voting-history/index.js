@@ -3,7 +3,7 @@ import { fetchOffChainProposalVotes } from "./gql/off-chain-fetcher";
 import { fetchOnChainProposalVotes } from "./gql/on-chain-fetcher";
 import template from "./template";
 
-const karma = "https://showkarma.xyz/profile";
+const karma = "https://karmahq.xyz/profile";
 
 const VotingHistory = {
   shouldShowVotingHistory(ctx) {
