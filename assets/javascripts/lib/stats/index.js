@@ -42,7 +42,7 @@ const KarmaStats = {
       if (delegates) {
         const { stats } = delegates;
         userStats.delegatedVotes = `
-        <a href="https://karmahq.xyz/dao/${daoName}/delegators/${data.ensName || data.address
+        <a href="https://karmahq.xyz/dao/${daoName.toLowerCase()}/delegators/${data.ensName || data.address
           }" target="_blank">${shortenNumber(delegates.delegatedVotes || 0)}</a>`;
 
         userStats.snapshotVotingStats =
@@ -117,7 +117,7 @@ const KarmaStats = {
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://www.karmahq.xyz/dao/link/forum?dao=${daoName}"
+          href="https://www.karmahq.xyz/dao/link/forum?dao=${daoName?.toLowerCase()}"
         >
             Link Wallet
         </a>`

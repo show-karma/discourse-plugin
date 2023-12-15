@@ -19,7 +19,7 @@ export default Component.extend({
   availableDaos: [],
 
   karmaDelegatorsUrl: computed(function () {
-    return `https://karmahq.xyz/dao/${this.daoName}/delegators/${this.profile.username}`;
+    return `https://karmahq.xyz/dao/${this.daoName?.toLowerCase()}/delegators/${this.profile.username}`;
   }),
 
   setProfile(profile) {
@@ -40,8 +40,8 @@ export default Component.extend({
 
   @action
   selectDao(daoName) {
-    if (!daoName) { return };
-    if (!this.availableDaos.find(d => d.name === daoName)) { return };
+    if(!daoName) { return };
+    if(!this.availableDaos.find(d => d.name === daoName)) { return };
     set(this, 'daoName', daoName);
     window.selectedDao = daoName;
     this.fetchProfile();
