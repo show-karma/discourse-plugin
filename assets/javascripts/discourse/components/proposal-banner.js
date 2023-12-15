@@ -24,6 +24,8 @@ export default Component.extend({
 
   daoName: "",
 
+  availableDaos: [],
+
   logo: computed(function () {
     return this.siteSettings.Custom_banner_icon_url || this.siteSettings.logo;
   }),
@@ -31,6 +33,18 @@ export default Component.extend({
   init() {
     this._super(...arguments);
     this.daoName = window.selectedDao;
+    set(this, 'availableDaos', this.siteSettings.DAO_names?.split(",").map(
+      name => ({ name, select: () => this.selectDao(name) })));
+  },
+
+  @action
+  selectDao(daoName) {
+    if (!daoName) { return };
+    if (!this.availableDaos.find(d => d.name === daoName)) { return };
+    set(this, 'daoName', daoName);
+    window.selectedDao = daoName;
+    set(this, 'fetched', false);
+    this.fetchDataProposals();
   },
 
   @action
@@ -50,10 +64,8 @@ export default Component.extend({
       daoIds,
     } = this.siteSettings;
     // Fix this workaround when voting history is refactored into components
-    const graphqlIds = (window.daoIds =
-      window.daoIds ??
-      daoIds ??
-      (await fetchDaoSnapshotAndOnChainIds(this.daoName)));
+    const graphqlIds =
+      (await fetchDaoSnapshotAndOnChainIds(this.daoName));
 
     let onChain = [];
     if (

@@ -90,7 +90,6 @@ const mixpanel = mp || initMixpanel();
  */
 function reportEvent(data, prefix = "discoursePlugin") {
   if (!mixpanel) throw new Error("Mixpanel is not available");
-  console.log(mixpanel);
   return new Promise((resolve, reject) => {
     mixpanel.track(`${prefix}:${data.event}`, data.properties, (err) => {
       if (err) {

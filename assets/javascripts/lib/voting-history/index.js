@@ -27,17 +27,12 @@ const VotingHistory = {
       );
     }
 
-    const { daoIds } = ctx.SiteSettings;
-    console.log('before', daoIds, daoName)
-
     const daoName = window.selectedDao;
     const amount = this.shouldShowVotingHistory(ctx);
-    console.log(daoIds, daoName, amount);
 
     // TODO fix this workaround by refactoring this code into components
     this.daoIds = (await fetchDaoSnapshotAndOnChainIds(daoName));
 
-    console.log('after', daoIds, daoName)
 
     let onChain = [];
     if (this.daoIds.onChain?.length) {

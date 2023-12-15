@@ -43,7 +43,7 @@ export default Component.extend({
     if (!daoName) { return };
     if (!this.availableDaos.find(d => d.name === daoName)) { return };
     set(this, 'daoName', daoName);
-    window.selectedDao = daoName?.toLowerCase();
+    window.selectedDao = daoName;
     this.fetchProfile();
   },
 
@@ -65,6 +65,4 @@ export default Component.extend({
       profile?.username === this.currentUser?.username
     );
   },
-
-
 });

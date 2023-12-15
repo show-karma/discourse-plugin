@@ -7,10 +7,7 @@ function bootstrap(_, ctx) {
   const { DAO_names } = ctx.SiteSettings;
   if (!DAO_names || !DAO_names.length) { return; }
 
-  window.selectedDao = DAO_names.split(',')?.[0]?.toLowerCase();
-
-  console.info("DAO_names", DAO_names);
-  console.info("selected", window.selectedDao);
+  window.selectedDao = DAO_names.split(',')?.[0];
 
   function release(wrapperId = "#__karma-stats") {
     let showing = false;
@@ -42,7 +39,7 @@ export default {
 
   async initialize(container) {
     // eslint-disable-next-line no-console
-    console.info("Karma Score (v1.3.8-beta3)");
+    console.info("Karma Score (v1.4.0-beta1)");
     const SiteSettings = container.lookup("site-settings:main");
     if (SiteSettings.Enable_Karma_plugin) {
       withPluginApi("0.8.7", bootstrap, { SiteSettings, container });

@@ -18,8 +18,8 @@ class KarmaApiClient {
     this.daoName = daoName;
     this.publicAddress = publicAddress;
 
-    this.voteUrl = `${karmaUrl}/forum-user/${daoName}/vote-reason/${publicAddress}`;
-    this.pitchUrl = `${karmaUrl}/forum-user/${daoName}/delegate-pitch/${publicAddress}`;
+    this.voteUrl = `${karmaUrl}/forum-user/${daoName}/vote-reason/${publicAddress}`.toLowerCase();
+    this.pitchUrl = `${karmaUrl}/forum-user/${daoName}/delegate-pitch/${publicAddress}`.toLowerCase();
   }
 
   checkHealth() {
@@ -96,7 +96,7 @@ class KarmaApiClient {
   fetchUser(username) {
     isTypeof(username, "string");
 
-    const url = `${karmaUrl}/forum-user/${username}/${this.daoName}`;
+    const url = `${karmaUrl}/forum-user/${username}/${this.daoName}`.toLowerCase();
     return request(url, null, "GET");
   }
 

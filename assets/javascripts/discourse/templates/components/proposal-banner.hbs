@@ -1,4 +1,19 @@
 {{#if (and siteSettings.Show_proposal_banner shouldShow)}}
+  {{#if availableDaos.length}}
+    <div id="__dao-select">
+      {{#each availableDaos as |dao|}}
+        {{#if (eq daoName dao.name)}}
+          <div class="__dao-item selected" onclick={{dao.select}}>
+            {{dao.name}}
+          </div>
+        {{else}}
+          <div class="__dao-item" onclick={{dao.select}}>
+            {{dao.name}}
+          </div>
+        {{/if}}
+      {{/each}}
+    </div>
+  {{/if}}
   {{#if fetched}}
     {{#if proposals.length}}
       <div class="karma-banner-title pl-2.5 mt-1">
@@ -12,8 +27,8 @@
       <div class="__banner-wrapper">
         <div class="banner-body">
           <div
-            class={{
-              html-safe (concat "active-proposals-wrapper" " " openClass)
+            class={{html-safe
+              (concat "active-proposals-wrapper" " " openClass)
             }}
             style={{html-safe (concat "height: " bannerHeight ";")}}
           >
