@@ -42,4 +42,26 @@ declare module "karma-score" {
     event: string;
     properties: Record<string, unknown>;
   }
+
+  declare interface KarmaApiVotesSummaryRes {
+    proposals: {
+      id: number;
+      version: "V1" | "V2";
+      endDate: number;
+      startDate: number;
+    }[];
+    votes: {
+      proposalId: string;
+      reason: string;
+    }[];
+  }
+
+  declare interface ParsedProposal {
+    title: string;
+    proposalId: string;
+    voteMethod: string;
+    proposal: string;
+    choice: string | number;
+    executed: string;
+  }
 }

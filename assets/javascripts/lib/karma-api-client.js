@@ -105,6 +105,51 @@ class KarmaApiClient {
       "X-CSRF-Token": csrfToken,
     });
   }
+
+
+  /**
+   * @param {import('karma-score').KarmaApiVotesSummaryRes} summary
+   * @returns {import('karma-score').ParsedProposal[]}
+   */
+  #parseVotingSummary = (summary) => {
+    console.info('voting summary', summary)
+    const { proposals, votes } = summary;
+    const parsedVotes = [];
+
+    votes.sort().forEach((vote) => {
+      const [id, version] = vote.proposalId.split('-');
+      console.log('id', id, 'version', version)
+      const proposal = proposals.find(p => p.id === +id && p.version === version);
+      console.log('proposal', proposal)
+      if (!proposal) {
+        return;
+      }
+
+      parsedVotes.push({
+        title: proposal?.title,
+        proposalId: proposal.id,
+        voteMethod: "Off-chain",
+        proposal: proposal?.title,
+        choice: vote.reason,
+        executed: moment(proposal.endDate).format("MMMM D, YYYY"),
+      });
+    })
+
+    return parsedVotes.sort((a, b) => moment(a.executed).isBefore(moment(b.executed)) ? 1 : -1);
+  }
+
+  /**
+   * Get voting summary for moonbeam and moonriver ONLY
+   * @returns {Promise<import("karma-score").KarmaApiVotesSummaryRes>
+   */
+  async fetchVoteSummary() {
+    console.info('fetching voting summary')
+    if (!['moonbeam', 'moonriver', 'moonbase'].includes(this.daoName.toLowerCase())) {
+      return { proposals: [], votes: [] };
+    }
+    const url = `${karmaUrl}/delegate/${this.daoName}/${this.publicAddress}/voting-history`.toLowerCase();
+    return await request(url, null, "GET");
+  }
 }
 
 export default KarmaApiClient;

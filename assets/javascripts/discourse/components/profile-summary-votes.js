@@ -32,6 +32,7 @@ export default Component.extend({
 
   async fetchVotes() {
     set(this, "fetched", false);
+    set(this, "votes", []);
     const votes = await VotingHistory.start(this.profile, {
       SiteSettings: this.siteSettings,
     });
@@ -42,8 +43,8 @@ export default Component.extend({
   async init() {
     this._super(...arguments);
     this.daoName = this.oldDaoName = window.selectedDao;
+    const cli = new KarmaApiClient(this.daoName, "");
     if (this.session) {
-      const cli = new KarmaApiClient(this.daoName, "");
       try {
         const { allowance } = await cli.isApiAllowed(this.session.csrfToken);
         set(this, "hasSetApiKey", !!allowance);

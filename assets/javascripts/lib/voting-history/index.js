@@ -1,6 +1,8 @@
 import { fetchDaoSnapshotAndOnChainIds } from "../fetch-snapshot-onchain-ids";
+import KarmaApiClient from "../karma-api-client";
 import { fetchOffChainProposalVotes } from "./gql/off-chain-fetcher";
 import { fetchOnChainProposalVotes } from "./gql/on-chain-fetcher";
+import { moonriverFetcher } from "./moonbeam/moonbeam";
 import template from "./template";
 
 const karma = "https://karmahq.xyz/profile";
@@ -15,6 +17,13 @@ const VotingHistory = {
     return 0;
   },
 
+  /**
+   *
+   * @param {*} profile
+   * @param {*} ctx
+   * @param {*} wrapperId
+   * @returns {Promise<import("karma-score").ParsedProposal[])>}
+   */
   async start(profile, ctx, wrapperId = ".__karma-stats") {
     if (!ctx || !ctx.SiteSettings || !profile) {
       return;
@@ -30,9 +39,14 @@ const VotingHistory = {
     const daoName = window.selectedDao;
     const amount = this.shouldShowVotingHistory(ctx);
 
+    if (['moonbeam', 'moonriver', 'moonbase'].includes(daoName.toLowerCase())) {
+      console.info('voting history for' + daoName)
+      const votes = await moonriverFetcher(daoName, profile.address);
+      return votes.slice(0, amount);
+    }
+
     // TODO fix this workaround by refactoring this code into components
     this.daoIds = (await fetchDaoSnapshotAndOnChainIds(daoName));
-
 
     let onChain = [];
     if (this.daoIds.onChain?.length) {

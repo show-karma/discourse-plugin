@@ -9,7 +9,7 @@ function getIcon(choice = "not vote") {
     return voteIcon.empty;
   }
   if (
-    choice.toLocaleLowerCase().substring(0, 2) === "no" ||
+    choice?.toLowerCase?.().substring(0, 2) === "no" ||
     /agai+nst/gi.test(choice)
   ) {
     return voteIcon.no;

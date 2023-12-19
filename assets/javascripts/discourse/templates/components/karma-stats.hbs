@@ -22,7 +22,7 @@
           Governance Stats
         </b>
       </div>
-      {{#if availableDaos.length}}
+      {{#if (gt availableDaos.length 1)}}
         <div id="__dao-select">
           {{#each availableDaos as |dao|}}
             {{#if (eq daoName dao.name)}}
