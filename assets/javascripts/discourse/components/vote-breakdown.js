@@ -1,5 +1,5 @@
 import Component from "@ember/component";
-import { set, action } from "@ember/object";
+import { action, set } from "@ember/object";
 import { shortenNumber } from "../../lib/shorten-number";
 
 export default Component.extend({

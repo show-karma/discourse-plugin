@@ -106,35 +106,6 @@ class KarmaApiClient {
     });
   }
 
-
-  /**
-   * @param {import('karma-score').KarmaApiVotesSummaryRes} summary
-   * @returns {import('karma-score').ParsedProposal[]}
-   */
-  #parseVotingSummary = (summary) => {
-    const { proposals, votes } = summary;
-    const parsedVotes = [];
-
-    votes.sort().forEach((vote) => {
-      const [id, version] = vote.proposalId.split('-');
-      const proposal = proposals.find(p => p.id === +id && p.version === version);
-      if (!proposal) {
-        return;
-      }
-
-      parsedVotes.push({
-        title: proposal?.title,
-        proposalId: proposal.id,
-        voteMethod: "Off-chain",
-        proposal: proposal?.title,
-        choice: vote.reason,
-        executed: moment(proposal.endDate).format("MMMM D, YYYY"),
-      });
-    })
-
-    return parsedVotes.sort((a, b) => moment(a.executed).isBefore(moment(b.executed)) ? 1 : -1);
-  }
-
   /**
    * Get voting summary for moonbeam and moonriver ONLY
    * @returns {Promise<import("karma-score").KarmaApiVotesSummaryRes>

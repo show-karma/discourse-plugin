@@ -39,8 +39,8 @@ export default Component.extend({
 
   @action
   selectDao(daoName) {
-    if (!daoName) { return };
-    if (!this.availableDaos.find(d => d.name === daoName)) { return };
+    if (!daoName) { return; };
+    if (!this.availableDaos.find(d => d.name === daoName)) { return; };
     set(this, 'daoName', daoName);
     window.selectedDao = daoName;
     set(this, 'fetched', false);
@@ -61,7 +61,6 @@ export default Component.extend({
   async fetchDataProposals() {
     const {
       Banner_past_proposal_days: daysAgo,
-      daoIds,
     } = this.siteSettings;
     // Fix this workaround when voting history is refactored into components
     const graphqlIds =

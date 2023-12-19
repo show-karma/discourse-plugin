@@ -1,5 +1,4 @@
 import { fetchDaoSnapshotAndOnChainIds } from "../fetch-snapshot-onchain-ids";
-import KarmaApiClient from "../karma-api-client";
 import { fetchOffChainProposalVotes } from "./gql/off-chain-fetcher";
 import { fetchOnChainProposalVotes } from "./gql/on-chain-fetcher";
 import { moonriverFetcher } from "./moonbeam/moonbeam";

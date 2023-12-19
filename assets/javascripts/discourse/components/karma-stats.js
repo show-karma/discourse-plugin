@@ -40,8 +40,8 @@ export default Component.extend({
 
   @action
   selectDao(daoName) {
-    if(!daoName) { return };
-    if(!this.availableDaos.find(d => d.name === daoName)) { return };
+    if(!daoName) { return; };
+    if(!this.availableDaos.find(d => d.name === daoName)) { return; };
     set(this, 'daoName', daoName);
     window.selectedDao = daoName;
     this.fetchProfile();

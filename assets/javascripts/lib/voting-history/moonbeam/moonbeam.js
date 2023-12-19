@@ -1,9 +1,9 @@
 import KarmaApiClient from "../../karma-api-client";
 
 const getVoteReason = (vote) => {
-  if (!vote.reason || typeof vote.reason === 'boolean') return 'Did not vote';
-  if (vote.reason.toLowerCase() === 'for') return 1;
-  if (vote.reason.toLowerCase() === 'abstain') return 'ABSTAIN';
+  if (!vote.reason || typeof vote.reason === 'boolean') { return 'Did not vote'; }
+  if (vote.reason.toLowerCase() === 'for') { return 1; }
+  if (vote.reason.toLowerCase() === 'abstain') { return 'ABSTAIN'; }
   return 0;
 };
 
@@ -35,7 +35,7 @@ function concatOnChainProposals(proposals, votes) {
   });
 
   proposals.forEach(proposal => {
-    if (!array.find(item => item.voteId && +item.voteId === +proposal.id))
+    if (!array.find(item => item.voteId && +item.voteId === +proposal.id)) {
       array.push({
         voteMethod: 'On-chain',
         proposal: proposal.description,
@@ -48,6 +48,7 @@ function concatOnChainProposals(proposals, votes) {
         trackId: Number(proposal?.trackId),
         version: proposal?.version,
       });
+    }
   });
 
   return array.sort((a, b) => b.executedTimestamp - a.executedTimestamp);
@@ -97,9 +98,9 @@ async function getDaoProposals(
 }
 
 async function fetchOnChainVotes(daoName, address) {
-  if (!daoName || !address) return [];
+  if (!daoName || !address) { return []; }
   try {
-    daoName = [daoName].flat()[0]
+    daoName = [daoName].flat()[0];
     const cli = new KarmaApiClient([daoName].flat()[0], address);
     const { votes, proposals: cachedProposals } = await cli.fetchVoteSummary();
 
@@ -114,7 +115,7 @@ async function fetchOnChainVotes(daoName, address) {
       return concatOnChainProposals(proposals, voteList);
     }
   } catch (error) {
-    console.error(error)
+    console.error(error);
     return [];
   }
   return [];
@@ -128,7 +129,7 @@ export async function moonriverFetcher(
     const votes = await fetchOnChainVotes(daoName, address);
     return votes;
   } catch (error) {
-    console.error(error)
+    console.error(error);
     return [];
   }
 }
