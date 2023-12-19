@@ -115,7 +115,6 @@ async function fetchOnChainVotes(daoName, address) {
       return concatOnChainProposals(proposals, voteList);
     }
   } catch (error) {
-    console.error(error);
     return [];
   }
   return [];
@@ -129,7 +128,6 @@ export async function moonriverFetcher(
     const votes = await fetchOnChainVotes(daoName, address);
     return votes;
   } catch (error) {
-    console.error(error);
     return [];
   }
 }

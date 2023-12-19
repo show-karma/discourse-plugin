@@ -1,6 +1,6 @@
 import Component from "@ember/component";
 import { inject as service } from "@ember/service";
-import { computed, set, observer } from "@ember/object";
+import { computed, set } from "@ember/object";
 import VotingHistory from "../../lib/voting-history/index";
 import KarmaApiClient from "../../lib/karma-api-client";
 
@@ -62,7 +62,7 @@ export default Component.extend({
 
   didUpdate() {
     if (this.profile.address && this.oldDaoName.toLowerCase() !== this.daoName.toLowerCase()) {
-      set(this, 'oldDaoName', this.daoName)
+      set(this, 'oldDaoName', this.daoName);
       this.fetchVotes();
     }
   }
