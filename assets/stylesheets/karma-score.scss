@@ -8,6 +8,30 @@
     padding: 20px 0;
   }
 }
+#__dao-select {
+  display: flex;
+  align-items: center;
+  .__dao-item {
+    cursor: pointer;
+    margin: 5px;
+    user-select: none;
+    border-bottom: 1px solid $color-primary-mid;
+    padding: 10px;
+    border-radius: 5px;
+    transition: 200ms ease-in-out;
+    background-color: $color-brand-blue-0;
+    &:not(.selected) {
+      opacity: 0.5;
+    }
+    &:hover {
+      opacity: 1;
+    }
+    &.selected {
+      border-bottom: 1px solid $color-primary-high;
+    }
+  }
+}
+
 #__karma-voting-history {
   box-shadow: $box-shadow-1;
   border-radius: 8px;

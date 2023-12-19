@@ -18,8 +18,8 @@ class KarmaApiClient {
     this.daoName = daoName;
     this.publicAddress = publicAddress;
 
-    this.voteUrl = `${karmaUrl}/forum-user/${daoName}/vote-reason/${publicAddress}`;
-    this.pitchUrl = `${karmaUrl}/forum-user/${daoName}/delegate-pitch/${publicAddress}`;
+    this.voteUrl = `${karmaUrl}/forum-user/${daoName}/vote-reason/${publicAddress}`.toLowerCase();
+    this.pitchUrl = `${karmaUrl}/forum-user/${daoName}/delegate-pitch/${publicAddress}`.toLowerCase();
   }
 
   checkHealth() {
@@ -96,7 +96,7 @@ class KarmaApiClient {
   fetchUser(username) {
     isTypeof(username, "string");
 
-    const url = `${karmaUrl}/forum-user/${username}/${this.daoName}`;
+    const url = `${karmaUrl}/forum-user/${username}/${this.daoName}`.toLowerCase();
     return request(url, null, "GET");
   }
 
@@ -104,6 +104,47 @@ class KarmaApiClient {
     return request(`${localApi}/allowance.json`, null, "GET", {
       "X-CSRF-Token": csrfToken,
     });
+  }
+
+
+  /**
+   * @param {import('karma-score').KarmaApiVotesSummaryRes} summary
+   * @returns {import('karma-score').ParsedProposal[]}
+   */
+  #parseVotingSummary = (summary) => {
+    const { proposals, votes } = summary;
+    const parsedVotes = [];
+
+    votes.sort().forEach((vote) => {
+      const [id, version] = vote.proposalId.split('-');
+      const proposal = proposals.find(p => p.id === +id && p.version === version);
+      if (!proposal) {
+        return;
+      }
+
+      parsedVotes.push({
+        title: proposal?.title,
+        proposalId: proposal.id,
+        voteMethod: "Off-chain",
+        proposal: proposal?.title,
+        choice: vote.reason,
+        executed: moment(proposal.endDate).format("MMMM D, YYYY"),
+      });
+    })
+
+    return parsedVotes.sort((a, b) => moment(a.executed).isBefore(moment(b.executed)) ? 1 : -1);
+  }
+
+  /**
+   * Get voting summary for moonbeam and moonriver ONLY
+   * @returns {Promise<import("karma-score").KarmaApiVotesSummaryRes>
+   */
+  async fetchVoteSummary() {
+    if (!['moonbeam', 'moonriver', 'moonbase'].includes(this.daoName.toLowerCase())) {
+      return { proposals: [], votes: [] };
+    }
+    const url = `${karmaUrl}/delegate/${this.daoName}/${this.publicAddress}/voting-history`.toLowerCase();
+    return await request(url, null, "GET");
   }
 }
 

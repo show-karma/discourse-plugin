@@ -22,9 +22,30 @@ export default Component.extend({
 
   tokenContract: "",
 
+  daoName: "",
+
+  availableDaos: [],
+
   logo: computed(function () {
     return this.siteSettings.Custom_banner_icon_url || this.siteSettings.logo;
   }),
+
+  init() {
+    this._super(...arguments);
+    this.daoName = window.selectedDao;
+    set(this, 'availableDaos', this.siteSettings.DAO_names?.split(",").map(
+      name => ({ name, select: () => this.selectDao(name) })));
+  },
+
+  @action
+  selectDao(daoName) {
+    if (!daoName) { return };
+    if (!this.availableDaos.find(d => d.name === daoName)) { return };
+    set(this, 'daoName', daoName);
+    window.selectedDao = daoName;
+    set(this, 'fetched', false);
+    this.fetchDataProposals();
+  },
 
   @action
   toggleBanner() {
@@ -33,7 +54,7 @@ export default Component.extend({
   },
 
   async getGovContractAddr() {
-    const tokenAddress = await getGovAddrFromYml(this.siteSettings.DAO_name);
+    const tokenAddress = await getGovAddrFromYml(this.daoName);
     set(this, "tokenContract", tokenAddress);
   },
 
@@ -41,13 +62,10 @@ export default Component.extend({
     const {
       Banner_past_proposal_days: daysAgo,
       daoIds,
-      DAO_name,
     } = this.siteSettings;
     // Fix this workaround when voting history is refactored into components
-    const graphqlIds = (window.daoIds =
-      window.daoIds ??
-      daoIds ??
-      (await fetchDaoSnapshotAndOnChainIds(DAO_name)));
+    const graphqlIds =
+      (await fetchDaoSnapshotAndOnChainIds(this.daoName));
 
     let onChain = [];
     if (

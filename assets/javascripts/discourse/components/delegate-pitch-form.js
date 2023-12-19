@@ -125,7 +125,7 @@ export default Component.extend({
     let isDefaultFields = true;
     if (this.profile.address) {
       const karma = new KarmaApiClient(
-        this.siteSettings.DAO_name,
+        this.siteSettings.DAO_names,
         this.profile.address
       );
       try {
@@ -149,7 +149,7 @@ export default Component.extend({
   async post() {
     let postId = this.postId;
     const karma = new KarmaApiClient(
-      this.siteSettings.DAO_name,
+      this.siteSettings.DAO_names,
       this.form.publicAddress
     );
 

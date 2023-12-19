@@ -33,7 +33,7 @@ const KarmaStats = {
       gitcoinHealthScore: 0,
     };
 
-    const url = `${KarmaStats.url}/forum-user/${userAddress}/${daoName}`;
+    const url = `${KarmaStats.url}/forum-user/${userAddress}/${daoName}`.toLowerCase();
     try {
       const { data } = await fetch(url).then((res) => res.json());
       this.profile = data ?? {};
@@ -42,9 +42,8 @@ const KarmaStats = {
       if (delegates) {
         const { stats } = delegates;
         userStats.delegatedVotes = `
-        <a href="https://karmahq.xyz/dao/${daoName}/delegators/${
-          data.ensName || data.address
-        }" target="_blank">${shortenNumber(delegates.delegatedVotes || 0)}</a>`;
+        <a href="https://karmahq.xyz/dao/${daoName.toLowerCase()}/delegators/${data.ensName || data.address
+          }" target="_blank">${shortenNumber(delegates.delegatedVotes || 0)}</a>`;
 
         userStats.snapshotVotingStats =
           (stats?.[0]?.offChainVotesPct || 0) + "%";
@@ -62,7 +61,7 @@ const KarmaStats = {
     const el = $(`${wrapperId} .__has-error`);
     if (el.length) {
       hide
-        ? el.hide
+        ? el.hide()
         : (el.show(),
           this.toggleLoading(true, wrapperId),
           this.toggleScore(true, wrapperId));
@@ -118,7 +117,7 @@ const KarmaStats = {
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://www.showkarma.xyz/dao/link/forum?dao=${daoName}"
+          href="https://www.karmahq.xyz/dao/link/forum?dao=${daoName?.toLowerCase()}"
         >
             Link Wallet
         </a>`
@@ -126,24 +125,36 @@ const KarmaStats = {
     );
   },
 
-  async start(totalTries = 0, ctx, wrapperId = ".__karma-stats") {
+  async start(totalTries = 0, ctx, wrapperId = ".__karma-stats", username = null) {
     const { SiteSettings } = ctx;
-    const { User_not_found_message: errMessage, DAO_name: daoName } =
-      SiteSettings;
+    const daoName = this.daoName = window.selectedDao;
 
-    const user = this.getUsername(wrapperId);
+    const { User_not_found_message: errMessage, rawErrorStr: originalErrorMessage } =
+      SiteSettings;
+    let rawErrorStr = originalErrorMessage;
+    if (!rawErrorStr && errMessage) {
+      rawErrorStr = errMessage;
+      set(
+        ctx.SiteSettings,
+        "rawErrorStr",
+        errMessage
+      );
+    }
+
+    const user = username || this.getUsername(wrapperId);
 
     if (user && daoName) {
-      if (errMessage && errMessage?.includes?.("[[KarmaDaoUrl]]")) {
+      if (rawErrorStr && (rawErrorStr?.includes?.("[[KarmaDaoUrl]]"))) {
         set(
           ctx.SiteSettings,
           "User_not_found_message",
-          this.getErrorMessage(errMessage, daoName)
+          this.getErrorMessage(rawErrorStr, daoName)
         );
       }
 
       this.toggleLoading(false, wrapperId);
       const stats = await KarmaStats.fetchUser(user, daoName);
+
 
       if (stats) {
         const wrapper = $(`${wrapperId} .__wrapper`)[0];
@@ -165,16 +176,17 @@ const KarmaStats = {
       } else if (!(stats && user)) {
         this.toggleErrorMessage(false, wrapperId);
       }
+      Mixpanel.reportEvent({
+        event: "profileStats",
+        properties: {
+          address: this.profile.address,
+        },
+      });
     } else if (totalTries < 30) {
       setTimeout(() => KarmaStats.start(++totalTries, ctx), 250);
     }
+
     this.profile.username = user;
-    Mixpanel.reportEvent({
-      event: "profileStats",
-      properties: {
-        address: this.profile.address,
-      },
-    });
     return this.profile;
   },
 };

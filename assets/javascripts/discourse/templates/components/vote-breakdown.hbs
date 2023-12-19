@@ -5,46 +5,56 @@
     </div>
   </div>
 {{else}}
+
   {{#if values.length}}
+
     {{#each values as |value|}}
-      <div class="breakdown">
-        <div style="display:flex;justify-content:space-between">
-          <div>
-            <b class="mr-3">
-              {{value.shortname}}
-            </b>
-            <span class="t-light">
+      {{#if (eq value.shortname "Others")}}
+        <div style="color: var(--tertiary)">
+          <button onclick={{redirect}} type="button" style="border:none;background:transparent">
+            View more options
+            {{d-icon "link"}}
+          </button>
+        </div>
+      {{else}}
+        <div class="breakdown">
+          <div style="display:flex;justify-content:space-between">
+            <div>
+              <b class="mr-3">
+                {{value.shortname}}
+              </b>
+              <span class="t-light">
+                {{#if siteSettings.Show_results}}
+                  <b>
+                    {{value.count}}
+                    votes
+                  </b>
+                {{/if}}
+              </span>
+            </div>
+            <div>
               {{#if siteSettings.Show_results}}
                 <b>
-                  {{value.count}} votes
+                  {{value.pct}}
                 </b>
               {{/if}}
-            </span>
+            </div>
           </div>
-          <div>
+          <div
+            class="breakdown-progress"
+            style="max-height:100%;width:100%;overflow:hidden"
+          >
+
             {{#if siteSettings.Show_results}}
-              <b>
-                {{value.pct}}
-              </b>
+              <div
+                class="breakdown-progress-fill"
+                style={{html-safe (concat "width:" value.fillPct)}}
+              >
+              </div>
             {{/if}}
           </div>
         </div>
-        <div
-          class="breakdown-progress"
-          style="max-height:100%;width:100%;overflow:hidden"
-        >
-          {{#if (eq value.shortname "Others")}}
-            {{karma-tooltip label=value.name}}
-          {{/if}}
-          {{#if siteSettings.Show_results}}
-            <div
-              class="breakdown-progress-fill"
-              style={{html-safe (concat "width:" value.fillPct)}}
-            >
-            </div>
-          {{/if}}
-        </div>
-      </div>
+      {{/if}}
     {{/each}}
   {{/if}}
 {{/if}}
