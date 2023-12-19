@@ -54,12 +54,10 @@ function concatOnChainProposals(proposals, votes) {
 }
 
 async function proposalsWithMetadata(daoName) {
-  console.log('proposals with metadata')
-  const url = `https://dapp.karmahq.xyz/api/proposals?dao=${daoName?.toLowerCase()}&source=on-chain`;
+  const url = `https://delegate.moonbeam.network/api/proposals?dao=${daoName?.toLowerCase()}&source=on-chain`;
   const data = await fetch(url, {
     method: "GET",
   }).then(async (res) => await res.json());
-  console.info('cu de saco', data)
   return data;
 }
 
@@ -104,7 +102,6 @@ async function fetchOnChainVotes(daoName, address) {
     daoName = [daoName].flat()[0]
     const cli = new KarmaApiClient([daoName].flat()[0], address);
     const { votes, proposals: cachedProposals } = await cli.fetchVoteSummary();
-    console.info('deu n vote', votes, cachedProposals)
 
     const voteList = votes.map(vote => ({
       proposal: vote.proposalId.split('-')[0],
@@ -117,7 +114,7 @@ async function fetchOnChainVotes(daoName, address) {
       return concatOnChainProposals(proposals, voteList);
     }
   } catch (error) {
-    console.info(error)
+    console.error(error)
     return [];
   }
   return [];
@@ -127,14 +124,11 @@ export async function moonriverFetcher(
   daoName,
   address
 ) {
-  console.info('fetching moonriver')
   try {
     const votes = await fetchOnChainVotes(daoName, address);
-    console.info('deu vote', votes)
     return votes;
   } catch (error) {
-    console.info('deu error')
-    console.info(error)
+    console.error(error)
     return [];
   }
 }

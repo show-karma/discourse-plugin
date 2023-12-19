@@ -112,15 +112,12 @@ class KarmaApiClient {
    * @returns {import('karma-score').ParsedProposal[]}
    */
   #parseVotingSummary = (summary) => {
-    console.info('voting summary', summary)
     const { proposals, votes } = summary;
     const parsedVotes = [];
 
     votes.sort().forEach((vote) => {
       const [id, version] = vote.proposalId.split('-');
-      console.log('id', id, 'version', version)
       const proposal = proposals.find(p => p.id === +id && p.version === version);
-      console.log('proposal', proposal)
       if (!proposal) {
         return;
       }
@@ -143,7 +140,6 @@ class KarmaApiClient {
    * @returns {Promise<import("karma-score").KarmaApiVotesSummaryRes>
    */
   async fetchVoteSummary() {
-    console.info('fetching voting summary')
     if (!['moonbeam', 'moonriver', 'moonbase'].includes(this.daoName.toLowerCase())) {
       return { proposals: [], votes: [] };
     }

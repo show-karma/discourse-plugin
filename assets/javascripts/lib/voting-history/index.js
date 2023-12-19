@@ -40,7 +40,6 @@ const VotingHistory = {
     const amount = this.shouldShowVotingHistory(ctx);
 
     if (['moonbeam', 'moonriver', 'moonbase'].includes(daoName.toLowerCase())) {
-      console.info('voting history for' + daoName)
       const votes = await moonriverFetcher(daoName, profile.address);
       return votes.slice(0, amount);
     }
