@@ -3,11 +3,11 @@
     <div id="__dao-select">
       {{#each availableDaos as |dao|}}
         {{#if (eq daoName dao.name)}}
-          <div class="__dao-item selected" onclick={{dao.select}}>
+          <div class="__dao-item selected" role="button" onclick={{dao.select}}>
             {{dao.name}}
           </div>
         {{else}}
-          <div class="__dao-item" onclick={{dao.select}}>
+          <div class="__dao-item" role="button" onclick={{dao.select}}>
             {{dao.name}}
           </div>
         {{/if}}

@@ -1,6 +1,6 @@
 {{#if siteSettings.Enable_Karma_plugin}}
   <div id={{wrapperId}}>
-    <input hidden id="__dao-username" readonly value={{username}} />
+    <input hidden id="__dao-username" readonly value={{username}}>
     <div class="__wrapper">
 
       <div style="display:flex;align-items:center;margin:10px 0;">
@@ -15,7 +15,7 @@
               src="https://www.karmahq.xyz/icons/karma-logo.svg"
               height="28"
               width="28"
-            />
+            >
           </a>
         {{/if}}
         <b>
@@ -26,11 +26,11 @@
         <div id="__dao-select">
           {{#each availableDaos as |dao|}}
             {{#if (eq daoName dao.name)}}
-              <div class="__dao-item selected" onclick={{dao.select}}>
+              <div class="__dao-item selected" role="button" onclick={{dao.select}}>
                 {{dao.name}}
               </div>
             {{else}}
-              <div class="__dao-item" onclick={{dao.select}}>
+              <div class="__dao-item" role="button" onclick={{dao.select}}>
                 {{dao.name}}
               </div>
             {{/if}}
