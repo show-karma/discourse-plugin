@@ -31,9 +31,7 @@
         {{/each}}
       {{else}}
         {{#unless fetched}}
-          <div class="loading">
-            Loading voting history
-          </div>
+          {{karma-loading}}
         {{else}}
           <div class="loading">
             No voting history found

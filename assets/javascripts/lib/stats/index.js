@@ -129,10 +129,11 @@ const KarmaStats = {
     const { SiteSettings } = ctx;
     const daoName = this.daoName = window.selectedDao;
 
-    const { User_not_found_message: errMessage, rawErrorStr } =
+    const { User_not_found_message: errMessage, rawErrorStr: originalErrorMessage } =
       SiteSettings;
-
+    let rawErrorStr = originalErrorMessage;
     if (!rawErrorStr && errMessage) {
+      rawErrorStr = errMessage;
       set(
         ctx.SiteSettings,
         "rawErrorStr",
