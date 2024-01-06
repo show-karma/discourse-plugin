@@ -64,7 +64,7 @@ export default Component.extend({
     } = this.siteSettings;
     // Fix this workaround when voting history is refactored into components
     const graphqlIds =
-      (await fetchDaoSnapshotAndOnChainIds(this.daoName));
+      (await fetchDaoSnapshotAndOnChainIds(this.daoName?.toLowerCase()));
 
     let onChain = [];
     if (

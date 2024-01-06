@@ -61,9 +61,8 @@ export default Component.extend({
         ).toFixed(2);
         return {
           name: key,
-          shortname: `${key.slice(0, 20).trim()}${
-            key[20] && key[20] !== " " ? "..." : ""
-          }`,
+          shortname: `${key.slice(0, 20).trim()}${key[20] && key[20] !== " " ? "..." : ""
+            }`,
           rawCount: this.breakdown[key],
           count: shortenNumber(this.breakdown[key], 1),
           pct: pct + "%",
@@ -77,6 +76,6 @@ export default Component.extend({
 
   @action
   redirect() {
-    window.open(this.link, "_blank");
-  },
+  window.open(this.link, "_blank");
+},
 });

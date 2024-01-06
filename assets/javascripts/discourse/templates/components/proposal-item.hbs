@@ -30,10 +30,8 @@
       </span> }}
       </div>
     </div>
-    {{#if link}}
-      <div class="vote-breakdown">
-        {{vote-breakdown loading=loading breakdown=proposal.voteBreakdown proposalUrl=link}}
-      </div>
-    {{/if}}
+    <div class="vote-breakdown">
+      {{vote-breakdown loading=loading breakdown=proposal.voteBreakdown proposalUrl=link}}
+    </div>
   </div>
 </div>
