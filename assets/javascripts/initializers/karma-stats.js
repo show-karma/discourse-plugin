@@ -14,7 +14,6 @@ function bootstrap(_, ctx) {
     const karmaStats = () => {
       const elTrg = $(wrapperId);
       if (!showing && elTrg.length) {
-        console.count("karmaStats")
         KarmaStats.start(0, ctx, wrapperId).then((profile) => {
           VotingHistory.start(profile, ctx, wrapperId).then((votes) => {
             VotingHistory.render(votes);
@@ -40,7 +39,7 @@ export default {
 
   async initialize(container) {
     // eslint-disable-next-line no-console
-    console.info("Karma Score (v1.4.0-beta1)");
+    console.info("Karma Score (v1.4.1-beta0)");
     const SiteSettings = container.lookup("site-settings:main");
     if (SiteSettings.Enable_Karma_plugin) {
       withPluginApi("0.8.7", bootstrap, { SiteSettings, container });
