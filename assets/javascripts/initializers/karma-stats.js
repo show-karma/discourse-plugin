@@ -9,11 +9,12 @@ function bootstrap(_, ctx) {
 
   window.selectedDao = DAO_names.split(',')?.[0];
 
-  function release(wrapperId = "#__karma-stats") {
+  function release(wrapperId = "#__karma-stats-summary") {
     let showing = false;
     const karmaStats = () => {
       const elTrg = $(wrapperId);
       if (!showing && elTrg.length) {
+        console.count("karmaStats")
         KarmaStats.start(0, ctx, wrapperId).then((profile) => {
           VotingHistory.start(profile, ctx, wrapperId).then((votes) => {
             VotingHistory.render(votes);
