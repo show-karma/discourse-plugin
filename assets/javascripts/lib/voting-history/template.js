@@ -1,7 +1,7 @@
 const voteIcon = {
-  no: "https://www.showkarma.xyz/icons/cross-circle.svg",
-  yes: "https://www.showkarma.xyz/icons/check-circle.svg",
-  empty: "https://www.showkarma.xyz/icons/empty-circle.svg",
+  no: "https://www.karmahq.xyz/icons/cross-circle.svg",
+  yes: "https://www.karmahq.xyz/icons/check-circle.svg",
+  empty: "https://www.karmahq.xyz/icons/empty-circle.svg",
 };
 
 function getIcon(choice = "not vote") {
@@ -9,7 +9,7 @@ function getIcon(choice = "not vote") {
     return voteIcon.empty;
   }
   if (
-    choice.toLocaleLowerCase().substring(0, 2) === "no" ||
+    choice?.toLowerCase?.().substring(0, 2) === "no" ||
     /agai+nst/gi.test(choice)
   ) {
     return voteIcon.no;

@@ -65,7 +65,6 @@ function bootstrap(f, b) {
 let mp = undefined;
 export function initMixpanel() {
   bootstrap(document, window.mixpanel || []);
-  console.debug("initiaiting");
   const g = () => {
     const { ms, __k: k } = window;
     if (!ms) return;
@@ -91,7 +90,6 @@ const mixpanel = mp || initMixpanel();
  */
 function reportEvent(data, prefix = "discoursePlugin") {
   if (!mixpanel) throw new Error("Mixpanel is not available");
-  console.log(mixpanel);
   return new Promise((resolve, reject) => {
     mixpanel.track(`${prefix}:${data.event}`, data.properties, (err) => {
       if (err) {

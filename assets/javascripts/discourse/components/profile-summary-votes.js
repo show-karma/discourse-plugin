@@ -17,6 +17,10 @@ export default Component.extend({
 
   count: 0,
 
+  daoName: "",
+
+  oldDaoName: "",
+
   shouldShowActionButtons: computed(function () {
     return (
       this.session &&
@@ -28,6 +32,7 @@ export default Component.extend({
 
   async fetchVotes() {
     set(this, "fetched", false);
+    set(this, "votes", []);
     const votes = await VotingHistory.start(this.profile, {
       SiteSettings: this.siteSettings,
     });
@@ -37,12 +42,13 @@ export default Component.extend({
 
   async init() {
     this._super(...arguments);
+    this.daoName = this.oldDaoName = window.selectedDao;
+    const cli = new KarmaApiClient(this.daoName, "");
     if (this.session) {
-      const cli = new KarmaApiClient(this.siteSettings.DAO_name, "");
       try {
         const { allowance } = await cli.isApiAllowed(this.session.csrfToken);
         set(this, "hasSetApiKey", !!allowance);
-      } catch {}
+      } catch { }
     }
   },
 
@@ -53,4 +59,11 @@ export default Component.extend({
       this.fetchVotes();
     }
   },
+
+  didUpdate() {
+    if (this.profile.address && this.oldDaoName.toLowerCase() !== this.daoName.toLowerCase()) {
+      set(this, 'oldDaoName', this.daoName);
+      this.fetchVotes();
+    }
+  }
 });

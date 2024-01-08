@@ -8,10 +8,10 @@ class KarmaScore::KarmaController < ::ApplicationController
   before_action :ensure_logged_in
 
   # api_url = "https://api.karmahq.xyz/api/discourse"
-  attr_accessor :api_url, :api_token, :delegate_thread_id, :dao_name, :headers
+  attr_accessor :api_url, :api_token, :delegate_thread_id, :dao_names, :headers
 
   def initialize()
-    @dao_name = SiteSetting.DAO_name
+    @dao_names = SiteSetting.DAO_names
     @api_token = SiteSetting.Karma_API_Key
     @delegate_thread_id = SiteSetting.Delegate_pitch_thread_id
     @api_url = "https://api.karmahq.xyz/api/forum-user"
@@ -31,7 +31,7 @@ class KarmaScore::KarmaController < ::ApplicationController
     recommendation = params.require(:recommendation)
     thread_id = params.require(:threadId)
     post_id = params.require(:postId)
-
+    dao_name = params.require(:daoName)
     begin
       discourse_handle = current_user.username
 
@@ -72,6 +72,7 @@ class KarmaScore::KarmaController < ::ApplicationController
     post_id = params.require(:postId)
     public_address = params.require(:publicAddress)
     forum = params.require(:forum)
+    dao_name = params.require(:daoName)
     begin
       discourse_handle = current_user.username
 

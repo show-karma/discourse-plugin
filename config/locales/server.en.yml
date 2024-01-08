@@ -2,7 +2,7 @@ en:
   site_settings:
     Enable_Karma_plugin: ""
     Show_Karma_logo: ""
-    DAO_name: ""
+    DAO_names: "Add your karma dao names sepparated by commas. Ex: 'karma,ens'"
     Show_Karma_score: ""
     Show_delegated_votes: ""
     Show_snapshot_votes: ""

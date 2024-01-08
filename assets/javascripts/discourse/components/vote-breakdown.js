@@ -1,5 +1,5 @@
 import Component from "@ember/component";
-import { set } from "@ember/object";
+import { action, set } from "@ember/object";
 import { shortenNumber } from "../../lib/shorten-number";
 
 export default Component.extend({
@@ -8,6 +8,8 @@ export default Component.extend({
   values: [],
 
   loading: false,
+
+  proposalUrl: "",
 
   sortVotes(votes) {
     if (
@@ -59,9 +61,8 @@ export default Component.extend({
         ).toFixed(2);
         return {
           name: key,
-          shortname: `${key.slice(0, 20).trim()}${
-            key[20] && key[20] !== " " ? "..." : ""
-          }`,
+          shortname: `${key.slice(0, 20).trim()}${key[20] && key[20] !== " " ? "..." : ""
+            }`,
           rawCount: this.breakdown[key],
           count: shortenNumber(this.breakdown[key], 1),
           pct: pct + "%",
@@ -72,4 +73,9 @@ export default Component.extend({
     const truncatedArray = this.truncateVotesArray(this.sortVotes(votesPct));
     set(this, "values", truncatedArray);
   },
+
+  @action
+  redirect() {
+  window.open(this.link, "_blank");
+},
 });

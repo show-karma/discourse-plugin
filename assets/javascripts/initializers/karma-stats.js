@@ -4,7 +4,12 @@ import VotingHistory from "../lib/voting-history/index";
 
 // TODO: !!Refactor this to ember components
 function bootstrap(_, ctx) {
-  function release(wrapperId = "#__karma-stats") {
+  const { DAO_names } = ctx.SiteSettings;
+  if (!DAO_names || !DAO_names.length) { return; }
+
+  window.selectedDao = DAO_names.split(',')?.[0];
+
+  function release(wrapperId = "#__karma-stats-summary") {
     let showing = false;
     const karmaStats = () => {
       const elTrg = $(wrapperId);
@@ -34,7 +39,7 @@ export default {
 
   async initialize(container) {
     // eslint-disable-next-line no-console
-    console.info("Karma Score (v1.3.8-beta3)");
+    console.info("Karma Score (v1.4.1-beta1)");
     const SiteSettings = container.lookup("site-settings:main");
     if (SiteSettings.Enable_Karma_plugin) {
       withPluginApi("0.8.7", bootstrap, { SiteSettings, container });

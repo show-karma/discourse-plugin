@@ -18,8 +18,8 @@ class KarmaApiClient {
     this.daoName = daoName;
     this.publicAddress = publicAddress;
 
-    this.voteUrl = `${karmaUrl}/forum-user/${daoName}/vote-reason/${publicAddress}`;
-    this.pitchUrl = `${karmaUrl}/forum-user/${daoName}/delegate-pitch/${publicAddress}`;
+    this.voteUrl = `${karmaUrl}/forum-user/${daoName}/vote-reason/${publicAddress}`.toLowerCase();
+    this.pitchUrl = `${karmaUrl}/forum-user/${daoName}/delegate-pitch/${publicAddress}`.toLowerCase();
   }
 
   checkHealth() {
@@ -96,7 +96,7 @@ class KarmaApiClient {
   fetchUser(username) {
     isTypeof(username, "string");
 
-    const url = `${karmaUrl}/forum-user/${username}/${this.daoName}`;
+    const url = `${karmaUrl}/forum-user/${username}/${this.daoName}`.toLowerCase();
     return request(url, null, "GET");
   }
 
@@ -104,6 +104,18 @@ class KarmaApiClient {
     return request(`${localApi}/allowance.json`, null, "GET", {
       "X-CSRF-Token": csrfToken,
     });
+  }
+
+  /**
+   * Get voting summary for moonbeam and moonriver ONLY
+   * @returns {Promise<import("karma-score").KarmaApiVotesSummaryRes>
+   */
+  async fetchVoteSummary() {
+    if (!['moonbeam', 'moonriver', 'moonbase'].includes(this.daoName.toLowerCase())) {
+      return { proposals: [], votes: [] };
+    }
+    const url = `${karmaUrl}/delegate/${this.daoName}/${this.publicAddress}/voting-history`.toLowerCase();
+    return await request(url, null, "GET");
   }
 }
 

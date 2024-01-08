@@ -10,6 +10,7 @@ const subgraphUrl = new URL("https://hub.snapshot.org/graphql");
  * Concat proposal and votes into a common interface
  * @param proposals
  * @param votes
+ * @returns {import("karma-score").ParsedProposal[])}
  */
 function parseVotes(votes = []) {
   const array = [];

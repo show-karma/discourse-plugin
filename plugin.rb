@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 # transpile_js: true
 
-# name: Karma
+# name: karma-score
 # about: Show karma stats onto the user's profile
-# version: 1.0.2
+# version: 1.4.1
 # authors: Karma
 # url: https://github.com/show-karma/discourse-plugin
-# required_version: 2.8.7
 
 enabled_site_setting :Enable_Karma_plugin
 

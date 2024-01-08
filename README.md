@@ -6,12 +6,12 @@ Karma discourse plugin can be used by DAOs on their forum to display forum user'
 
 ## Installation
 
- This plugin can be installed on both self-hosted instances and managed hosting. We have experience working with managed hosting providers to install our plugin. If you need help with installation, contact us at info@showkarma.xyz
+ This plugin can be installed on both self-hosted instances and managed hosting. We have experience working with managed hosting providers to install our plugin. If you need help with installation, contact us at info@karmahq.xyz
 
 
 __Step 1__: To install the plugin, you can follow the [Install Plugins in Discourse](https://meta.discourse.org/t/install-plugins-in-discourse/19157) official instructions.
 
-__Step 2__: After the installation, the user should go to the plugins page (Admin -> Plugins) and hit Settings under `Karma` plugin. Then, set the Dao Name as registered at [Karma](https://showkarma.xyz).
+__Step 2__: After the installation, the user should go to the plugins page (Admin -> Plugins) and hit Settings under `Karma` plugin. Then, set the Dao Name as registered at [Karma](https://karmahq.xyz).
 ![plugin-page](./docs/assets/plugins.png)
 
 ---

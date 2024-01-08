@@ -8,7 +8,7 @@ Karma_Score:
   Show_Karma_logo:
     default: false
     client: true
-  DAO_name:
+  DAO_names:
     default: ens
     client: true
   Show_Karma_score:
@@ -32,7 +32,7 @@ Karma_Score:
   User_not_found_message:
     default: Couldn't find stats. Link your wallet to display stats. [[KarmaDaoUrl]]
     client: true
-  
+
 Proposal_Banner:
   Show_proposal_banner:
     default: false
@@ -102,6 +102,6 @@ Forms:
   # Vote_reason_fields:
   #   default: '[{"label":"Reason","type":"text", "placeholder": "We are in support of this proposal for numerous reasons. The team aligns themselves greatly with DAOs mission. We have voted "Yes" on this proposal."}]'
   #   client: true
-  Delegate_pitch_thread_id: 
+  Delegate_pitch_thread_id:
     default: ""
     client: true
