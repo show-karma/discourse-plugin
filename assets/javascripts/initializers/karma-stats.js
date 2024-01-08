@@ -9,7 +9,7 @@ function bootstrap(_, ctx) {
 
   window.selectedDao = DAO_names.split(',')?.[0];
 
-  function release(wrapperId = "#__karma-stats") {
+  function release(wrapperId = "#__karma-stats-summary") {
     let showing = false;
     const karmaStats = () => {
       const elTrg = $(wrapperId);
@@ -39,7 +39,7 @@ export default {
 
   async initialize(container) {
     // eslint-disable-next-line no-console
-    console.info("Karma Score (v1.4.0-beta1)");
+    console.info("Karma Score (v1.4.1-beta1)");
     const SiteSettings = container.lookup("site-settings:main");
     if (SiteSettings.Enable_Karma_plugin) {
       withPluginApi("0.8.7", bootstrap, { SiteSettings, container });
