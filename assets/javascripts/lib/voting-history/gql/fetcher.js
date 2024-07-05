@@ -6,7 +6,7 @@ function parseBody(body) {
 
 const gql = {
   async query(url, query) {
-    const { data } = await fetch(url, {
+    const { data: { data } } = await fetch(url, {
       body: parseBody({ query }),
       method: "POST",
       headers: {
@@ -14,7 +14,8 @@ const gql = {
       },
     }).then(async (res) => await res.json());
 
-    return { ...data };
+    const response = data.data;
+    return { ...response };
   },
 };
 
