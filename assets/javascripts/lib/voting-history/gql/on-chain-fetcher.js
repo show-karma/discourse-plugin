@@ -6,7 +6,7 @@ import { dateDiff } from "../../date-diff";
 import { getVoteBreakdown } from "../../vote-breakdown";
 
 const subgraphUrl = new URL(
-  "https://api.thegraph.com/subgraphs/name/show-karma/dao-on-chain-voting"
+  "https://api.karmahq.xyz/api/dao/discourse/plugin"
 );
 
 /**
