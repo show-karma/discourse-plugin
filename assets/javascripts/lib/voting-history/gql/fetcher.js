@@ -13,7 +13,6 @@ const gql = {
         "Content-Type": "application/json",
       },
     }).then(async (res) => await res.json());
-  
     const response = data?.data?.data || data?.data || data;
     return { ...response };
   },
