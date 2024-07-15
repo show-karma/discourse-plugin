@@ -6,15 +6,15 @@ function parseBody(body) {
 
 const gql = {
   async query(url, query) {
-    const { data: { data } } = await fetch(url, {
+    const { data } = await fetch(url, {
       body: parseBody({ query }),
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
     }).then(async (res) => await res.json());
-
-    const response = data.data;
+  
+    const response = data?.data?.data || data?.data || data;
     return { ...response };
   },
 };
