@@ -33,7 +33,6 @@ export default Component.extend({
   async init() {
     this._super(...arguments);
     this.fetchProfile();
-    this._super(...arguments);
     this.daoName = window.selectedDao;
 
     const cli = new KarmaApiClient(this.daoName, "");
