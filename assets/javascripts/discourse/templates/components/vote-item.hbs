@@ -1,14 +1,14 @@
 <div class="voting-item">
   <div class="details">
-    <p class="name">{{html-safe vote.proposal}}</p>
+    <p class="name">{{html-safe this.vote.proposal}}</p>
     <div class="status-container">
-      <p class="chain">{{vote.voteMethod}}</p>
-      <p class="executed">Executed {{vote.executed}}</p>
+      <p class="chain">{{this.vote.voteMethod}}</p>
+      <p class="executed">Executed {{this.vote.executed}}</p>
     </div>
   </div>
   <div class="decision">
     <div>
-      {{html-safe icon}}
+      {{html-safe this.icon}}
     </div>
     <div>
       {{!-- {{#if (eq this.currentUser.username profile.ensName)}}

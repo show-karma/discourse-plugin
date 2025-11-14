@@ -1,10 +1,10 @@
-{{#if siteSettings.Enable_Karma_plugin}}
-  <div id={{wrapperId}}>
-    <input hidden id="__dao-username" readonly value={{username}}>
+{{#if this.siteSettings.Enable_Karma_plugin}}
+  <div id={{this.wrapperId}}>
+    <input hidden id="__dao-username" readonly value={{this.username}}>
     <div class="__wrapper">
 
       <div style="display:flex;align-items:center;margin:10px 0;">
-        {{#if siteSettings.Show_Karma_logo}}
+        {{#if this.siteSettings.Show_Karma_logo}}
           <a
             alt="Show Karma App"
             href="https://karmahq.xyz"
@@ -22,10 +22,10 @@
           Governance Stats
         </b>
       </div>
-      {{#if (gt availableDaos.length 1)}}
+      {{#if (gt this.availableDaos.length 1)}}
         <div id="__dao-select">
-          {{#each availableDaos as |dao|}}
-            {{#if (eq daoName dao.name)}}
+          {{#each this.availableDaos as |dao|}}
+            {{#if (eq this.daoName dao.name)}}
               <div class="__dao-item selected" role="button" onclick={{dao.select}}>
                 {{dao.name}}
               </div>
@@ -41,11 +41,11 @@
         Loading governance stats from Karma
       </div>
       <div class="__has-error" style="display:none;">
-        {{html-safe siteSettings.User_not_found_message}}
+        {{html-safe this.siteSettings.User_not_found_message}}
       </div>
       <div class="__has-score" style="display:none;">
         <ul>
-          {{#if siteSettings.Show_Karma_score}}
+          {{#if this.siteSettings.Show_Karma_score}}
             <li>
               <span class="value">
                 <span id="__dao-exp" class="number">
@@ -58,7 +58,7 @@
               </span>
             </li>
           {{/if}}
-          {{#if siteSettings.Show_health_score}}
+          {{#if this.siteSettings.Show_health_score}}
             <li>
               <span class="value">
                 <span id="__health-score" class="number">
@@ -71,11 +71,11 @@
               </span>
             </li>
           {{/if}}
-          {{#if siteSettings.Show_delegated_votes}}
+          {{#if this.siteSettings.Show_delegated_votes}}
             <li>
               <span class="value">
                 <a
-                  href={{karmaDelegatorsUrl}}
+                  href={{this.karmaDelegatorsUrl}}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -90,7 +90,7 @@
               </span>
             </li>
           {{/if}}
-          {{#if siteSettings.Show_snapshot_votes}}
+          {{#if this.siteSettings.Show_snapshot_votes}}
             <li>
               <span class="value">
                 <span id="__snapshot-voting-stats" class="number">
@@ -103,7 +103,7 @@
               </span>
             </li>
           {{/if}}
-          {{#if siteSettings.Show_on_chain_votes}}
+          {{#if this.siteSettings.Show_on_chain_votes}}
             <li>
               <span class="value">
                 <span id="__on-chain-voting-stats" class="number">
@@ -118,7 +118,7 @@
           {{/if}}
         </ul>
       </div>
-      {{profile-summary-votes profile=profile daoName=daoName}}
+      {{profile-summary-votes profile=this.profile daoName=this.daoName}}
     </div>
   </div>
 {{/if}}

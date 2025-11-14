@@ -1,4 +1,4 @@
-{{#if loading}}
+{{#if this.loading}}
   <div style="width:100%">
     <div style="transform:scale(0.5)">
       {{karma-loading}}
@@ -6,12 +6,12 @@
   </div>
 {{else}}
 
-  {{#if values.length}}
+  {{#if this.values.length}}
 
-    {{#each values as |value|}}
+    {{#each this.values as |value|}}
       {{#if (eq value.shortname "Others")}}
         <div style="color: var(--tertiary)">
-          <button onclick={{redirect}} type="button" style="border:none;background:transparent">
+          <button onclick={{this.redirect}} type="button" style="border:none;background:transparent">
             View more options
             {{d-icon "link"}}
           </button>
@@ -24,7 +24,7 @@
                 {{value.shortname}}
               </b>
               <span class="t-light">
-                {{#if siteSettings.Show_results}}
+                {{#if this.siteSettings.Show_results}}
                   <b>
                     {{value.count}}
                     votes
@@ -33,7 +33,7 @@
               </span>
             </div>
             <div>
-              {{#if siteSettings.Show_results}}
+              {{#if this.siteSettings.Show_results}}
                 <b>
                   {{value.pct}}
                 </b>
@@ -45,7 +45,7 @@
             style="max-height:100%;width:100%;overflow:hidden"
           >
 
-            {{#if siteSettings.Show_results}}
+            {{#if this.siteSettings.Show_results}}
               <div
                 class="breakdown-progress-fill"
                 style={{html-safe (concat "width:" value.fillPct)}}

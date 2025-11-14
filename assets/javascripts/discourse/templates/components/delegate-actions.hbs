@@ -1,31 +1,31 @@
-{{#if (and hasSetApiKey shouldShow)}}
-  {{delegate-pitch-form profile=profile onClose=toggleDelegate}}
-  {{vote-reason-form profile=profile onClose=toggleVote}}
+{{#if (and this.hasSetApiKey this.shouldShow)}}
+  {{delegate-pitch-form profile=this.profile onClose=this.toggleDelegate}}
+  {{vote-reason-form profile=this.profile onClose=this.toggleVote}}
   <div class="k-dropdown-wrap">
     <div style="width:fit-content">
-      <button type="button" class="k-btn btn-info" onclick={{onClick}}>
+      <button type="button" class="k-btn btn-info" onclick={{this.onClick}}>
         Delegate Actions
       </button>
-      {{#if isOpen}}
+      {{#if this.isOpen}}
         <div class="k-dropdown">
           <div class="triangle"></div>
-          {{#if siteSettings.Show_delegate_pitch_form}}
+          {{#if this.siteSettings.Show_delegate_pitch_form}}
             <div class="k-option">
               <button
                 type="button"
                 class="k-btn btn-link"
-                onClick={{toggleDelegate}}
+                onClick={{this.toggleDelegate}}
               >
                 Delegate pitch
               </button>
             </div>
           {{/if}}
-          {{#if siteSettings.Show_vote_reason_form}}
+          {{#if this.siteSettings.Show_vote_reason_form}}
             <div class="k-option">
               <button
                 type="button"
                 class="k-btn btn-link"
-                onClick={{toggleVote}}
+                onClick={{this.toggleVote}}
               >
                 Submit vote reason
               </button>

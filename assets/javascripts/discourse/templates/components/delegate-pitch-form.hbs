@@ -1,28 +1,34 @@
-{{#if siteSettings.Show_delegate_pitch_form}}
-  {{#unless hideButton}}
+{{#if this.siteSettings.Show_delegate_pitch_form}}
+  {{#unless this.hideButton}}
     <button
       type="button"
       class="__karma-send-reason-btn k-btn btn-link"
-      onClick={{onClose}}
+      onClick={{this.onClose}}
     >
       Delegate pitch
     </button>
   {{/unless}}
   <div
-    id={{modalId}}
+    id={{this.modalId}}
     class="__karma-vote-form-modal"
     style="display:none;opacity:0;transform:translateY(20px)"
   >
-    {{#if loading}}
+    {{#if this.loading}}
       {{karma-loading message="Submitting data, please wait."}}
     {{else}}
-      {{#unless message.length}}
-        <div class="modal-body" onClick={{isOutside}}>
-          <form onSubmit={{submit}}>
+      {{#if this.message.length}}
+        <div class="karma-form-submitted-message">
+          <p>
+            {{this.message}}
+          </p>
+        </div>
+      {{else}}
+        <div class="modal-body" onClick={{this.isOutside}}>
+          <form onSubmit={{this.submit}}>
             <div class="modal-content">
               <div class="backdrop">
               </div>
-              <div class="close-button" onClick={{onClose}}>
+              <div class="close-button" onClick={{this.onClose}}>
                 {{d-icon "times"}}
               </div>
               <div class="modal-header">
@@ -34,8 +40,8 @@
                 <label for="reason">
                   Your delegate address
                 </label>
-                {{input type="text" class="k-input" value=form.publicAddress}}
-                {{#each customFields as |field|}}
+                {{input type="text" class="k-input" value=this.form.publicAddress}}
+                {{#each this.customFields as |field|}}
                   <label class="mt-2">
                     {{field.label}}<br>
                   </label>
@@ -56,8 +62,8 @@
                   {{/if}}
                 {{/each}}
               </div>
-              {{#if errors.length}}
-                {{#each errors as |error|}}
+              {{#if this.errors.length}}
+                {{#each this.errors as |error|}}
                   <span class="error" style="color:var(--danger)">
                     {{error}}
                   </span>
@@ -66,12 +72,12 @@
               {{/if}}
               <div class="footer">
                 <div>
-                  {{#if postId}}
+                  {{#if this.postId}}
                     You have already submitted a
                     <a
                       rel="noreferrer noopener"
                       target="_blank"
-                      href={{html-safe (concat "/p/" postId)}}
+                      href={{html-safe (concat "/p/" this.postId)}}
                     >
                       delegate pitch
                     </a>
@@ -81,12 +87,12 @@
                   <button
                     type="button"
                     class="k-btn btn-link"
-                    onClick={{onClose}}
+                    onClick={{this.onClose}}
                   >
                     Cancel
                   </button>
                   <button type="submit" class="k-btn btn-info">
-                    {{#if postId}}
+                    {{#if this.postId}}
                       Update
                     {{else}}
                       Submit
@@ -97,13 +103,7 @@
             </div>
           </form>
         </div>
-      {{else}}
-        <div class="karma-form-submitted-message">
-          <p>
-            {{message}}
-          </p>
-        </div>
-      {{/unless}}
+      {{/if}}
     {{/if}}
   </div>
 {{/if}}
