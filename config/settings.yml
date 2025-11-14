@@ -68,7 +68,7 @@ Proposal_Banner:
     default: Rules
     client: true
   Banner_forum_rules_icon:
-    default: "info-circle"
+    default: "circle-info"
     client: true
   Banner_gov_docs_link:
     default: "/"
