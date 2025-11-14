@@ -1,8 +1,8 @@
-{{#if (and siteSettings.Show_proposal_banner shouldShow)}}
-  {{#if (gt availableDaos.length 1)}}
+{{#if (and this.siteSettings.Show_proposal_banner this.shouldShow)}}
+  {{#if (gt this.availableDaos.length 1)}}
     <div id="__dao-select">
-      {{#each availableDaos as |dao|}}
-        {{#if (eq daoName dao.name)}}
+      {{#each this.availableDaos as |dao|}}
+        {{#if (eq this.daoName dao.name)}}
           <div class="__dao-item selected" role="button" onclick={{dao.select}}>
             {{dao.name}}
           </div>
@@ -14,42 +14,42 @@
       {{/each}}
     </div>
   {{/if}}
-  {{#if fetched}}
-    {{#if proposals.length}}
+  {{#if this.fetched}}
+    {{#if this.proposals.length}}
       <div class="karma-banner-title pl-2.5 mt-1">
         <div>
-          {{siteSettings.Banner_title}}
+          {{this.siteSettings.Banner_title}}
         </div>
         <div class="banner-links">
-          {{banner-links links=bannerLinks}}
+          {{banner-links links=this.bannerLinks}}
         </div>
       </div>
       <div class="__banner-wrapper">
         <div class="banner-body">
           <div
             class={{html-safe
-              (concat "active-proposals-wrapper" " " openClass)
+              (concat "active-proposals-wrapper" " " this.openClass)
             }}
-            style={{html-safe (concat "height: " bannerHeight ";")}}
+            style={{html-safe (concat "height: " this.bannerHeight ";")}}
           >
-            {{#each proposals as |proposal|}}
-              {{proposal-item proposal=proposal tokenContract=tokenContract}}
+            {{#each this.proposals as |proposal|}}
+              {{proposal-item proposal=proposal tokenContract=this.tokenContract}}
             {{/each}}
           </div>
         </div>
-        {{#if (gte proposals.length 2)}}
+        {{#if (gte this.proposals.length 2)}}
           <div class="reveal-button-wrapper">
             <button
-              class={{concat "reveal-more-button" " " openClass}}
-              onclick={{toggleBanner}}
+              class={{concat "reveal-more-button" " " this.openClass}}
+              onclick={{this.toggleBanner}}
               type="button"
             >
               <div class="available-to-show">
-                {{#unless openClass}}
-                  Show more proposals
-                {{else}}
+                {{#if this.openClass}}
                   Hide proposals
-                {{/unless}}
+                {{else}}
+                  Show more proposals
+                {{/if}}
               </div>
               {{d-icon "chevron-down"}}
             </button>

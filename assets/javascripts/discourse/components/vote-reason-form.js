@@ -232,7 +232,7 @@ ${this.form.recommendation}`;
 
     const proposals = onChain
       .concat(offChain)
-      .sort((a, b) => (moment(a.endsAt).isBefore(moment(b.endsAt)) ? 1 : -1));
+      .sort((a, b) => (moment(a.endsAt, "MMM D, YYYY").isBefore(moment(b.endsAt, "MMM D, YYYY")) ? 1 : -1));
 
     return proposals;
   },

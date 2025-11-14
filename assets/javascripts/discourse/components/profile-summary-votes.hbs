@@ -1,10 +1,10 @@
-{{#if (and (gt siteSettings.Show_voting_history 0) profile.address)}}
+{{#if (and (gt this.siteSettings.Show_voting_history 0) this.profile.address)}}
   <div id="__karma-voting-wrapper">
     <div style="display:flex;align-items:center;margin:10px 0;">
-      {{#if siteSettings.Show_Karma_logo}}
+      {{#if this.siteSettings.Show_Karma_logo}}
         <a
           alt="Show Karma App"
-          href={{concat "https://karmahq.xyz/profile/" profile.address}}
+          href={{concat "https://karmahq.xyz/profile/" this.profile.address}}
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -20,23 +20,23 @@
       </b>
     </div>
     <small class="text-disabled">
-      Showing latest {{profile.ensName}}'s
-      {{siteSettings.Show_voting_history}}
+      Showing latest {{this.profile.ensName}}'s
+      {{this.siteSettings.Show_voting_history}}
       votes
     </small>
     <div id="__karma-voting-history" class="w-full profile">
-      {{#if votes.length}}
-        {{#each votes as |vote|}}
-          {{vote-item vote=vote profile=profile}}
+      {{#if this.votes.length}}
+        {{#each this.votes as |vote|}}
+          {{vote-item vote=vote profile=this.profile}}
         {{/each}}
       {{else}}
-        {{#unless fetched}}
-          {{karma-loading}}
-        {{else}}
+        {{#if this.fetched}}
           <div class="loading">
             No voting history found
           </div>
-        {{/unless}}
+        {{else}}
+          {{karma-loading}}
+        {{/if}}
       {{/if}}
     </div>
   </div>
