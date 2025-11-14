@@ -66,7 +66,7 @@ const VotingHistory = {
 
     const votes = onChain.concat(offChain);
     votes.sort((a, b) =>
-      moment(a.executed).isBefore(moment(b.executed)) ? 1 : -1
+      moment(a.executed, "MMMM D, YYYY").isBefore(moment(b.executed, "MMMM D, YYYY")) ? 1 : -1
     );
 
     return votes.slice(0, amount);
