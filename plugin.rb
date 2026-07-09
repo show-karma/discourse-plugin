@@ -3,7 +3,7 @@
 
 # name: karma-score
 # about: Show karma stats onto the user's profile
-# version: 1.4.1
+# version: 1.4.2
 # authors: Karma
 # url: https://github.com/show-karma/discourse-plugin
 
