@@ -33,5 +33,7 @@ en:
     Karma_API_Key: "API key to save data to the Karma api"
     See_on_Tally_button: "Show button to view proposal on Tally"
     See_on_Snapshot_button: "Show button to view proposal on Snapshot"
+    Custom_offchain_proposal_url: "Custom URL for off-chain proposal links. Use {id} for the proposal id and {space} for the snapshot space. Ex: https://vote.ensdao.org/#/offchain/{id}. Leave blank to link to snapshot.org"
+    Custom_onchain_proposal_url: "Custom URL for on-chain proposal links. Use {id} for the proposal id (decimal). Ex: https://vote.ensdao.org/#/onchain/{id}. Leave blank to link to tally.xyz"
     Show_on_chain_proposals: "Show on chain proposals on banner"
     Show_off_chain_proposals: "Show off chain proposals on banner"

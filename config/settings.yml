@@ -52,6 +52,12 @@ Proposal_Banner:
   See_on_Snapshot_button:
     default: true
     client: true
+  Custom_offchain_proposal_url:
+    default: ""
+    client: true
+  Custom_onchain_proposal_url:
+    default: ""
+    client: true
   Banner_description:
     default: "See the latest active proposals"
     client: true
