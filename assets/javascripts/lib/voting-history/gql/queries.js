@@ -64,6 +64,7 @@ export const proposal = {
         start
         snapshot
         type
+        privacy
         strategies {
           name
           network

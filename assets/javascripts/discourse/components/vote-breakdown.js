@@ -14,6 +14,7 @@ export default Component.extend({
   sortVotes(votes) {
     if (
       Array.isArray(votes) &&
+      votes.length > 1 &&
       !(votes[0].name === "For" || votes[1].name === "Against")
     ) {
       return votes.sort((a, b) => (a.rawCount < b.rawCount ? 1 : -1));

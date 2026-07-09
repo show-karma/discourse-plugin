@@ -6,6 +6,7 @@ import {
   getResults,
   getVoteBreakdownByProposal,
 } from "../../lib/vote-breakdown";
+import voting from "../../lib/snapshot/index";
 
 export default Component.extend({
   proposal: {},
@@ -20,6 +21,14 @@ export default Component.extend({
 
   text: computed(function () {
     return this.getText(this.proposal);
+  }),
+
+  // Shutter-shielded proposals have encrypted vote choices until the
+  // vote closes, so there is no breakdown to display while active
+  shielded: computed(function () {
+    return (
+      this.proposal.privacy === "shutter" && this.proposal.state === "active"
+    );
   }),
 
   showRedirectButton: computed(function () {
@@ -58,20 +67,36 @@ export default Component.extend({
   },
 
   getLink() {
-    const nLink = getProposalLink(this.proposal, this.tokenContract);
+    const nLink = getProposalLink(
+      this.proposal,
+      this.tokenContract,
+      this.siteSettings
+    );
 
     set(this, "link", nLink);
   },
 
   async getBreakdown() {
-    if (this.proposal.type === "Off-chain") {
-      set(this, "loading", true);
+    if (this.proposal.type !== "Off-chain") {
+      return;
+    }
+    // Skip vote types we can't tally (e.g. copeland) and shielded votes,
+    // whose choices are encrypted until the proposal closes
+    if (this.shielded || !voting[this.proposal.proposalType]) {
+      return;
+    }
+    set(this, "loading", true);
+    try {
       const proposal = { ...this.proposal };
       const withScores = getVoteBreakdownByProposal(
         await getResults(proposal.space, proposal, proposal.votes)
       );
 
       set(this, "proposal", withScores);
+    } catch (error) {
+      // leave the proposal without a breakdown rather than
+      // wedging the banner on the loading spinner
+    } finally {
       set(this, "loading", false);
     }
   },

@@ -110,7 +110,7 @@ const parseProposals = (proposals = []) =>
     title: parseMdLink(proposal.title),
     shortname: proposal.title.slice(0, 40) + "...",
     voteCount: proposal.votes,
-    voteBreakdown: { For: 0, Abstain: 0, Against: 0, total: 0 },
+    voteBreakdown: {},
     endsAt: moment.unix(proposal.endsAt).format("MMM D, YYYY"),
     voteStarts: moment.unix(proposal.start).format("MMM D, YYYY"),
     dateDescription: dateDiff(proposal.endsAt),
@@ -120,6 +120,8 @@ const parseProposals = (proposals = []) =>
     network: proposal.network,
     snapshot: proposal.snapshot,
     proposalType: proposal.type,
+    privacy: proposal.privacy,
+    state: proposal.state,
   }));
 
 export async function fetchActiveOffChainProposals(daoNames, daysAgo) {

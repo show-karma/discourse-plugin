@@ -52,7 +52,7 @@ export default Component.extend({
 
   proposalLink: function () {
     const proposal = this.proposals[this.proposalId];
-    const link = getProposalLink(proposal);
+    const link = getProposalLink(proposal, "", this.siteSettings);
     return link ? `[${proposal.title}](${link})` : `### ${proposal.title}`;
   },
 

@@ -31,7 +31,14 @@
       </div>
     </div>
     <div class="vote-breakdown">
-      {{vote-breakdown loading=this.loading breakdown=this.proposal.voteBreakdown proposalUrl=this.link}}
+      {{#if this.shielded}}
+        <div class="t-light">
+          {{d-icon "lock"}}
+          Shielded vote &mdash; results are revealed when voting ends
+        </div>
+      {{else}}
+        {{vote-breakdown loading=this.loading breakdown=this.proposal.voteBreakdown proposalUrl=this.link}}
+      {{/if}}
     </div>
   </div>
 </div>
