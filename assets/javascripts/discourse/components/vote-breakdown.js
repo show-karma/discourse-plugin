@@ -1,5 +1,6 @@
 import Component from "@ember/component";
 import { action, set } from "@ember/object";
+import { htmlSafe } from "@ember/template";
 import { shortenNumber } from "../../lib/shorten-number";
 
 export default Component.extend({
@@ -44,6 +45,7 @@ export default Component.extend({
       last.count = shortenNumber(last.rawCount);
       last.pct = pct + "%";
       last.fillPct = (pct >= 1 ? pct : 1) + "%";
+      last.fillStyle = htmlSafe("width:" + last.fillPct);
       return votes.concat(last);
     }
     return votes;
@@ -60,6 +62,7 @@ export default Component.extend({
           ((+this.breakdown[key] || 0) / (+this.breakdown.total || 1)) *
           100
         ).toFixed(2);
+        const fillPct = (pct >= 1 ? pct : 1) + "%";
         return {
           name: key,
           shortname: `${key.slice(0, 20).trim()}${key[20] && key[20] !== " " ? "..." : ""
@@ -67,7 +70,8 @@ export default Component.extend({
           rawCount: this.breakdown[key],
           count: shortenNumber(this.breakdown[key], 1),
           pct: pct + "%",
-          fillPct: (pct >= 1 ? pct : 1) + "%",
+          fillPct,
+          fillStyle: htmlSafe("width:" + fillPct),
           color: "rgba(82, 152, 255, 0.15)",
         };
       });

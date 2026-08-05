@@ -39,8 +39,8 @@ export default {
 
   async initialize(container) {
     // eslint-disable-next-line no-console
-    console.info("Karma Score (v1.4.1-beta1)");
-    const SiteSettings = container.lookup("site-settings:main");
+    console.info("Karma Score (v1.4.3)");
+    const SiteSettings = container.lookup("service:site-settings");
     if (SiteSettings.Enable_Karma_plugin) {
       withPluginApi("0.8.7", bootstrap, { SiteSettings, container });
     }

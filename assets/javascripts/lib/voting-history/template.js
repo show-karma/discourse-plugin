@@ -9,6 +9,10 @@ const voteIcon = {
     "#12B76A",
     `<path d="M7.5 12.5l3 3 6-6.5" stroke="#12B76A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`
   ),
+  abstain: circle(
+    "#98A2B3",
+    `<path d="M8 12h8" stroke="#98A2B3" stroke-width="2" stroke-linecap="round"/>`
+  ),
   empty: circle("#98A2B3"),
 };
 
@@ -23,7 +27,7 @@ function getIcon(choice = "not vote") {
     return voteIcon.no;
   }
   if (/abstain/gi.test(choice)) {
-    return voteIcon.empty;
+    return voteIcon.abstain;
   }
 
   return voteIcon.yes;

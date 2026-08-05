@@ -1,6 +1,7 @@
 import Component from "@ember/component";
 import { inject as service } from "@ember/service";
 import { action, computed, set } from "@ember/object";
+import { htmlSafe } from "@ember/template";
 import KarmaStats from "../../lib/stats/index";
 
 export default Component.extend({
@@ -20,6 +21,10 @@ export default Component.extend({
 
   karmaDelegatorsUrl: computed(function () {
     return `https://karmahq.xyz/dao/${this.daoName?.toLowerCase()}/delegators/${this.profile.username}`;
+  }),
+
+  userNotFoundMessage: computed(function () {
+    return htmlSafe(this.siteSettings.User_not_found_message);
   }),
 
   setProfile(profile) {

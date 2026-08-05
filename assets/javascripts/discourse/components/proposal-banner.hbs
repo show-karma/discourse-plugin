@@ -27,10 +27,8 @@
       <div class="__banner-wrapper">
         <div class="banner-body">
           <div
-            class={{html-safe
-              (concat "active-proposals-wrapper" " " this.openClass)
-            }}
-            style={{html-safe (concat "height: " this.bannerHeight ";")}}
+            class={{concat "active-proposals-wrapper" " " this.openClass}}
+            style={{this.bannerHeightStyle}}
           >
             {{#each this.proposals as |proposal|}}
               {{proposal-item proposal=proposal tokenContract=this.tokenContract}}

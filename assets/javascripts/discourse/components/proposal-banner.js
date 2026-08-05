@@ -1,6 +1,7 @@
 import Component from "@ember/component";
 import { inject as service } from "@ember/service";
 import { action, computed, set } from "@ember/object";
+import { htmlSafe } from "@ember/template";
 import { fetchActiveOnChainProposals } from "../../lib/voting-history/gql/on-chain-fetcher";
 import { fetchActiveOffChainProposals } from "../../lib/voting-history/gql/off-chain-fetcher";
 import { getGovAddrFromYml } from "../../lib/get-gov-addr-from-yml";
@@ -123,6 +124,10 @@ export default Component.extend({
 
   shouldShow: computed("router.currentURL", function () {
     return this.router.currentURL === "/";
+  }),
+
+  bannerHeightStyle: computed("bannerHeight", function () {
+    return htmlSafe(`height: ${this.bannerHeight};`);
   }),
 
   didUpdate() {

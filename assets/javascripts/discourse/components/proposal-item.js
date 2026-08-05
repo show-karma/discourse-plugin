@@ -1,5 +1,6 @@
 import Component from "@ember/component";
 import { action, computed, set } from "@ember/object";
+import { htmlSafe } from "@ember/template";
 import getProposalLink from "../../lib/get-proposal-link";
 import { Mixpanel } from "../../lib/mixpanel";
 import {
@@ -21,6 +22,10 @@ export default Component.extend({
 
   text: computed(function () {
     return this.getText(this.proposal);
+  }),
+
+  safeTitle: computed("proposal.title", function () {
+    return htmlSafe(this.proposal.title);
   }),
 
   // Shutter-shielded proposals have encrypted vote choices until the
