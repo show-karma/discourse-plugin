@@ -1,7 +1,9 @@
 import Component from "@ember/component";
 import { inject as service } from "@ember/service";
 import { computed } from "@ember/object";
-import template, { renderVote } from "../../lib/voting-history/template";
+// "voteTemplate" (not "template") — Discourse's build injects its own
+// `template` identifier when colocating the component's .hbs
+import voteTemplate, { renderVote } from "../../lib/voting-history/template";
 
 export default Component.extend({
   router: service(),
@@ -17,7 +19,7 @@ export default Component.extend({
   }),
 
   item: computed(function () {
-    return template(
+    return voteTemplate(
       this.vote.proposal,
       this.vote.voteMethod,
       this.vote.executed,
