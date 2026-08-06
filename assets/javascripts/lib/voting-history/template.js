@@ -1,7 +1,19 @@
+const circle = (color, inner = "") => `<svg class="vote-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="${color}" stroke-width="2"/>${inner}</svg>`;
+
 const voteIcon = {
-  no: "https://www.karmahq.xyz/icons/cross-circle.svg",
-  yes: "https://www.karmahq.xyz/icons/check-circle.svg",
-  empty: "https://www.karmahq.xyz/icons/empty-circle.svg",
+  no: circle(
+    "#F04438",
+    `<path d="M9 9l6 6M15 9l-6 6" stroke="#F04438" stroke-width="2" stroke-linecap="round"/>`
+  ),
+  yes: circle(
+    "#12B76A",
+    `<path d="M7.5 12.5l3 3 6-6.5" stroke="#12B76A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>`
+  ),
+  abstain: circle(
+    "#98A2B3",
+    `<path d="M8 12h8" stroke="#98A2B3" stroke-width="2" stroke-linecap="round"/>`
+  ),
+  empty: circle("#98A2B3"),
 };
 
 function getIcon(choice = "not vote") {
@@ -15,7 +27,7 @@ function getIcon(choice = "not vote") {
     return voteIcon.no;
   }
   if (/abstain/gi.test(choice)) {
-    return voteIcon.empty;
+    return voteIcon.abstain;
   }
 
   return voteIcon.yes;
@@ -23,7 +35,7 @@ function getIcon(choice = "not vote") {
 
 export function renderVote(vote) {
   const voteText = (+vote === 0 ? "No" : +vote === 1) ? "Yes" : vote;
-  return `<img src="${getIcon(voteText)}" alt="check-circle">
+  return `${getIcon(voteText)}
   <p class="vote-choice">${voteText ?? "Didn't vote"}</p>`;
 }
 

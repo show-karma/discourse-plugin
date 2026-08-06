@@ -1,6 +1,6 @@
 <div class="voting-item">
   <div class="details">
-    <p class="name">{{html-safe this.vote.proposal}}</p>
+    <p class="name">{{this.safeProposal}}</p>
     <div class="status-container">
       <p class="chain">{{this.vote.voteMethod}}</p>
       <p class="executed">Executed {{this.vote.executed}}</p>
@@ -8,7 +8,7 @@
   </div>
   <div class="decision">
     <div>
-      {{html-safe this.icon}}
+      {{this.icon}}
     </div>
     <div>
       {{!-- {{#if (eq this.currentUser.username profile.ensName)}}
