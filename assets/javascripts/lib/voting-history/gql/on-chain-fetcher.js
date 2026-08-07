@@ -4,10 +4,9 @@ import { history, proposal as proposalQuery } from "./queries";
 import { parseMdLink } from "../../parse-md-link";
 import { dateDiff } from "../../date-diff";
 import { getVoteBreakdown } from "../../vote-breakdown";
+import { karmaApiUrl } from "../../consts";
 
-const subgraphUrl = new URL(
-  "https://api.karmahq.xyz/api/dao/discourse/plugin"
-);
+const subgraphUrl = new URL(`${karmaApiUrl}/dao/discourse/plugin`);
 
 /**
  * Concat proposal and votes into a common interface

@@ -3,9 +3,12 @@ import { inject as service } from "@ember/service";
 import { computed, set } from "@ember/object";
 import VotingHistory from "../../lib/voting-history/index";
 import KarmaApiClient from "../../lib/karma-api-client";
+import { karmaAppUrl } from "../../lib/consts";
 
 export default Component.extend({
   router: service(),
+
+  karmaAppUrl,
 
   profile: {},
 

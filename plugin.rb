@@ -17,6 +17,7 @@ register_asset "stylesheets/vote-reason-form.scss"
 after_initialize do
   module ::KarmaScore
     PLUGIN_NAME ||= "KarmaScore"
+    API_URL ||= "https://api.karmahq.xyz/api"
 
     class Engine < ::Rails::Engine
       engine_name PLUGIN_NAME

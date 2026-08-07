@@ -1,7 +1,7 @@
 import { set } from "@ember/object";
 import { shortenNumber } from "../shorten-number";
 import { htmlSafe } from "@ember/template";
-import { karmaApiUrl } from "../consts";
+import { karmaApiUrl, karmaAppUrl } from "../consts";
 import { Mixpanel } from "../mixpanel";
 /**
  * Karma stats fetcher
@@ -42,7 +42,7 @@ const KarmaStats = {
       if (delegates) {
         const { stats } = delegates;
         userStats.delegatedVotes = `
-        <a href="https://karmahq.xyz/dao/${daoName.toLowerCase()}/delegators/${data.ensName || data.address
+        <a href="${karmaAppUrl}/dao/${daoName.toLowerCase()}/delegators/${data.ensName || data.address
           }" target="_blank">${shortenNumber(delegates.delegatedVotes || 0)}</a>`;
 
         userStats.snapshotVotingStats =
@@ -117,7 +117,7 @@ const KarmaStats = {
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://www.karmahq.xyz/dao/link/forum?dao=${daoName?.toLowerCase()}"
+          href="${karmaAppUrl}/dao/link/forum?dao=${daoName?.toLowerCase()}"
         >
             Link Wallet
         </a>`

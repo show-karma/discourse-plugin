@@ -1,3 +1,4 @@
+export const karmaAppUrl = "https://karmahq.org";
 export const karmaApiUrl = "https://api.karmahq.xyz/api";
 // export const karmaApiUrl = "http://192.168.123.101:3001/api";
 // export const stageApiUrl = "http://192.168.123.101:3001/api";

@@ -3,9 +3,12 @@ import { inject as service } from "@ember/service";
 import { action, computed, set } from "@ember/object";
 import { htmlSafe } from "@ember/template";
 import KarmaStats from "../../lib/stats/index";
+import { karmaAppUrl } from "../../lib/consts";
 
 export default Component.extend({
   router: service(),
+
+  karmaAppUrl,
 
   profile: {},
 
@@ -20,7 +23,7 @@ export default Component.extend({
   availableDaos: [],
 
   karmaDelegatorsUrl: computed(function () {
-    return `https://karmahq.xyz/dao/${this.daoName?.toLowerCase()}/delegators/${this.profile.username}`;
+    return `${karmaAppUrl}/dao/${this.daoName?.toLowerCase()}/delegators/${this.profile.username}`;
   }),
 
   userNotFoundMessage: computed(function () {
