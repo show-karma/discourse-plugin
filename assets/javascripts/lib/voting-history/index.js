@@ -3,8 +3,9 @@ import { fetchOffChainProposalVotes } from "./gql/off-chain-fetcher";
 import { fetchOnChainProposalVotes } from "./gql/on-chain-fetcher";
 import { moonriverFetcher } from "./moonbeam/moonbeam";
 import template from "./template";
+import { karmaAppUrl } from "../consts";
 
-const karma = "https://karmahq.xyz/profile";
+const karma = `${karmaAppUrl}/profile`;
 
 const VotingHistory = {
   shouldShowVotingHistory(ctx) {
